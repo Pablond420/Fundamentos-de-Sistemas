@@ -1,0 +1,8 @@
+0        LDX     #5
+3        +LDB     #TABLE2
+7        STA     @COUNT
+A        CLEAR     A
+C        BASE     TABLE2
+C        ADDR     X,A
+E    LOOP     ADD     TABLE,X
+11        +STA     TOTAL

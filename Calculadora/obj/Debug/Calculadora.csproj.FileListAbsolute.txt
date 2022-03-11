@@ -1,0 +1,51 @@
+C:\Users\Usuario\Google Drive\UASLP\Semestre X\Fundamentos de Software de Sistemas\Laboratorio\Calculadora VS\Calculadora\Calculadora\bin\Debug\Calculadora.exe.config
+C:\Users\Usuario\Google Drive\UASLP\Semestre X\Fundamentos de Software de Sistemas\Laboratorio\Calculadora VS\Calculadora\Calculadora\bin\Debug\Calculadora.exe
+C:\Users\Usuario\Google Drive\UASLP\Semestre X\Fundamentos de Software de Sistemas\Laboratorio\Calculadora VS\Calculadora\Calculadora\bin\Debug\Calculadora.pdb
+C:\Users\Usuario\Google Drive\UASLP\Semestre X\Fundamentos de Software de Sistemas\Laboratorio\Calculadora VS\Calculadora\Calculadora\bin\Debug\Antlr4.Runtime.dll
+C:\Users\Usuario\Google Drive\UASLP\Semestre X\Fundamentos de Software de Sistemas\Laboratorio\Calculadora VS\Calculadora\Calculadora\bin\Debug\Antlr4.Runtime.xml
+C:\Users\Usuario\Google Drive\UASLP\Semestre X\Fundamentos de Software de Sistemas\Laboratorio\Calculadora VS\Calculadora\Calculadora\obj\Debug\Calculadora.csprojAssemblyReference.cache
+C:\Users\Usuario\Google Drive\UASLP\Semestre X\Fundamentos de Software de Sistemas\Laboratorio\Calculadora VS\Calculadora\Calculadora\obj\Debug\Gramatica_CalculadoraLexer.cs
+C:\Users\Usuario\Google Drive\UASLP\Semestre X\Fundamentos de Software de Sistemas\Laboratorio\Calculadora VS\Calculadora\Calculadora\obj\Debug\Gramatica_CalculadoraParser.cs
+C:\Users\Usuario\Google Drive\UASLP\Semestre X\Fundamentos de Software de Sistemas\Laboratorio\Calculadora VS\Calculadora\Calculadora\obj\Debug\Gramatica_CalculadoraListener.cs
+C:\Users\Usuario\Google Drive\UASLP\Semestre X\Fundamentos de Software de Sistemas\Laboratorio\Calculadora VS\Calculadora\Calculadora\obj\Debug\Gramatica_CalculadoraBaseListener.cs
+C:\Users\Usuario\Google Drive\UASLP\Semestre X\Fundamentos de Software de Sistemas\Laboratorio\Calculadora VS\Calculadora\Calculadora\obj\Debug\Gramatica_CalculadoraVisitor.cs
+C:\Users\Usuario\Google Drive\UASLP\Semestre X\Fundamentos de Software de Sistemas\Laboratorio\Calculadora VS\Calculadora\Calculadora\obj\Debug\Gramatica_CalculadoraBaseVisitor.cs
+C:\Users\Usuario\Google Drive\UASLP\Semestre X\Fundamentos de Software de Sistemas\Laboratorio\Calculadora VS\Calculadora\Calculadora\obj\Debug\Calculadora.csproj.Antlr4GeneratedCodeFileListAbsolute.txt
+C:\Users\Usuario\Google Drive\UASLP\Semestre X\Fundamentos de Software de Sistemas\Laboratorio\Calculadora VS\Calculadora\Calculadora\obj\Debug\Calculadora.csproj.CoreCompileInputs.cache
+C:\Users\Usuario\Google Drive\UASLP\Semestre X\Fundamentos de Software de Sistemas\Laboratorio\Calculadora VS\Calculadora\Calculadora\obj\Debug\Calculadora.csproj.CopyComplete
+C:\Users\Usuario\Google Drive\UASLP\Semestre X\Fundamentos de Software de Sistemas\Laboratorio\Calculadora VS\Calculadora\Calculadora\obj\Debug\Calculadora.exe
+C:\Users\Usuario\Google Drive\UASLP\Semestre X\Fundamentos de Software de Sistemas\Laboratorio\Calculadora VS\Calculadora\Calculadora\obj\Debug\Calculadora.pdb
+C:\Users\Usuario\Google Drive\UASLP\Semestre X\Fundamentos de Software de Sistemas\Laboratorio\SICXE\Calculadora\Calculadora\obj\Debug\Calculadora.csprojAssemblyReference.cache
+C:\Users\Usuario\Google Drive\UASLP\Semestre X\Fundamentos de Software de Sistemas\Laboratorio\SICXE\Calculadora\Calculadora\obj\Debug\Calculadora.exe
+C:\Users\Usuario\Google Drive\UASLP\Semestre X\Fundamentos de Software de Sistemas\Laboratorio\SICXE\Calculadora\Calculadora\obj\Debug\Calculadora.pdb
+C:\Users\Usuario\Google Drive\UASLP\Semestre X\Fundamentos de Software de Sistemas\Laboratorio\SICXE\Calculadora\Calculadora\obj\Debug\Gramatica_CalculadoraLexer.cs
+C:\Users\Usuario\Google Drive\UASLP\Semestre X\Fundamentos de Software de Sistemas\Laboratorio\SICXE\Calculadora\Calculadora\obj\Debug\Gramatica_CalculadoraParser.cs
+C:\Users\Usuario\Google Drive\UASLP\Semestre X\Fundamentos de Software de Sistemas\Laboratorio\SICXE\Calculadora\Calculadora\obj\Debug\Gramatica_CalculadoraListener.cs
+C:\Users\Usuario\Google Drive\UASLP\Semestre X\Fundamentos de Software de Sistemas\Laboratorio\SICXE\Calculadora\Calculadora\obj\Debug\Gramatica_CalculadoraBaseListener.cs
+C:\Users\Usuario\Google Drive\UASLP\Semestre X\Fundamentos de Software de Sistemas\Laboratorio\SICXE\Calculadora\Calculadora\obj\Debug\Gramatica_CalculadoraVisitor.cs
+C:\Users\Usuario\Google Drive\UASLP\Semestre X\Fundamentos de Software de Sistemas\Laboratorio\SICXE\Calculadora\Calculadora\obj\Debug\Gramatica_CalculadoraBaseVisitor.cs
+C:\Users\Usuario\Google Drive\UASLP\Semestre X\Fundamentos de Software de Sistemas\Laboratorio\SICXE\Calculadora\Calculadora\obj\Debug\Calculadora.csproj.Antlr4GeneratedCodeFileListAbsolute.txt
+C:\Users\Usuario\Google Drive\UASLP\Semestre X\Fundamentos de Software de Sistemas\Laboratorio\SICXE\Calculadora\Calculadora\obj\Debug\Calculadora.csproj.CoreCompileInputs.cache
+C:\Users\Usuario\Google Drive\UASLP\Semestre X\Fundamentos de Software de Sistemas\Laboratorio\SICXE\Calculadora\Calculadora\bin\Debug\Calculadora.exe.config
+C:\Users\Usuario\Google Drive\UASLP\Semestre X\Fundamentos de Software de Sistemas\Laboratorio\SICXE\Calculadora\Calculadora\bin\Debug\Calculadora.exe
+C:\Users\Usuario\Google Drive\UASLP\Semestre X\Fundamentos de Software de Sistemas\Laboratorio\SICXE\Calculadora\Calculadora\bin\Debug\Calculadora.pdb
+C:\Users\Usuario\Google Drive\UASLP\Semestre X\Fundamentos de Software de Sistemas\Laboratorio\SICXE\Calculadora\Calculadora\bin\Debug\Antlr4.Runtime.dll
+C:\Users\Usuario\Google Drive\UASLP\Semestre X\Fundamentos de Software de Sistemas\Laboratorio\SICXE\Calculadora\Calculadora\bin\Debug\Antlr4.Runtime.xml
+C:\Users\Usuario\Google Drive\UASLP\Semestre X\Fundamentos de Software de Sistemas\Laboratorio\SICXE\Calculadora\Calculadora\obj\Debug\Calculadora.csproj.CopyComplete
+C:\Users\USUARIO\Downloads\SICXE Paso1\SICXE Paso1\Calculadora\Calculadora\obj\Debug\Calculadora.csprojAssemblyReference.cache
+C:\Users\USUARIO\Downloads\SICXE Paso1\SICXE Paso1\Calculadora\Calculadora\obj\Debug\Gramatica_CalculadoraLexer.cs
+C:\Users\USUARIO\Downloads\SICXE Paso1\SICXE Paso1\Calculadora\Calculadora\obj\Debug\Gramatica_CalculadoraParser.cs
+C:\Users\USUARIO\Downloads\SICXE Paso1\SICXE Paso1\Calculadora\Calculadora\obj\Debug\Gramatica_CalculadoraListener.cs
+C:\Users\USUARIO\Downloads\SICXE Paso1\SICXE Paso1\Calculadora\Calculadora\obj\Debug\Gramatica_CalculadoraBaseListener.cs
+C:\Users\USUARIO\Downloads\SICXE Paso1\SICXE Paso1\Calculadora\Calculadora\obj\Debug\Gramatica_CalculadoraVisitor.cs
+C:\Users\USUARIO\Downloads\SICXE Paso1\SICXE Paso1\Calculadora\Calculadora\obj\Debug\Gramatica_CalculadoraBaseVisitor.cs
+C:\Users\USUARIO\Downloads\SICXE Paso1\SICXE Paso1\Calculadora\Calculadora\obj\Debug\Calculadora.csproj.Antlr4GeneratedCodeFileListAbsolute.txt
+C:\Users\USUARIO\Downloads\SICXE Paso1\SICXE Paso1\Calculadora\Calculadora\obj\Debug\Calculadora.csproj.CoreCompileInputs.cache
+C:\Users\USUARIO\Downloads\SICXE Paso1\SICXE Paso1\Calculadora\Calculadora\obj\Debug\Calculadora.exe
+C:\Users\USUARIO\Downloads\SICXE Paso1\SICXE Paso1\Calculadora\Calculadora\obj\Debug\Calculadora.pdb
+C:\Users\USUARIO\Downloads\SICXE Paso1\SICXE Paso1\Calculadora\Calculadora\bin\Debug\Calculadora.exe.config
+C:\Users\USUARIO\Downloads\SICXE Paso1\SICXE Paso1\Calculadora\Calculadora\bin\Debug\Calculadora.exe
+C:\Users\USUARIO\Downloads\SICXE Paso1\SICXE Paso1\Calculadora\Calculadora\bin\Debug\Calculadora.pdb
+C:\Users\USUARIO\Downloads\SICXE Paso1\SICXE Paso1\Calculadora\Calculadora\bin\Debug\Antlr4.Runtime.dll
+C:\Users\USUARIO\Downloads\SICXE Paso1\SICXE Paso1\Calculadora\Calculadora\bin\Debug\Antlr4.Runtime.xml
+C:\Users\USUARIO\Downloads\SICXE Paso1\SICXE Paso1\Calculadora\Calculadora\obj\Debug\Calculadora.csproj.CopyComplete
