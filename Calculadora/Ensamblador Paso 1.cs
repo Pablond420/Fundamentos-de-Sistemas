@@ -14,6 +14,7 @@ namespace Calculadora
         public static Ensamblador_Paso_1 INSTANCE = new Ensamblador_Paso_1();
         int CP = 0;
         bool repeatedSymbol = false;
+        bool inst1 = false;
         String label = "";
         String error = "";
         String ins = "";
@@ -38,7 +39,6 @@ namespace Calculadora
         public override void VisitErrorNode([NotNull] IErrorNode node)
         {
             error += node.GetText()+"\t";
-            Console.WriteLine(node.GetText());
             base.VisitErrorNode(node);
         }
 
@@ -51,15 +51,41 @@ namespace Calculadora
             repeatedSymbol = false;
             if(error != "")
             {
-                error = StrToIntToHex(CP.ToString()) + "*\t" + error;
-                string directory = Directory.GetCurrentDirectory();
-                using (StreamWriter file = new StreamWriter(directory + "ArchivoIntermedio.txt", true))
+                if (inst1)
                 {
-                    file.WriteLine(error);
+                    String line = StrToIntToHex(CP.ToString()) + "*" + "    " + label + "    " + ins + "    " + error;
+                    string directory = Directory.GetCurrentDirectory();
+                    using (StreamWriter file = new StreamWriter(directory + "ArchivoIntermedio.txt", true))
+                    {
+                        file.WriteLine(line);
+                    }
+                }
+                else
+                {
+                    error = StrToIntToHex(CP.ToString()) + "*\t" + error;
+                    string directory = Directory.GetCurrentDirectory();
+                    using (StreamWriter file = new StreamWriter(directory + "ArchivoIntermedio.txt", true))
+                    {
+                        file.WriteLine(error);
+                    }
                 }
             }
+            if(inst1 && error == "")
+            {
+                if (label != "")
+                    WriteFileTabSim(label, StrToIntToHex(CP.ToString()));
+                if (repeatedSymbol)
+                    WriteFile(StrToIntToHex(CP.ToString()) + "*", label, ins, opIns);
+                else
+                    WriteFile(StrToIntToHex(CP.ToString()), label, ins, opIns);
+                CP += 1;
+            }
             error = "";
+            ins = "";
+            opIns = "";
+            inst1 = false;
             base.ExitProposicion(context);
+
         }
 
         /// <summary>
@@ -73,14 +99,9 @@ namespace Calculadora
 
             if (formato.f1() != null)
             {
+                inst1 = true;
                 ins = formato.f1().COD_OP_F1().GetText();
-                if (label != "")
-                    WriteFileTabSim(label, StrToIntToHex(CP.ToString()));
-                if (repeatedSymbol)
-                    WriteFile(StrToIntToHex(CP.ToString())+"*", label, ins, opIns);
-                else
-                    WriteFile(StrToIntToHex(CP.ToString()), label, ins, opIns);
-                CP += 1;
+               
             }
             else if (formato.f2() != null)
             {
@@ -113,8 +134,6 @@ namespace Calculadora
             {
                 formato4(context);
             }
-            ins = "";
-            opIns = "";
             
             base.ExitInstruccion(context);
         }
