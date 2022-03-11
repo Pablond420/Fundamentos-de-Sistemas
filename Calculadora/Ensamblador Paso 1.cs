@@ -15,6 +15,10 @@ namespace Calculadora
         int CP = 0;
         bool repeatedSymbol = false;
         bool inst1 = false;
+        bool inst2 = false;
+        bool inst3 = false;
+        bool is_byte = false;
+        string byte_error = "";
         String label = "";
         String error = "";
         String ins = "";
@@ -39,6 +43,10 @@ namespace Calculadora
         public override void VisitErrorNode([NotNull] IErrorNode node)
         {
             error += node.GetText()+"\t";
+            byte_error = node.Parent.GetText();
+            if (byte_error.Contains("BYTE"))
+                is_byte = true;
+            
             base.VisitErrorNode(node);
         }
 
@@ -59,15 +67,47 @@ namespace Calculadora
                     {
                         file.WriteLine(line);
                     }
-                }
-                else
+                }else if(inst2)
                 {
-                    error = StrToIntToHex(CP.ToString()) + "*\t" + error;
+                    String line = StrToIntToHex(CP.ToString()) + "*"  + "   "+ error;
                     string directory = Directory.GetCurrentDirectory();
                     using (StreamWriter file = new StreamWriter(directory + "ArchivoIntermedio.txt", true))
                     {
-                        file.WriteLine(error);
+                        file.WriteLine(line);
                     }
+                }
+                else if (inst3)
+                {
+                    String line = StrToIntToHex(CP.ToString()) + "*" + "   " + error;
+                    string directory = Directory.GetCurrentDirectory();
+                    using (StreamWriter file = new StreamWriter(directory + "ArchivoIntermedio.txt", true))
+                    {
+                        file.WriteLine(line);
+                    }
+                }
+                else
+                {
+                    if(is_byte)
+                    {
+                        byte_error = StrToIntToHex(CP.ToString()) + "*\t" + byte_error;
+                        byte_error = byte_error.Replace("\n", "");
+                        string directory = Directory.GetCurrentDirectory();
+                        using (StreamWriter file = new StreamWriter(directory + "ArchivoIntermedio.txt", true))
+                        {
+                            file.WriteLine(byte_error);
+                        }
+                        is_byte = false;
+                    }
+                    else
+                    {
+                        error = StrToIntToHex(CP.ToString()) + "*\t" + error;
+                        string directory = Directory.GetCurrentDirectory();
+                        using (StreamWriter file = new StreamWriter(directory + "ArchivoIntermedio.txt", true))
+                        {
+                            file.WriteLine(error);
+                        }
+                    }
+                    
                 }
             }
             if(inst1 && error == "")
@@ -79,11 +119,23 @@ namespace Calculadora
                 else
                     WriteFile(StrToIntToHex(CP.ToString()), label, ins, opIns);
                 CP += 1;
+            }else if (inst2 && error == "")
+            {
+                if (label != "")
+                    WriteFileTabSim(label, StrToIntToHex(CP.ToString()));
+                if (repeatedSymbol)
+                    WriteFile(StrToIntToHex(CP.ToString()) + "*", label, ins, opIns);
+                else
+                    WriteFile(StrToIntToHex(CP.ToString()), label, ins, opIns);
+                CP += 2;
             }
             error = "";
             ins = "";
             opIns = "";
             inst1 = false;
+            inst2 = false;
+            inst3 = false;
+            is_byte = false;
             base.ExitProposicion(context);
 
         }
@@ -105,26 +157,23 @@ namespace Calculadora
             }
             else if (formato.f2() != null)
             {
-                ins = formato.f2().COD_OP_F2().GetText();
-                opIns = formato.f2().REG()[0].GetText();
-                if (formato.f2().COMA() != null)
+                if(formato.f2().GetText() != "")
                 {
-                    if (formato.f2().NUM() != null)
+                    inst2 = true;
+                    ins = formato.f2().COD_OP_F2().GetText();
+                    opIns = formato.f2().REG()[0].GetText();
+                    if (formato.f2().COMA() != null)
                     {
-                        opIns += "," + formato.f2().NUM().GetText();
-                    }
-                    else
-                    {
-                        opIns += "," + formato.f2().REG()[1].GetText();
+                        if (formato.f2().NUM() != null)
+                        {
+                            opIns += "," + formato.f2().NUM().GetText();
+                        }
+                        else
+                        {
+                            opIns += "," + formato.f2().REG()[1].GetText();
+                        }
                     }
                 }
-                if (label != "")
-                    WriteFileTabSim(label, StrToIntToHex(CP.ToString()));
-                if (repeatedSymbol)
-                    WriteFile(StrToIntToHex(CP.ToString()) + "*", label, ins, opIns);
-                else
-                    WriteFile(StrToIntToHex(CP.ToString()), label, ins, opIns);
-                CP += 2;
             }
             else if (formato.f3() != null)
             {

@@ -67,12 +67,17 @@ inmediato3:
 	COD_OP_F3 HASHTAG NUM | COD_OP_F3 HASHTAG MEM_DIR
 	;
 opdirectiva:
-	NUM | CONSTHEX | CONSTCAD | MEM_DIR
+	NUM | CONSTHEX| CONSTCAD | MEM_DIR
 	;
 
 /*
 *	Reglas del Lexer.
 */
+// Etiquetas para reconocer el campo de la directiva byte 
+CONSTHEX:	'X"'(('0'..'9'|'A'..'F')+)'"' //token valido para reconocer un numero en hexadecimal
+    ;
+CONSTCAD:	'C"'(('0'..'9'|'a'..'z'|'A'..'Z')+)'"' //token valido para reconocer una cadena 
+    ;
 RSUB  :  'RSUB'	| 'RSUB ';
 COD_OP_F1
 	:'FIX '|'FLOAT '|'HIO '|'NORM '|'SIO '|'TIO '|'FIX'|'FLOAT'|'HIO'|'NORM'|'SIO'|'TIO'
@@ -104,12 +109,6 @@ NUM
 	:('0'..'9')+|('0'..'9')+'H'|('0'..'9')+'h'
 	;
 MEM_DIR:	('a'..'z'|'A'..'Z'|'0'..'9')+|('a'..'z'|'A'..'Z'|'0'..'9')+' ';
-
-// Etiquetas para reconocer el campo de la directiva byte 
-CONSTHEX:	'X"'('0'..'9'|'A'..'F')+'"' //token valido para reconocer un numero en hexadecimal
-    ;
-CONSTCAD:	'C"'('a'..'z'|'A'..'Z')+'"' //token valido para reconocer una cadena 
-    ;
 
 FINL
 	:'\n'
