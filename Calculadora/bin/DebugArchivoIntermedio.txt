@@ -1,23 +1,28 @@
-0    SUM     START     0H
-0    FIRST     LDX     #0
-3        LDA     #0
-6        +LDB     #TABLE2 
-A        BASE     TABLE2 
-A    LOOP     ADD     TABLE2 TABLE1 ,X 
-D*	AD 	
-D*	TABLE2 	, 	X 	
-	
-D        TIX     COUNT 
-10        JLT     LOOP 
-13        RMO     A ,X 
-15*	SHIFT 	A 	, 	2	
-	
-15        +STA     TOTAL 
-19    COUNT     CLEAR     A 
-1B*	COUNT 	
-1B*	RESWO 	1	
-	
-1B    TABLE1     RESW     2000
-178B    TABLE2     RESW     2000
-2EFB    TOTAL     RESW     2000
-466B        END    FIRST 
+0    EJER2    START    0
+0    SIMBOLO     RESW     3
+9        SUBR     X,T
+B    NUMERO     WORD     10H
+E    DECIMAL     RESB     50
+40    INICIO     +RD     50#SIMBOLO
+44        MUL     NUMERO
+47        FLOAT    
+48        MULF     DECIMAL
+4B    CICLO     +JSUB     @RAIZ
+4F    ETIQ     HIO     
+50*	RAIZ	
+50        LDA     ARREGLO,X
+53        TIX     #1
+56        +JGT     CICLO,X
+5A    ARREGLO     RESW     800
+9BA    RAIZ     CLEAR     B
+9BC*    CICLO     STA     TEMP
+9BF        WD     @100H
+9C2        +LPS     #ARREGLO
+9C6        J     400H,X
+9C9    TEMP     RESW     1
+9CC    FIN     SIO    1
+9CD        LDX     @AUX
+9D0        SHIFTL     A,4
+9D2    AUX     RESB     250H
+C22    MAIN     BASE     INICIO 
+C22*	"	234	"	

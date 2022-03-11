@@ -46,7 +46,7 @@ formato:
 	f1 | f2 | f3 | f4
 	;
 f1:
-	COD_OP_F1
+	COD_OP_F1 FINL | COD_OP_F1
 	;
 f2:
 	COD_OP_F2 REG | COD_OP_F2 REG COMA REG | COD_OP_F2 REG COMA NUM

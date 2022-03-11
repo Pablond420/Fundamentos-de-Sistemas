@@ -1,3 +1,4 @@
-Error del Parser no viable alternative at input 'AD TABLE2 ' en la linea: 7 en la posición 3
-Error del Parser no viable alternative at input 'SHIFT A ' en la linea: 11 en la posición 6
-Error del Parser no viable alternative at input 'COUNT RESWO ' en la linea: 14 en la posición 6
+Error del Parser extraneous input 'RAIZ' expecting '
+' en la linea: 11 en la posición 9
+Error del Parser mismatched input '"' expecting '
+' en la linea: 27 en la posición 12

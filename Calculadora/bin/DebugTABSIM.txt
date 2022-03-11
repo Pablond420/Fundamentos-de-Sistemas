@@ -1,7 +1,12 @@
-FIRST     0
-LOOP     A
-COUNT     19
-TABLE1     1B
-TABLE2     178B
-TOTAL     2EFB
- *Tamaño del programa:   466BH
+SIMBOLO     0
+NUMERO     B
+DECIMAL     E
+INICIO     40
+CICLO     4B
+ETIQ     4F
+ARREGLO     5A
+RAIZ     9BA
+TEMP     9C9
+FIN     9CC
+AUX     9D2
+MAIN     C22

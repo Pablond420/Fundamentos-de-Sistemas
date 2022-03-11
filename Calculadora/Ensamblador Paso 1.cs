@@ -164,7 +164,7 @@ namespace Calculadora
                         WriteFile(StrToIntToHex(CP.ToString()), label, ins, opIns);
                     CP += plus;
                 }
-                else
+                else if(context.opdirectiva().CONSTCAD() != null)
                 {
                     opIns = context.opdirectiva().CONSTCAD().GetText();
                     char[] hex = context.opdirectiva().CONSTCAD().GetText().ToCharArray();
