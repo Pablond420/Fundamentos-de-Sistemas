@@ -75,10 +75,10 @@ opdirectiva:
 */
 RSUB  :  'RSUB'	| 'RSUB ';
 COD_OP_F1
-	:'FIX '|'FLOAT '|'HIO '|'NORM '|'SIO '|'TIO '
+	:'FIX '|'FLOAT '|'HIO '|'NORM '|'SIO '|'TIO '|'FIX'|'FLOAT'|'HIO'|'NORM'|'SIO'|'TIO'
 	;
 COD_OP_F2
-	:'ADDR '|'CLEAR '|'COMPR '|'DIVR '|'MULR '|'RMO '|'SHIFTL '|'SHIFTR '|'SUBR '|'SVC '|'TIXR '
+	:'ADDR '|'CLEAR '|'COMPR '|'DIVR '|'MULR '|'RMO '|'SHIFTL '|'SHIFTR '|'SUBR '|'SVC '|'TIXR '|'ADDR'|'CLEAR'|'COMPR'|'DIVR'|'MULR'|'RMO'|'SHIFTL'|'SHIFTR'|'SUBR'|'SVC'|'TIXR'
 	;
 COD_OP_F3
 	:'ADD '|'ADDF '|'AND '|'COMP '|'COMPF '|'DIV '|'DIVF '|'J '|'JEQ '|'JGT '|'JLT '|'JSUB '|'LDA '|'LDB '|'LDCH '|'LDF '|'LDL '|'LDS '|'LDT '|'LDX '|'LPS '|'MUL '|'MULF '|'OR '|'RD '|
@@ -88,13 +88,13 @@ COD_OP_F3
 REG
 	:('A '|'X '|'L '|'B '|'S '|'T '|'F '|'CP '|'PC '|'SW ' |'A'|'X'|'L'|'B'|'S'|'T'|'F'|'CP'|'PC'|'SW')
 	;
-WORD	:	'WORD ';
-RESB	:	'RESB ';
-START	:	'START ';
-RESW	:	'RESW ';
-END	:	'END ' | 'END';
-BYTE	:	'BYTE ';
-BASE	:	'BASE ';
+WORD	:	'WORD '|'WORD';
+RESB	:	'RESB '|'RESB';
+START	:	'START '|'START';
+RESW	:	'RESW '|'RESW';
+END	:		'END ' | 'END';
+BYTE	:	'BYTE '|'BYTE';
+BASE	:	'BASE '|'BASE';
 ARROBA	:	'@';
 HASHTAG	:	'#';
 FORMATO4:	'+';

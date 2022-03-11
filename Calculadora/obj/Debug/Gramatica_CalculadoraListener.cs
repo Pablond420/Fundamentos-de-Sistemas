@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-// Generated from C:\Users\USUARIO\Downloads\SICXE Paso1\SICXE Paso1\Calculadora\Calculadora\Gramatica_Calculadora.g4 by ANTLR 4.6.6
+// Generated from C:\Users\USUARIO\Documents\Repositorios\Fundamentos de sistemas\Fundamentos de Sistemas\Calculadora\Gramatica_Calculadora.g4 by ANTLR 4.6.6
 
 // Unreachable code detected
 #pragma warning disable 0162

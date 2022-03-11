@@ -1,6 +1,6 @@
-C:\Users\USUARIO\Downloads\SICXE Paso1\SICXE Paso1\Calculadora\Calculadora\obj\Debug\Gramatica_CalculadoraLexer.cs
-C:\Users\USUARIO\Downloads\SICXE Paso1\SICXE Paso1\Calculadora\Calculadora\obj\Debug\Gramatica_CalculadoraParser.cs
-C:\Users\USUARIO\Downloads\SICXE Paso1\SICXE Paso1\Calculadora\Calculadora\obj\Debug\Gramatica_CalculadoraListener.cs
-C:\Users\USUARIO\Downloads\SICXE Paso1\SICXE Paso1\Calculadora\Calculadora\obj\Debug\Gramatica_CalculadoraBaseListener.cs
-C:\Users\USUARIO\Downloads\SICXE Paso1\SICXE Paso1\Calculadora\Calculadora\obj\Debug\Gramatica_CalculadoraVisitor.cs
-C:\Users\USUARIO\Downloads\SICXE Paso1\SICXE Paso1\Calculadora\Calculadora\obj\Debug\Gramatica_CalculadoraBaseVisitor.cs
+C:\Users\USUARIO\Documents\Repositorios\Fundamentos de sistemas\Fundamentos de Sistemas\Calculadora\obj\Debug\Gramatica_CalculadoraLexer.cs
+C:\Users\USUARIO\Documents\Repositorios\Fundamentos de sistemas\Fundamentos de Sistemas\Calculadora\obj\Debug\Gramatica_CalculadoraParser.cs
+C:\Users\USUARIO\Documents\Repositorios\Fundamentos de sistemas\Fundamentos de Sistemas\Calculadora\obj\Debug\Gramatica_CalculadoraListener.cs
+C:\Users\USUARIO\Documents\Repositorios\Fundamentos de sistemas\Fundamentos de Sistemas\Calculadora\obj\Debug\Gramatica_CalculadoraBaseListener.cs
+C:\Users\USUARIO\Documents\Repositorios\Fundamentos de sistemas\Fundamentos de Sistemas\Calculadora\obj\Debug\Gramatica_CalculadoraVisitor.cs
+C:\Users\USUARIO\Documents\Repositorios\Fundamentos de sistemas\Fundamentos de Sistemas\Calculadora\obj\Debug\Gramatica_CalculadoraBaseVisitor.cs

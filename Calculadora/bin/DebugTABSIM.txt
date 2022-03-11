@@ -1,1 +1,4 @@
-LOOP     E
+LOOP     3
+COUNT     19
+TABLE    2D
+ *Tamaño del programa:   4EH

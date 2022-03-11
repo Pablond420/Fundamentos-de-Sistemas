@@ -1,8 +1,16 @@
+0    EJER1    START    0
 0        LDX     #5
-3        +LDB     #TABLE2
-7        STA     @COUNT
-A        CLEAR     A
-C        BASE     TABLE2
-C        ADDR     X,A
-E    LOOP     ADD     TABLE,X
-11        +STA     TOTAL
+3    LOOP     HIO    
+4        +LDB     #TABLE2
+8        STA     @COUNT
+B        CLEAR     A
+D        BASE     TABLE2
+D        ADDR     X,A
+F*    LOOP     ADD     TABLE,X
+12        +STA     TOTAL
+16        RSUB    
+19    COUNT     RESB     12H
+2B        SHIFTL     X,2
+2D    TABLE    RESW     10
+4B        WORD     16
+4E        END    
