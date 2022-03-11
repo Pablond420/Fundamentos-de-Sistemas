@@ -15,7 +15,7 @@ namespace Calculadora
         int CP = 0;
         bool repeatedSymbol = false;
         String label = "";
-
+        String error = "";
         String ins = "";
         String opIns = "";
 
@@ -35,6 +35,13 @@ namespace Calculadora
             base.ExitInicio(context);
         }
 
+        public override void VisitErrorNode([NotNull] IErrorNode node)
+        {
+            error += node.GetText()+"\t";
+            Console.WriteLine(node.GetText());
+            base.VisitErrorNode(node);
+        }
+
         /// <summary>
         /// Proposicion
         /// </summary>
@@ -42,6 +49,16 @@ namespace Calculadora
         public override void ExitProposicion([NotNull] Gramatica_CalculadoraParser.ProposicionContext context)
         {
             repeatedSymbol = false;
+            if(error != "")
+            {
+                error = StrToIntToHex(CP.ToString()) + "*\t" + error;
+                string directory = Directory.GetCurrentDirectory();
+                using (StreamWriter file = new StreamWriter(directory + "ArchivoIntermedio.txt", true))
+                {
+                    file.WriteLine(error);
+                }
+            }
+            error = "";
             base.ExitProposicion(context);
         }
 
@@ -273,7 +290,6 @@ namespace Calculadora
                 {
                     repeatedSymbol = true;
                 }
-                    
             }
         }
 

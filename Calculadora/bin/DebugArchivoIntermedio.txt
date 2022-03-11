@@ -1,16 +1,23 @@
-0    EJER1    START    0
-0        LDX     #5
-3    LOOP     HIO    
-4        +LDB     #TABLE2
-8        STA     @COUNT
-B        CLEAR     A
-D        BASE     TABLE2
-D        ADDR     X,A
-F*    LOOP     ADD     TABLE,X
-12        +STA     TOTAL
-16        RSUB    
-19    COUNT     RESB     12H
-2B        SHIFTL     X,2
-2D    TABLE    RESW     10
-4B        WORD     16
-4E        END    
+0    SUM     START     0H
+0    FIRST     LDX     #0
+3        LDA     #0
+6        +LDB     #TABLE2 
+A        BASE     TABLE2 
+A    LOOP     ADD     TABLE2 TABLE1 ,X 
+D*	AD 	
+D*	TABLE2 	, 	X 	
+	
+D        TIX     COUNT 
+10        JLT     LOOP 
+13        RMO     A ,X 
+15*	SHIFT 	A 	, 	2	
+	
+15        +STA     TOTAL 
+19    COUNT     CLEAR     A 
+1B*	COUNT 	
+1B*	RESWO 	1	
+	
+1B    TABLE1     RESW     2000
+178B    TABLE2     RESW     2000
+2EFB    TOTAL     RESW     2000
+466B        END    FIRST 

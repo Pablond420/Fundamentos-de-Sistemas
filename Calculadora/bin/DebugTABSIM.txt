@@ -1,4 +1,7 @@
-LOOP     3
+FIRST     0
+LOOP     A
 COUNT     19
-TABLE    2D
- *Tamaño del programa:   4EH
+TABLE1     1B
+TABLE2     178B
+TOTAL     2EFB
+ *Tamaño del programa:   466BH
