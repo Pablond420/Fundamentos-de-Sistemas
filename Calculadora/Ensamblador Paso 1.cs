@@ -40,6 +40,10 @@ namespace Calculadora
             base.ExitInicio(context);
         }
 
+        /// <summary>
+        /// Nodos que contienen errores
+        /// </summary>
+        /// <param name="node"></param>
         public override void VisitErrorNode([NotNull] IErrorNode node)
         {
             error += node.GetText()+"\t";
@@ -100,12 +104,20 @@ namespace Calculadora
                     }
                     else
                     {
-                        error = StrToIntToHex(CP.ToString()) + "*\t" + error;
-                        string directory = Directory.GetCurrentDirectory();
-                        using (StreamWriter file = new StreamWriter(directory + "ArchivoIntermedio.txt", true))
+                        if(context.instruccion() == null && context.directiva() == null)
                         {
-                            file.WriteLine(error);
+                            //while(context.start.InputStream.[context.start] != '\n')
                         }
+                        else
+                        {
+                            error = StrToIntToHex(CP.ToString()) + "*\t" + error;
+                            string directory = Directory.GetCurrentDirectory();
+                            using (StreamWriter file = new StreamWriter(directory + "ArchivoIntermedio.txt", true))
+                            {
+                                file.WriteLine(error);
+                            }
+                        }
+                        
                     }
                     
                 }
@@ -272,6 +284,11 @@ namespace Calculadora
         var opDir = context.opdirectiva();
             base.ExitDirectiva(context);
         }
+
+        /// <summary>
+        /// Fin
+        /// </summary>
+        /// <param name="context"></param>
         public override void ExitFin([NotNull] Gramatica_CalculadoraParser.FinContext context)
         {
             label = "";
@@ -287,6 +304,10 @@ namespace Calculadora
             base.ExitFin(context);
         }
 
+        /// <summary>
+        /// Etiqueta
+        /// </summary>
+        /// <param name="context"></param>
         public override void ExitEtiqueta([NotNull] Gramatica_CalculadoraParser.EtiquetaContext context)
         {
             //Guardar las etiquetas
@@ -294,12 +315,21 @@ namespace Calculadora
             base.ExitEtiqueta(context);
         }
 
+        /// <summary>
+        /// OpDirectiva
+        /// </summary>
+        /// <param name="context"></param>
         public override void ExitOpdirectiva([NotNull] Gramatica_CalculadoraParser.OpdirectivaContext context)
         {
             var opDir = context.GetText();
             base.ExitOpdirectiva(context);
         }
 
+        /// <summary>
+        /// Convierte un String a Entero
+        /// </summary>
+        /// <param name="source"></param>
+        /// <returns></returns>
         public String StrToIntToHex(String source)
         {
             int num = Int32.Parse(source);
@@ -308,7 +338,7 @@ namespace Calculadora
         }
 
         /// <summary>
-        /// Quita la H o h en un numero
+        /// Quita la H o h en un numero y devuelve su valor Hexadecimal
         /// </summary>
         /// <param name="source"></param>
         /// <returns></returns>
@@ -328,6 +358,13 @@ namespace Calculadora
             return r;
         }
 
+        /// <summary>
+        /// Escribe el archivo intermedio
+        /// </summary>
+        /// <param name="cp"></param>
+        /// <param name="label"></param>
+        /// <param name="instruc"></param>
+        /// <param name="op"></param>
         public void WriteFile(String cp, String label, String instruc, String op)
         {
             String line = cp + "    " + label + "    " + instruc + "    " + op;
@@ -338,6 +375,11 @@ namespace Calculadora
             }
         }
 
+        /// <summary>
+        /// Escribe el archivo de la tabla de simbolos
+        /// </summary>
+        /// <param name="symb"></param>
+        /// <param name="dir"></param>
         public void WriteFileTabSim(String symb, String dir)
         {
             // String line = "Simbolo" + "    Direccion";
@@ -361,6 +403,10 @@ namespace Calculadora
             }
         }
 
+        /// <summary>
+        /// Manejador de instrucciones de formato 3
+        /// </summary>
+        /// <param name="context"></param>
         public void formato3([NotNull] Gramatica_CalculadoraParser.InstruccionContext context)
         {
             var formato = context.opinstruccion().formato();
@@ -429,6 +475,10 @@ namespace Calculadora
             CP += 3;
         }
 
+        /// <summary>
+        /// Manejador de instrucciones de formato 4
+        /// </summary>
+        /// <param name="context"></param>
         public void formato4([NotNull] Gramatica_CalculadoraParser.InstruccionContext context)
         {
             var formato = context.opinstruccion().formato();

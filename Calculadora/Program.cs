@@ -42,7 +42,9 @@ namespace Calculadora
                 //CREAMOS LOS TOKENS SEGUN EL LEXER CREADO
                 Gramatica_CalculadoraParser parser = new Gramatica_CalculadoraParser(tokens);
 
+                //Agregar el Listener del Parser para control del contador de programa, archivo intermedio y TABSIM
                 parser.AddParseListener(Ensamblador_Paso_1.INSTANCE);
+
                 parser.RemoveErrorListeners();
                 parser.AddErrorListener(DescriptiveErrorListenerTk.INSTANCE);
                 //CREAMOS EL PARSER CON LOS TOKENS CREADOS
