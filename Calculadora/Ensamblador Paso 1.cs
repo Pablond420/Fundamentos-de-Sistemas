@@ -13,6 +13,7 @@ namespace Calculadora
     {
         public static Ensamblador_Paso_1 INSTANCE = new Ensamblador_Paso_1();
         int CP = 0;
+        int linea = 1;
         bool repeatedSymbol = false;
         bool inst1 = false;
         bool inst2 = false;
@@ -367,12 +368,13 @@ namespace Calculadora
         /// <param name="op"></param>
         public void WriteFile(String cp, String label, String instruc, String op)
         {
-            String line = cp + "    " + label + "    " + instruc + "    " + op;
+            String line = linea + "\t" + cp.PadLeft(4, '0') + "\t" + label + "\t" + instruc + "\t" + op;
             string directory = Directory.GetCurrentDirectory();
             using (StreamWriter file = new StreamWriter(directory + "ArchivoIntermedio.txt", true))
             {
                 file.WriteLine(line);
             }
+            linea++;
         }
 
         /// <summary>
