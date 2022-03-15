@@ -12,7 +12,9 @@ namespace Calculadora
     public class Ensamblador_Paso_1 : Gramatica_CalculadoraBaseListener
     {
         public static Ensamblador_Paso_1 INSTANCE = new Ensamblador_Paso_1();
+        Tools tool = new Tools();
         int CP = 0;
+        int lastCP;
         int linea = 1;
         bool repeatedSymbol = false;
         bool inst1 = false;
@@ -35,8 +37,8 @@ namespace Calculadora
             if (context.NUM() != null)
             {
                dirInicial = context.NUM().GetText();
-               CP += HexToInt(dirInicial);
-               WriteFile(StrToIntToHex(CP.ToString()), context.etiqueta().GetText(), context.START().GetText(), dirInicial);
+               CP += tool.HexToInt(dirInicial);
+               WriteFile(tool.StrToIntToHex(CP.ToString()), context.etiqueta().GetText(), context.START().GetText(), dirInicial);
             }
             base.ExitInicio(context);
         }
@@ -66,7 +68,7 @@ namespace Calculadora
             {
                 if (inst1)
                 {
-                    String line = StrToIntToHex(CP.ToString()) + "*" + "    " + label + "    " + ins + "    " + error;
+                    String line = tool.StrToIntToHex(CP.ToString()) + "*" + "    " + label + "    " + ins + "    " + error;
                     string directory = Directory.GetCurrentDirectory();
                     using (StreamWriter file = new StreamWriter(directory + "ArchivoIntermedio.txt", true))
                     {
@@ -74,7 +76,7 @@ namespace Calculadora
                     }
                 }else if(inst2)
                 {
-                    String line = StrToIntToHex(CP.ToString()) + "*"  + "   "+ error;
+                    String line = tool.StrToIntToHex(CP.ToString()) + "*"  + "   "+ error;
                     string directory = Directory.GetCurrentDirectory();
                     using (StreamWriter file = new StreamWriter(directory + "ArchivoIntermedio.txt", true))
                     {
@@ -83,7 +85,7 @@ namespace Calculadora
                 }
                 else if (inst3)
                 {
-                    String line = StrToIntToHex(CP.ToString()) + "*" + "   " + error;
+                    String line = tool.StrToIntToHex(CP.ToString()) + "*" + "   " + error;
                     string directory = Directory.GetCurrentDirectory();
                     using (StreamWriter file = new StreamWriter(directory + "ArchivoIntermedio.txt", true))
                     {
@@ -94,7 +96,7 @@ namespace Calculadora
                 {
                     if(is_byte)
                     {
-                        byte_error = StrToIntToHex(CP.ToString()) + "*\t" + byte_error;
+                        byte_error = tool.StrToIntToHex(CP.ToString()) + "*\t" + byte_error;
                         byte_error = byte_error.Replace("\n", "");
                         string directory = Directory.GetCurrentDirectory();
                         using (StreamWriter file = new StreamWriter(directory + "ArchivoIntermedio.txt", true))
@@ -111,7 +113,7 @@ namespace Calculadora
                         }
                         else
                         {
-                            error = StrToIntToHex(CP.ToString()) + "*\t" + error;
+                            error = tool.StrToIntToHex(CP.ToString()) + "*\t" + error;
                             string directory = Directory.GetCurrentDirectory();
                             using (StreamWriter file = new StreamWriter(directory + "ArchivoIntermedio.txt", true))
                             {
@@ -126,20 +128,20 @@ namespace Calculadora
             if(inst1 && error == "")
             {
                 if (label != "")
-                    WriteFileTabSim(label, StrToIntToHex(CP.ToString()));
+                    WriteFileTabSim(label, tool.StrToIntToHex(CP.ToString()));
                 if (repeatedSymbol)
-                    WriteFile(StrToIntToHex(CP.ToString()) + "*", label, ins, opIns);
+                    WriteFile(tool.StrToIntToHex(CP.ToString()) + "*", label, ins, opIns);
                 else
-                    WriteFile(StrToIntToHex(CP.ToString()), label, ins, opIns);
+                    WriteFile(tool.StrToIntToHex(CP.ToString()), label, ins, opIns);
                 CP += 1;
             }else if (inst2 && error == "")
             {
                 if (label != "")
-                    WriteFileTabSim(label, StrToIntToHex(CP.ToString()));
+                    WriteFileTabSim(label, tool.StrToIntToHex(CP.ToString()));
                 if (repeatedSymbol)
-                    WriteFile(StrToIntToHex(CP.ToString()) + "*", label, ins, opIns);
+                    WriteFile(tool.StrToIntToHex(CP.ToString()) + "*", label, ins, opIns);
                 else
-                    WriteFile(StrToIntToHex(CP.ToString()), label, ins, opIns);
+                    WriteFile(tool.StrToIntToHex(CP.ToString()), label, ins, opIns);
                 CP += 2;
             }
             error = "";
@@ -212,22 +214,22 @@ namespace Calculadora
             {
                 opIns = context.opdirectiva().NUM().GetText();
                 if (label != "")
-                    WriteFileTabSim(label, StrToIntToHex(CP.ToString()));
+                    WriteFileTabSim(label, tool.StrToIntToHex(CP.ToString()));
                 if (repeatedSymbol)
-                    WriteFile(StrToIntToHex(CP.ToString()) + "*", label, ins, opIns);
+                    WriteFile(tool.StrToIntToHex(CP.ToString()) + "*", label, ins, opIns);
                 else
-                    WriteFile(StrToIntToHex(CP.ToString()), label, ins, opIns);
+                    WriteFile(tool.StrToIntToHex(CP.ToString()), label, ins, opIns);
                 CP += 3;
             }else if (context.tipodirectiva().GetText() == "RESB ")
             {
                 opIns = context.opdirectiva().NUM().GetText();
                 if (label != "")
-                    WriteFileTabSim(label, StrToIntToHex(CP.ToString()));
+                    WriteFileTabSim(label, tool.StrToIntToHex(CP.ToString()));
                 if (repeatedSymbol)
-                    WriteFile(StrToIntToHex(CP.ToString()) + "*", label, ins, opIns);
+                    WriteFile(tool.StrToIntToHex(CP.ToString()) + "*", label, ins, opIns);
                 else
-                    WriteFile(StrToIntToHex(CP.ToString()), label, ins, opIns);
-                CP += HexToInt(context.opdirectiva().NUM().GetText());
+                    WriteFile(tool.StrToIntToHex(CP.ToString()), label, ins, opIns);
+                CP += tool.HexToInt(context.opdirectiva().NUM().GetText());
             }
             else if (context.tipodirectiva().GetText() == "BYTE ")
             {
@@ -238,11 +240,11 @@ namespace Calculadora
                     float nibble = ((float)hex.Length - 3) / 2;
                     int plus = (int)Math.Ceiling(nibble);
                     if (label != "")
-                        WriteFileTabSim(label, StrToIntToHex(CP.ToString()));
+                        WriteFileTabSim(label, tool.StrToIntToHex(CP.ToString()));
                     if (repeatedSymbol)
-                        WriteFile(StrToIntToHex(CP.ToString()) + "*", label, ins, opIns);
+                        WriteFile(tool.StrToIntToHex(CP.ToString()) + "*", label, ins, opIns);
                     else
-                        WriteFile(StrToIntToHex(CP.ToString()), label, ins, opIns);
+                        WriteFile(tool.StrToIntToHex(CP.ToString()), label, ins, opIns);
                     CP += plus;
                 }
                 else if(context.opdirectiva().CONSTCAD() != null)
@@ -251,11 +253,11 @@ namespace Calculadora
                     char[] hex = context.opdirectiva().CONSTCAD().GetText().ToCharArray();
                     int plus = hex.Length - 3;
                     if (label != "")
-                        WriteFileTabSim(label, StrToIntToHex(CP.ToString()));
+                        WriteFileTabSim(label, tool.StrToIntToHex(CP.ToString()));
                     if (repeatedSymbol)
-                        WriteFile(StrToIntToHex(CP.ToString()) + "*", label, ins, opIns);
+                        WriteFile(tool.StrToIntToHex(CP.ToString()) + "*", label, ins, opIns);
                     else
-                        WriteFile(StrToIntToHex(CP.ToString()), label, ins, opIns);
+                        WriteFile(tool.StrToIntToHex(CP.ToString()), label, ins, opIns);
                     CP += plus;
                 }
                 
@@ -264,22 +266,22 @@ namespace Calculadora
             {
                 opIns = context.opdirectiva().NUM().GetText();
                 if (label != "")
-                    WriteFileTabSim(label, StrToIntToHex(CP.ToString()));
+                    WriteFileTabSim(label, tool.StrToIntToHex(CP.ToString()));
                 if (repeatedSymbol)
-                    WriteFile(StrToIntToHex(CP.ToString()) + "*", label, ins, opIns);
+                    WriteFile(tool.StrToIntToHex(CP.ToString()) + "*", label, ins, opIns);
                 else
-                    WriteFile(StrToIntToHex(CP.ToString()), label, ins, opIns);
-                CP += (HexToInt(context.opdirectiva().NUM().GetText()) * 3);
+                    WriteFile(tool.StrToIntToHex(CP.ToString()), label, ins, opIns);
+                CP += (tool.HexToInt(context.opdirectiva().NUM().GetText()) * 3);
             }
             else if (context.tipodirectiva().GetText() == "BASE ")
             {
                 opIns = context.opdirectiva().MEM_DIR().GetText();
                 if (label != "")
-                    WriteFileTabSim(label, StrToIntToHex(CP.ToString()));
+                    WriteFileTabSim(label, tool.StrToIntToHex(CP.ToString()));
                 if (repeatedSymbol)
-                    WriteFile(StrToIntToHex(CP.ToString()) + "*", label, ins, opIns);
+                    WriteFile(tool.StrToIntToHex(CP.ToString()) + "*", label, ins, opIns);
                 else
-                    WriteFile(StrToIntToHex(CP.ToString()), label, ins, opIns);
+                    WriteFile(tool.StrToIntToHex(CP.ToString()), label, ins, opIns);
             }
 
         var opDir = context.opdirectiva();
@@ -295,13 +297,14 @@ namespace Calculadora
             label = "";
             ins = "END";
             opIns = context.entrada().GetText();
-            WriteFile(StrToIntToHex(CP.ToString()), label, ins, opIns);
-            String line =  " *Tamaño del programa:   " + StrToIntToHex(CP.ToString()) + "H";
+            WriteFile(tool.StrToIntToHex(CP.ToString()), label, ins, opIns);
+            String line =  " *Tamaño del programa:   " + tool.StrToIntToHex(CP.ToString()) + "H";
             string directory = Directory.GetCurrentDirectory();
             using (StreamWriter file = new StreamWriter(directory + "TABSIM.txt", true))
             {
                 file.WriteLine(line);
             }
+            Ensamblador_Paso_2.INSTANCE.CodigoObjeto();
             base.ExitFin(context);
         }
 
@@ -327,39 +330,6 @@ namespace Calculadora
         }
 
         /// <summary>
-        /// Convierte un String a Entero
-        /// </summary>
-        /// <param name="source"></param>
-        /// <returns></returns>
-        public String StrToIntToHex(String source)
-        {
-            int num = Int32.Parse(source);
-            String hex = num.ToString("X");
-            return hex;
-        }
-
-        /// <summary>
-        /// Quita la H o h en un numero y devuelve su valor Hexadecimal
-        /// </summary>
-        /// <param name="source"></param>
-        /// <returns></returns>
-        public int HexToInt(String source)
-        {
-            int r = 0;
-            if (source.Contains("H") || source.Contains("h"))
-            {
-                source = source.Remove(source.Length - 1);
-                r = Convert.ToInt32(source, 16);
-            } 
-            else
-            {
-                if (source != "")
-                    r = Convert.ToInt32(source);
-            }
-            return r;
-        }
-
-        /// <summary>
         /// Escribe el archivo intermedio
         /// </summary>
         /// <param name="cp"></param>
@@ -368,7 +338,8 @@ namespace Calculadora
         /// <param name="op"></param>
         public void WriteFile(String cp, String label, String instruc, String op)
         {
-            String line = linea + "\t" + cp.PadLeft(4, '0') + "\t" + label + "\t" + instruc + "\t" + op;
+
+            String line = linea.ToString("D3") + "\t" + (cp.Contains("*") ? cp.PadLeft(5, '0') :  cp.PadLeft(4, '0')) + "\t" + label + "\t" + instruc + "\t" + op;
             string directory = Directory.GetCurrentDirectory();
             using (StreamWriter file = new StreamWriter(directory + "ArchivoIntermedio.txt", true))
             {
@@ -469,11 +440,11 @@ namespace Calculadora
                 opIns = "";
             }
             if (label != "")
-                WriteFileTabSim(label, StrToIntToHex(CP.ToString()));
+                WriteFileTabSim(label, tool.StrToIntToHex(CP.ToString()));
             if (repeatedSymbol)
-                WriteFile(StrToIntToHex(CP.ToString()) + "*", label, ins, opIns);
+                WriteFile(tool.StrToIntToHex(CP.ToString()) + "*", label, ins, opIns);
             else
-                WriteFile(StrToIntToHex(CP.ToString()), label, ins, opIns);
+                WriteFile(tool.StrToIntToHex(CP.ToString()), label, ins, opIns);
             CP += 3;
         }
 
@@ -536,11 +507,11 @@ namespace Calculadora
                 }
             }
             if (label != "")
-                WriteFileTabSim(label, StrToIntToHex(CP.ToString()));
+                WriteFileTabSim(label, tool.StrToIntToHex(CP.ToString()));
             if (repeatedSymbol)
-                WriteFile(StrToIntToHex(CP.ToString()) + "*", label, ins, opIns);
+                WriteFile(tool.StrToIntToHex(CP.ToString()) + "*", label, ins, opIns);
             else
-                WriteFile(StrToIntToHex(CP.ToString()), label, ins, opIns);
+                WriteFile(tool.StrToIntToHex(CP.ToString()), label, ins, opIns);
             CP += 4;
         }
     }

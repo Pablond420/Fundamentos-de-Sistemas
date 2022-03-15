@@ -19,6 +19,7 @@ namespace Calculadora
             string directory = Directory.GetCurrentDirectory();
             File.WriteAllText(directory+"Errores.err", string.Empty);
             File.WriteAllText(directory + "TABSIM.txt", string.Empty);
+            File.WriteAllText(directory + "ArchivoIntermedioCodObj.txt", string.Empty);
             File.WriteAllText(directory + "ArchivoIntermedio.txt", string.Empty);
             //VARIABLE PARA ALMACENAR LA CADENA DE ENTRADA
             while (true)
@@ -47,6 +48,7 @@ namespace Calculadora
 
                 parser.RemoveErrorListeners();
                 parser.AddErrorListener(DescriptiveErrorListenerTk.INSTANCE);
+                
                 //CREAMOS EL PARSER CON LOS TOKENS CREADOS
                 try
                 {
