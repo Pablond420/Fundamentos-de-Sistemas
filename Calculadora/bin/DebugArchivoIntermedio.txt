@@ -1,28 +1,6 @@
-0    EJER2    START    0
-0    SIMBOLO     RESW     3
-9        SUBR     X,T
-B    NUMERO     WORD     10H
-E    DECIMAL     RESB     50
-40    INICIO     +RD     50#SIMBOLO
-44        MUL     NUMERO
-47        FLOAT    
-48        MULF     DECIMAL
-4B    CICLO     +JSUB     @RAIZ
-4F    ETIQ     HIO     
-50*	RAIZ	
-50        LDA     ARREGLO,X
-53        TIX     #1
-56        +JGT     CICLO,X
-5A    ARREGLO     RESW     800
-9BA    RAIZ     CLEAR     B
-9BC*    CICLO     STA     TEMP
-9BF        WD     @100H
-9C2        +LPS     #ARREGLO
-9C6        J     400H,X
-9C9    TEMP     RESW     1
-9CC    FIN     SIO    1
-9CD        LDX     @AUX
-9D0        SHIFTL     A,4
-9D2    AUX     RESB     250H
-C22    MAIN     BASE     INICIO 
-C22*	"	234	"	
+001	0000	SUM 	START 	0H
+002	0000		WORD 	16
+003	0003	MENOR 	BYTE 	C"234"
+004	0006	MAYOR 	BYTE 	X"A1B2C3"
+005	0009	NUMERO 	WORD 	10H
+006	000C		END	FIRST

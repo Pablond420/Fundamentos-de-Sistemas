@@ -11,7 +11,7 @@ namespace Calculadora
     {
         public static Tools tools = new Tools();
         /// <summary>
-        /// Convierte un String a Entero
+        /// Convierte un String a Entero hexadecimal
         /// </summary>
         /// <param name="source"></param>
         /// <returns></returns>

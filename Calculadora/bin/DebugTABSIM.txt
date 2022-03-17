@@ -1,12 +1,4 @@
-SIMBOLO     0
-NUMERO     B
-DECIMAL     E
-INICIO     40
-CICLO     4B
-ETIQ     4F
-ARREGLO     5A
-RAIZ     9BA
-TEMP     9C9
-FIN     9CC
-AUX     9D2
-MAIN     C22
+MENOR     3
+MAYOR     6
+NUMERO     9
+ *Tamaño del programa:   CH

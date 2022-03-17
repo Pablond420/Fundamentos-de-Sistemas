@@ -67,12 +67,12 @@ namespace Calculadora
                         foreach(char ch in cad)
                         {
                             int ascii_int = (int)ch;
-                            cod_Obj += t.HexToIntWithOutH(ascii_int.ToString());
+                            cod_Obj += t.HexToInt(ascii_int.ToString());
                         }
                         t.WriteFileObj(linea, t.StrToIntToHex(cp.ToString()), label, ins, opIns, cod_Obj);
                     }
-                    int codObj = t.HexToInt(cod_Obj);
-                    t.WriteFileObj(linea, t.StrToIntToHex(cp.ToString()), label, ins, opIns, codObj.ToString("D3"));
+                    string codObj = t.StrToIntToHex(cod_Obj);
+                    t.WriteFileObj(linea, t.StrToIntToHex(cp.ToString()), label, ins, opIns, codObj);
                 }
                 else
                 {
