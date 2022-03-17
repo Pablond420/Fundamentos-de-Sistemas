@@ -38,9 +38,41 @@ namespace Calculadora
             {
                 Console.WriteLine(text[index]);
                 deformatLine(text[index]);
-                if(ins == "START" || ins == "RESW" || ins == "RESB" || ins == "ORG" || ins == "END" || ins == "EQU")
+                if(ins == "START" || ins == "RESW" || ins == "RESB" || ins == "ORG" || ins == "END" || ins == "EQU" || ins == "START " || ins == "RESW " || ins == "RESB " || ins == "ORG " || ins == "END " || ins == "EQU ")
                 {
                     t.WriteFileObj(linea, t.StrToIntToHex(cp.ToString()), label, ins, opIns, "----");
+                }
+                else if(ins == "WORD" || ins == "WORD ")
+                {
+                    int codObj = t.HexToInt(opIns);
+                    t.WriteFileObj(linea, t.StrToIntToHex(cp.ToString()), label, ins, opIns, codObj.ToString("D3"));
+                }
+                else if (ins == "BYTE" || ins == "BYTE ")
+                {
+                    string cod_Obj = "";
+                    if (opIns.Contains("X"))
+                    {
+                        string val = opIns.Replace("X", String.Empty);
+                        string codObje = val.Remove(0, 1);
+                        string codObje2 = val.Remove(val.Length - 1, 1);
+                        t.WriteFileObj(linea, t.StrToIntToHex(cp.ToString()), label, ins, opIns, codObje2);
+                    }
+                    else if (opIns.Contains("C"))
+                    {
+                        string val = opIns.Replace("C", String.Empty);
+                        string codObje = val.Remove(0,1);
+                        string codObje2 = val.Remove(val.Length-1, 1);
+                        
+                        char[] cad = codObje2.ToCharArray();                        
+                        foreach(char ch in cad)
+                        {
+                            int ascii_int = (int)ch;
+                            cod_Obj += t.HexToIntWithOutH(ascii_int.ToString());
+                        }
+                        t.WriteFileObj(linea, t.StrToIntToHex(cp.ToString()), label, ins, opIns, cod_Obj);
+                    }
+                    int codObj = t.HexToInt(cod_Obj);
+                    t.WriteFileObj(linea, t.StrToIntToHex(cp.ToString()), label, ins, opIns, codObj.ToString("D3"));
                 }
                 else
                 {
