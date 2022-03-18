@@ -14,13 +14,17 @@ namespace Calculadora
         int cp, index = 0;
         int iterator = 0;
         int linea = 0;
+        int num_constant = 0;
         bool is_error = false;
         bool n, i, x, b, p, e = false;
+        bool is_constant = false;
+        bool is_dir_mem = false;
         string[] text;
+        string opIns_aux = "";
         String label = "";
         String error = "";
         String ins = "";
-        String opIns = "";
+        String opIns, opIns2= "";
 
         public const int FIX = 0xC4, FLOAT = 0xC0, HIO = 0xF4, NORM = 0xC8, SIO = 0xF0, TIO = 0xF8, ADDR = 0x90, CLEAR = 0xB4,
             COMPR = 0xA0, DIVR = 0x9C, MULR = 0x98, RMO = 0xAC, SHIFTL = 0xA4, SHIFTR = 0xA8, SUBR = 0x94, SVC = 0xB0, TIXR = 0xB8,
@@ -42,47 +46,71 @@ namespace Calculadora
                 {
                     t.WriteFileObj(linea, t.StrToIntToHex(cp.ToString()), label, ins, opIns, "----");
                 }
-                else if(ins == "WORD" || ins == "WORD ")
+                else if (ins == "WORD" || ins == "WORD ")
                 {
-                    int codObj = t.HexToInt(opIns);
-                    t.WriteFileObj(linea, t.StrToIntToHex(cp.ToString()), label, ins, opIns, codObj.ToString("D3"));
+                    string codObj = "";
+                    if (opIns.Contains("H") || opIns.Contains("h"))
+                    {
+                        string saveOpIn = opIns;
+                        saveOpIn = saveOpIn.Remove(saveOpIn.Length - 1);
+                        codObj = saveOpIn.ToString();
+                    }
+                    else
+                    {
+                        if (opIns != "")
+                        {
+                            int num = Int32.Parse(opIns);
+                            codObj = num.ToString("X");
+                        }
+                    }
+                    t.WriteFileObj(linea, t.StrToIntToHex(cp.ToString()), label, ins, opIns, codObj.PadLeft(6, '0'));
                 }
                 else if (ins == "BYTE" || ins == "BYTE ")
                 {
                     string cod_Obj = "";
                     if (opIns.Contains("X"))
                     {
-                        string val = opIns.Replace("X", String.Empty);
-                        string codObje = val.Remove(0, 1);
-                        string codObje2 = val.Remove(val.Length - 1, 1);
+                        string codObje = opIns.Remove(0, 2);
+                        string codObje2 = codObje.Remove(codObje.Length - 1, 1);
                         t.WriteFileObj(linea, t.StrToIntToHex(cp.ToString()), label, ins, opIns, codObje2);
                     }
                     else if (opIns.Contains("C"))
                     {
-                        string val = opIns.Replace("C", String.Empty);
-                        string codObje = val.Remove(0,1);
-                        string codObje2 = val.Remove(val.Length-1, 1);
-                        
-                        char[] cad = codObje2.ToCharArray();                        
-                        foreach(char ch in cad)
+                        string codObje = opIns.Remove(0, 2);
+                        string codObje2 = codObje.Remove(codObje.Length - 1, 1);
+
+                        char[] cad = codObje2.ToCharArray();
+                        foreach (char ch in cad)
                         {
                             int ascii_int = (int)ch;
-                            cod_Obj += t.HexToInt(ascii_int.ToString());
+                            cod_Obj += t.StrToIntToHex(ascii_int.ToString());
                         }
                         t.WriteFileObj(linea, t.StrToIntToHex(cp.ToString()), label, ins, opIns, cod_Obj);
                     }
-                    string codObj = t.StrToIntToHex(cod_Obj);
-                    t.WriteFileObj(linea, t.StrToIntToHex(cp.ToString()), label, ins, opIns, codObj);
+
                 }
                 else
                 {
+                    if (is_format3_or_format4())
+                        set_flag();
+
                     if (is_error)
+                    {
+
+                    }
+                    else
                     {
                         
                     }
                 }
                 iterator = 0;
                 index++;
+                is_constant = false;
+                is_dir_mem = false;
+                is_error = false;
+                opIns_aux = "";
+                opIns2 = "";
+                num_constant = 0;
             }
         }
 
@@ -95,16 +123,86 @@ namespace Calculadora
             opIns = getOpInst(line);
         }
 
+        bool is_format3_or_format4()
+        {
+            bool res = false;
+            string aux = ins.Replace("+", "");
+            string ins_text_f3_f4 = "ADD ADDF AND COMP COMPF DIV DIVF J JEQ JGT JLT JSUB LDA LDB LDCH LDF LDL LDS LDT LDX LPS MUL MULF OR RD SSK STA STB STCH STF STI STL STS STSW STT STX SUB SUBF TD TIX WD ";
+         
+            if (ins_text_f3_f4.Contains(aux))
+            {
+                res = true;
+            }
+            return res;
+        }
+
+        void set_num_constant()
+        {
+            int test;
+            opIns_aux = opIns2;
+            if (opIns2.Contains(",X "))
+                opIns_aux = opIns2.Replace(",X ", "");
+            else if (opIns2.Contains(", X "))
+                opIns_aux = opIns2.Replace(",X ", "");
+            else if (opIns2.Contains(",X"))
+                opIns_aux = opIns2.Replace(",X", "");
+            else if (opIns2.Contains(", X"))
+                    opIns_aux = opIns2.Replace(", X", "");
+            opIns_aux = opIns_aux.Replace(" ", "");
+
+            Console.WriteLine(opIns_aux);
+            if (!opIns_aux.Contains(','))
+            {
+                if (!Int32.TryParse(opIns_aux, out test))
+                {
+                        if (opIns_aux.Substring(opIns_aux.Length - 1, 1) == "H" || opIns_aux.Substring(opIns_aux.Length - 1, 1) == "h")
+                        {
+                            num_constant = t.HexToInt(opIns_aux);
+                            if (num_is_constant(num_constant) == 1)
+                                is_constant = true;
+                            else if (num_is_constant(num_constant) == 2)
+                                is_dir_mem = true;
+                        }
+                        else // seria una m verificar si m existe en TABSIM
+                            is_dir_mem = true;
+                }
+                else
+                {
+                    if (num_is_constant(-1) == 1)
+                        is_constant = true;
+                    else if (num_is_constant(-1) == 2)
+                        is_dir_mem = true;
+                }
+            }
+        }
+
+        public void extract_number()
+        {
+            // if(opIns2.Contains(""))
+        }
+
         void set_flag()
         {
-            int cp_n = 0;
+            opIns2 = opIns;
+
+            int cp_next = 0;
             if (index < text.Length - 1)
-                cp_n = getNextCP(text[index + 1]);
+                cp_next = getNextCP(text[index + 1]);
+
+            if (opIns2.Contains('@') || opIns2.Contains('#'))
+            {
+                opIns2 = opIns2.Remove(0, 1);
+                Console.WriteLine(opIns2);
+            }
+            set_num_constant();
+            Console.WriteLine(is_constant ? "True" : "False");
+            Console.WriteLine(is_dir_mem ? "True" : "False");
+            Console.WriteLine(num_constant.ToString());
+
             if (opIns.Contains('@'))
             {
                 n = true;
                 i = false;
-
             }
             else if (opIns.Contains('#'))
             {
@@ -115,9 +213,66 @@ namespace Calculadora
             {
                 n = true;
                 i = true;
-                if (opIns.Contains('X'))
-                    x = true;
+                x = opIns.Contains(",X ") || opIns.Contains(", X ") || opIns.Contains(",X") || opIns.Contains(", X") ? true : false;
             }
+            
+            e = ins.Contains('+') ? true : false;
+            if (e) // FORMATO 4
+            {
+                b = false;
+                p = false;
+                if (opIns.Contains('@') || opIns.Contains('#')) //  ta -> dir
+                {
+                    // verificar que m exista y hacer la logica del codigo objeto 
+                }
+                else
+                {
+                    if (opIns.Contains(",X ") || opIns.Contains(", X ") || opIns.Contains(",X") || opIns.Contains(", X")) // TA -> dir + (X)
+                    {
+                        x = true;
+
+                        // logica para obtener el codigo objeto de los que tengan formato 4 y TA que indica el comentario aun lado del if
+                    }
+                    else // f4 TA -> dir 
+                    {
+                        // verificar que m exista y hacer la logica del codigo objeto
+                    }
+                }
+            }
+            else
+            {
+
+            }
+            Console.WriteLine("n\ti\tx\tb\tp\te");
+            string flags = "";
+            flags += n ? '1' : '0';
+            flags += "\t";
+            flags += i ? '1' : '0';
+            flags += "\t";
+            flags += x ? '1' : '0';
+            flags += "\t";
+            flags += b ? '1' : '0';
+            flags += "\t";
+            flags += p ? '1' : '0';
+            flags += "\t";
+            flags += e ? '1' : '0';
+            flags += "\n";
+            Console.WriteLine(flags);
+        }
+
+        int num_is_constant(int source)
+        {
+            int res = 0;
+            if (source == -1)
+                num_constant = Int32.Parse(opIns_aux);
+            else
+                num_constant = source;
+            if (num_constant < 4096 && num_constant >= 0)
+                res = 1;
+            else
+                if (num_constant > 4095)
+                    res = 2;
+            return res;
         }
 
         int getLine(string line)

@@ -1,4 +1,5 @@
-MENOR     3
-MAYOR     6
-NUMERO     9
- *Tamaño del programa:   CH
+LOOP     3
+COUNT     19
+TABLE    2D
+TABLE2     4B
+ *Tamaño del programa:   52H
