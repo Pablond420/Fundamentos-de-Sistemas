@@ -15,24 +15,32 @@ namespace Calculadora
         int iterator = 0;
         int linea = 0;
         int num_constant = 0;
+        int dir_num_constant = 0;
+        int base_value = 0;
         bool is_error = false;
         bool n, i, x, b, p, e = false;
         bool is_constant = false;
         bool is_dir_mem = false;
         string[] text;
+        string codop = "";// object code values in binary
+        string flags_bits = "";// object code values in binary
+        string ta_dir = "";// object code values in binary
+        string ins_alone = "";
         string opIns_aux = "";
         String label = "";
         String error = "";
         String ins = "";
         String opIns, opIns2= "";
 
+        public const string ADD = "000110", ADDF = "010110", AND = "100100", COMP = "001010", COMPF = "100010", DIV = "001001", DIVF = "011001"
+            , J = "001111", JEQ = "001100", JGT = "001101", JLT = "001110", JSUB = "010010", LDA = "000000", LDB = "011010", LDCH = "010100",
+            LDF = "011100", LDL = "000010", LDS = "011011", LDT = "011101", LDX = "000001", LPS = "110100", MUL = "001000", MULF = "011000",
+            OR = "010001", RD = "110110", RSUB = "010011", SSK = "111011", STA = "000011", STB = "011110", STCH = "010101", STF = "100000",
+            STI = "110101", STL = "000101", STS = "011111", STSW = "111010", STT = "100001", STX = "000100", SUB = "000111", SUBF = "010111",
+            TD = "111000", TIX = "001011", WD = "110111";
+
         public const int FIX = 0xC4, FLOAT = 0xC0, HIO = 0xF4, NORM = 0xC8, SIO = 0xF0, TIO = 0xF8, ADDR = 0x90, CLEAR = 0xB4,
-            COMPR = 0xA0, DIVR = 0x9C, MULR = 0x98, RMO = 0xAC, SHIFTL = 0xA4, SHIFTR = 0xA8, SUBR = 0x94, SVC = 0xB0, TIXR = 0xB8,
-            ADD = 0x18, ADDF = 0x58, AND = 0x40, COMP = 0x28, COMPF = 0x88, DIV = 0x24, DIVF = 0x64, J = 0x3C, JEQ = 0x30,
-            JGT = 0x34, JLT = 0x38, JSUB = 0x48, LDA = 0x00, LDB = 0x68, LDCH = 0x50, LDF = 0x70, LDL = 0x08, LDS = 0x6C, LDT = 0x74,
-            LDX = 0x04, LPS = 0xD0, MUL = 0x20, MULF = 0x60, OR = 0x44, RD = 0xD8, SSK = 0xEC, STA = 0x0C, STB = 0x78, STCH = 0x54,
-            STF = 0x80, STI = 0xD4, STL = 0x14, STS = 0x7C, STSW = 0xE8, STT = 0x84, STX = 0x10, SUB = 0x1C, SUBF = 0x5C, TD = 0xE0,
-            TIX = 0x2C, WD = 0xDC; 
+            COMPR = 0xA0, DIVR = 0x9C, MULR = 0x98, RMO = 0xAC, SHIFTL = 0xA4, SHIFTR = 0xA8, SUBR = 0x94, SVC = 0xB0, TIXR = 0xB8;
 
         public void CodigoObjeto()
         {
@@ -111,6 +119,7 @@ namespace Calculadora
                 opIns_aux = "";
                 opIns2 = "";
                 num_constant = 0;
+                n = i = x = b = p = e = false;
             }
         }
 
@@ -126,13 +135,12 @@ namespace Calculadora
         bool is_format3_or_format4()
         {
             bool res = false;
-            string aux = ins.Replace("+", "");
+            ins_alone = ins.Replace("+", "");
             string ins_text_f3_f4 = "ADD ADDF AND COMP COMPF DIV DIVF J JEQ JGT JLT JSUB LDA LDB LDCH LDF LDL LDS LDT LDX LPS MUL MULF OR RD SSK STA STB STCH STF STI STL STS STSW STT STX SUB SUBF TD TIX WD ";
          
-            if (ins_text_f3_f4.Contains(aux))
-            {
+            if (ins_text_f3_f4.Contains(ins_alone))
                 res = true;
-            }
+            
             return res;
         }
 
@@ -176,9 +184,42 @@ namespace Calculadora
             }
         }
 
-        public void extract_number()
+        int extract_number()
         {
-            // if(opIns2.Contains(""))
+            string directory = Directory.GetCurrentDirectory();
+            string text_tab_sim = File.ReadAllText(directory + "TABSIM.txt");
+            if (text_tab_sim.Contains(opIns2.ToString()))
+            {
+                string[] lines_tab_sim = File.ReadAllLines(directory + "TABSIM.txt");
+                foreach (string line in lines_tab_sim)
+                {
+                    if (line.Contains(opIns2.ToString()))
+                    {
+                        dir_num_constant = getDirNumConstant(line);
+                        break;
+                    }
+                }
+            }
+            else
+                dir_num_constant = -1;
+            return dir_num_constant;
+        }
+
+        int getDirNumConstant(string line)
+        {
+            string res = "";
+            int indextabsim = 0;
+            while (indextabsim < line.Length)
+            {
+                if (line[indextabsim] == '\t')
+                {
+                    indextabsim++;
+                    while (indextabsim < line.Length)
+                        res += line[indextabsim++].ToString();
+                }
+                indextabsim++;
+            }
+            return Convert.ToInt32(res, 16);
         }
 
         void set_flag()
@@ -241,7 +282,7 @@ namespace Calculadora
             }
             else
             {
-
+                calculate_ta(x);
             }
             Console.WriteLine("n\ti\tx\tb\tp\te");
             string flags = "";
@@ -259,6 +300,186 @@ namespace Calculadora
             flags += "\n";
             Console.WriteLine(flags);
         }
+
+        void calculate_ta(bool x)
+        {
+            codop = what_ins_is();
+            Console.WriteLine(codop);
+            if (x)
+            {
+                if (is_constant)
+                {
+                    //num_constant es la constante o la dir_mem mayor a 4095
+                }
+                else if (is_dir_mem)
+                {
+                    if (num_constant == 0)
+                    {
+                        //opIns_aux tiene el simbolo
+                    }
+                    else
+                    {
+                        //num_constant es nla dir_mem mayor a 4095
+                    }
+                }
+            }
+            else
+            {
+                if (is_constant)
+                {
+                    //num_constant es la constante o la dir_mem mayor a 4095
+                }
+                else if (is_dir_mem)
+                {
+                    if (num_constant == 0)
+                    {
+                        //opIns_aux tiene el simbolo
+                    }
+                    else
+                    {
+                        //num_constant es nla dir_mem mayor a 4095
+                    }
+                }
+            }
+            
+        }
+
+        string what_ins_is()
+        {
+            string res = "";
+            switch (ins_alone)
+            {
+                case "ADD":
+                    res = ADD;
+                    break;
+                case "ADDF":
+                    res = ADDF;
+                    break;
+                case "AND":
+                    res = AND;
+                    break;
+                case "COMP":
+                    res = COMP;
+                    break;
+                case "COMPF":
+                    res = COMPF;
+                    break;
+                case "DIV":
+                    res = DIV;
+                    break;
+                case "DIVF":
+                    res = DIVF;
+                    break;
+                case "J":
+                    res = J;
+                    break;
+                case "JEQ":
+                    res = JEQ;
+                    break;
+                case "JGT":
+                    res = JGT;
+                    break;
+                case "JLT":
+                    res = JLT;
+                    break;
+                case "JSUB":
+                    res = JSUB;
+                    break;
+                case "LDA":
+                    res = LDA;
+                    break;
+                case "LDB":
+                    res = LDB;
+                    break;
+                case "LDCH":
+                    res = LDCH;
+                    break;
+                case "LDF":
+                    res = LDF;
+                    break;
+                case "LDL":
+                    res = LDL;
+                    break;
+                case "LDS":
+                    res = LDS;
+                    break;
+                case "LDT":
+                    res = LDT;
+                    break;
+                case "LDX":
+                    res = LDX;
+                    break;
+                case "LPS":
+                    res = LPS;
+                    break;
+                case "MUL":
+                    res = MUL;
+                    break;
+                case "MULF":
+                    res = MULF;
+                    break;
+                case "OR":
+                    res = OR;
+                    break;
+                case "RD":
+                    res = RD;
+                    break;
+                case "RSUB":
+                    res = RSUB;
+                    break;
+                case "SSK":
+                    res = SSK;
+                    break;
+                case "STA":
+                    res = STA;
+                    break;
+                case "STB":
+                    res = STB;
+                    break;
+                case "STCH":
+                    res = STCH;
+                    break;
+                case "STF":
+                    res = STF;
+                    break;
+                case "STI":
+                    res = STI;
+                    break;
+                case "STL":
+                    res = STL;
+                    break;
+                case "STS":
+                    res = STS;
+                    break;
+                case "STSW":
+                    res = STSW;
+                    break;
+                case "STT":
+                    res = STT;
+                    break;
+                case "STX":
+                    res = STX;
+                    break;
+                case "SUB":
+                    res = SUB;
+                    break;
+                case "SUBF":
+                    res = SUBF;
+                    break;
+                case "TD":
+                    res = TD;
+                    break;
+                case "TIX":
+                    res = TIX;
+                    break;
+                case "WD":
+                    res = WD;
+                    break;
+            }
+
+            return res;
+        }
+
 
         int num_is_constant(int source)
         {
