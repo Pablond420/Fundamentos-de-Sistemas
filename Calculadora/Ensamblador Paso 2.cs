@@ -14,9 +14,10 @@ namespace Calculadora
         int cp, index = 0;
         int iterator = 0;
         int linea = 0;
+        int cp_next = 0;
         int num_constant = 0;
         int dir_num_constant = 0;
-        int base_value = 0;
+        int base_value = -2;
         bool is_error = false;
         bool n, i, x, b, p, e = false;
         bool is_constant = false;
@@ -97,6 +98,11 @@ namespace Calculadora
                     }
 
                 }
+                else if (ins == "BASE" || ins == "BASE ")
+                {
+                    opIns2 = opIns;
+                    base_value = extract_number();
+                }
                 else
                 {
                     if (is_format3_or_format4())
@@ -114,6 +120,7 @@ namespace Calculadora
                 iterator = 0;
                 index++;
                 is_constant = false;
+                base_value = -2;
                 is_dir_mem = false;
                 is_error = false;
                 opIns_aux = "";
@@ -136,6 +143,7 @@ namespace Calculadora
         {
             bool res = false;
             ins_alone = ins.Replace("+", "");
+            ins_alone = ins_alone.Replace(" ", "");
             string ins_text_f3_f4 = "ADD ADDF AND COMP COMPF DIV DIVF J JEQ JGT JLT JSUB LDA LDB LDCH LDF LDL LDS LDT LDX LPS MUL MULF OR RD SSK STA STB STCH STF STI STL STS STSW STT STX SUB SUBF TD TIX WD ";
          
             if (ins_text_f3_f4.Contains(ins_alone))
@@ -186,14 +194,15 @@ namespace Calculadora
 
         int extract_number()
         {
+            opIns_aux += opIns_aux == "" ? opIns2 : "";
             string directory = Directory.GetCurrentDirectory();
             string text_tab_sim = File.ReadAllText(directory + "TABSIM.txt");
-            if (text_tab_sim.Contains(opIns2.ToString()))
+            if (text_tab_sim.Contains(opIns_aux.ToString()))
             {
                 string[] lines_tab_sim = File.ReadAllLines(directory + "TABSIM.txt");
                 foreach (string line in lines_tab_sim)
                 {
-                    if (line.Contains(opIns2.ToString()))
+                    if (line.Contains(opIns_aux.ToString()))
                     {
                         dir_num_constant = getDirNumConstant(line);
                         break;
@@ -226,7 +235,7 @@ namespace Calculadora
         {
             opIns2 = opIns;
 
-            int cp_next = 0;
+            cp_next = 0;
             if (index < text.Length - 1)
                 cp_next = getNextCP(text[index + 1]);
 
@@ -258,32 +267,8 @@ namespace Calculadora
             }
             
             e = ins.Contains('+') ? true : false;
-            if (e) // FORMATO 4
-            {
-                b = false;
-                p = false;
-                if (opIns.Contains('@') || opIns.Contains('#')) //  ta -> dir
-                {
-                    // verificar que m exista y hacer la logica del codigo objeto 
-                }
-                else
-                {
-                    if (opIns.Contains(",X ") || opIns.Contains(", X ") || opIns.Contains(",X") || opIns.Contains(", X")) // TA -> dir + (X)
-                    {
-                        x = true;
+            calculate_ta(x);
 
-                        // logica para obtener el codigo objeto de los que tengan formato 4 y TA que indica el comentario aun lado del if
-                    }
-                    else // f4 TA -> dir 
-                    {
-                        // verificar que m exista y hacer la logica del codigo objeto
-                    }
-                }
-            }
-            else
-            {
-                calculate_ta(x);
-            }
             Console.WriteLine("n\ti\tx\tb\tp\te");
             string flags = "";
             flags += n ? '1' : '0';
@@ -305,43 +290,208 @@ namespace Calculadora
         {
             codop = what_ins_is();
             Console.WriteLine(codop);
+            int ta_calculate = 0;
+            int ta_calculate_aux = 0;
             if (x)
             {
-                if (is_constant)
+                if (e) // TA -> dir + (X)
                 {
-                    //num_constant es la constante o la dir_mem mayor a 4095
+                    if (is_dir_mem)
+                    {
+                        if (num_constant == 0)
+                        {
+                            if(extract_number() != -1)
+                            {
+                                ta_calculate = extract_number() - 0;
+                            }else
+                            {
+                               // error : Simbolo no encontrado en TABSIM
+                            }
+                            //opIns_aux tiene el simbolo
+                        }
+                        else
+                        {
+                            ta_calculate = num_constant - 0;
+                            //num_constant es la dir_mem mayor a 4095
+                        }
+                    }else
+                    {
+                        //es error : deberia de ser una m sin embargo tiene una c en m,X
+                    }
+                }else if (is_constant) //c,X    TA->desp + X
+                {
+                    ta_calculate = num_constant - 0;
                 }
                 else if (is_dir_mem)
                 {
                     if (num_constant == 0)
                     {
+                        ta_calculate = extract_number(); // obtiene el valor de TABSIM
+                        if(ta_calculate != -1)
+                        {
+                            ta_calculate_aux = ta_calculate - cp_next - 0;
+                            // TA -> CP + desp + X
+                            if (ta_calculate_aux > -2049 && ta_calculate_aux < 2049)
+                            {
+                                p = true;
+                                b = false;
+                                ta_calculate = ta_calculate_aux;
+                            }
+                            else //m,X TA -> B+desp+X
+                            {
+                                if(base_value != -2)
+                                {
+                                    if (base_value != -1)
+                                    {
+                                        ta_calculate_aux = ta_calculate - base_value - 0;
+                                        if (ta_calculate_aux >= 0 && ta_calculate_aux <= 4095)
+                                        {
+                                            b = true;
+                                            p = false;
+                                            ta_calculate = ta_calculate_aux;
+                                        }
+                                    }
+                                    else
+                                    {
+                                        //Error: Simbolo no encontrado en TABSIM
+                                    }
+                                }else
+                                {
+                                    // Error: Base no definida
+                                }
+                                // probar con la base
+                            }
+                           
+                        }
+
+                    }
+                    else
+                    {
+                        //num_constant es nla dir_mem mayor a 4095
+                    }
+                }
+            }
+            else if(e)
+            {
+                if (is_constant) //
+                {
+                    //Error: No hay instruccion extendida con c
+                }
+                else if (is_dir_mem)
+                {
+                    if (num_constant == 0)
+                    {
+                        if(extract_number() != -1)//+op  m,@m,#cm TA->dir 
+                        {
+                            ta_calculate = extract_number();
+                        }
+                        else
+                        {
+                            // Error: simbolo no encontrado en tabsim
+                        }
                         //opIns_aux tiene el simbolo
                     }
                     else
                     {
+                        ta_calculate = num_constant;
                         //num_constant es nla dir_mem mayor a 4095
                     }
                 }
             }
             else
             {
-                if (is_constant)
+                if (is_constant) //op  @c, #c, c TA -> desp
                 {
-                    //num_constant es la constante o la dir_mem mayor a 4095
+                    ta_calculate = num_constant;
+                    //num_constant es la constante
                 }
                 else if (is_dir_mem)
                 {
                     if (num_constant == 0)
                     {
-                        //opIns_aux tiene el simbolo
+                        ta_calculate = extract_number(); // obtiene el valor de TABSIM
+                        if (ta_calculate != -1)
+                        {
+                            ta_calculate_aux = ta_calculate - cp_next;
+                            // TA -> CP + desp
+                            if (ta_calculate_aux > -2049 && ta_calculate_aux < 2049)
+                            {
+                                p = true;
+                                b = false;
+                                ta_calculate = ta_calculate_aux;
+                            }
+                            else //m,X TA -> B+desp
+                            {
+                                if (base_value != -2)
+                                {
+                                    if (base_value != -1)
+                                    {
+                                        ta_calculate_aux = ta_calculate - base_value;
+                                        if (ta_calculate_aux >= 0 && ta_calculate_aux <= 4095)
+                                        {
+                                            b = true;
+                                            p = false;
+                                            ta_calculate = ta_calculate_aux;
+                                        }
+                                    }
+                                    else
+                                    {
+                                        //Error: o no hay base o el simbolo no fue encontrado en TABSIM
+                                    }
+                                }
+                                else
+                                {
+                                    // Error: Base no definida
+                                }
+
+
+                            }
+
+                        }
+
                     }
                     else
                     {
-                        //num_constant es nla dir_mem mayor a 4095
+                        ta_calculate = num_constant;
+                        ta_calculate_aux = ta_calculate - cp_next;
+                        // TA -> CP + desp
+                        if (ta_calculate_aux > -2049 && ta_calculate_aux < 2049)
+                        {
+                            p = true;
+                            b = false;
+                            ta_calculate = ta_calculate_aux;
+                        }
+                        else //m TA -> B+desp+X
+                        {
+                            if (base_value != -2)
+                            {
+                                if (base_value != -1)
+                                {
+                                    ta_calculate_aux = ta_calculate - base_value;
+                                    if (ta_calculate_aux >= 0 && ta_calculate_aux <= 4095)
+                                    {
+                                        b = true;
+                                        p = false;
+                                        ta_calculate = ta_calculate_aux;
+                                    }
+                                }
+                                else
+                                {
+                                    //Error: o no hay base o el simbolo no fue encontrado en TABSIM
+                                }
+                            }
+                            else
+                            {
+                                // Error: Base no definida
+                            }
+                            // probar con la base
+                        }
                     }
                 }
             }
-            
+
+            Console.WriteLine(ta_calculate);
+
         }
 
         string what_ins_is()

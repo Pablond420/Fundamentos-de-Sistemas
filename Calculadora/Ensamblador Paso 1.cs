@@ -356,7 +356,7 @@ namespace Calculadora
         public void WriteFileTabSim(String symb, String dir)
         {
             // String line = "Simbolo" + "    Direccion";
-            String line = symb + "    " + dir;
+            String line = symb + "\t" + dir;
             string directory = Directory.GetCurrentDirectory();
             string path = directory + "TABSIM.txt";
             if (File.Exists(path))
