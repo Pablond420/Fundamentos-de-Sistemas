@@ -27,6 +27,8 @@ namespace Calculadora
         string flags_bits = "";// object code values in binary
         string ta_dir = "";// object code values in binary
         string ins_alone = "";
+        string reg_alone = "";
+        string object_code = "";
         string opIns_aux = "";
         String label = "";
         String error = "";
@@ -40,8 +42,11 @@ namespace Calculadora
             STI = "110101", STL = "000101", STS = "011111", STSW = "111010", STT = "100001", STX = "000100", SUB = "000111", SUBF = "010111",
             TD = "111000", TIX = "001011", WD = "110111";
 
-        public const int FIX = 0xC4, FLOAT = 0xC0, HIO = 0xF4, NORM = 0xC8, SIO = 0xF0, TIO = 0xF8, ADDR = 0x90, CLEAR = 0xB4,
-            COMPR = 0xA0, DIVR = 0x9C, MULR = 0x98, RMO = 0xAC, SHIFTL = 0xA4, SHIFTR = 0xA8, SUBR = 0x94, SVC = 0xB0, TIXR = 0xB8;
+        public const string FIX = "11000100", FLOAT = "11000000", HIO = "11110100", NORM = "11001000", SIO = "11110000", TIO = "11111000",
+            ADDR = "10010000", CLEAR = "10110100", COMPR = "10100000", DIVR = "10011100", MULR = "10011000", RMO = "10101100", SHIFTL = "10100100",
+            SHIFTR = "10101000", SUBR = "10010100", SVC = "10110000", TIXR = "10111000";
+
+        public const string A = "0000", X = "0001", L = "0010", B = "0011", S = "0100", T = "0101", F = "0110", CP = "1000", SW = "1001";
 
         public void CodigoObjeto()
         {
@@ -107,6 +112,11 @@ namespace Calculadora
                 {
                     if (is_format3_or_format4())
                         set_flag();
+                    else if (is_format1())
+                        object_code_f1();
+                    else if (is_format2())
+                        object_code_f2();
+
 
                     if (is_error)
                     {
@@ -117,6 +127,7 @@ namespace Calculadora
                         
                     }
                 }
+                Console.WriteLine(object_code);
                 iterator = 0;
                 index++;
                 is_constant = false;
@@ -124,6 +135,9 @@ namespace Calculadora
                 is_dir_mem = false;
                 is_error = false;
                 opIns_aux = "";
+                ins_alone = "";
+                object_code = "";
+                reg_alone = "";
                 opIns2 = "";
                 num_constant = 0;
                 n = i = x = b = p = e = false;
@@ -149,6 +163,61 @@ namespace Calculadora
             if (ins_text_f3_f4.Contains(ins_alone))
                 res = true;
             
+            return res;
+        }
+
+        bool is_format1()
+        {
+            bool res = false;
+            ins_alone = ins.Replace(" ", "");
+            string ins_text_f1 = "FIX   FLOAT   HIO   NORM   SIO   TIO ";
+            if (ins_text_f1.Contains(ins_alone))
+                res = true;
+            return res;
+        }
+
+        bool is_format2()
+        {
+            bool res = false;
+            ins_alone = ins.Replace(" ", "");
+            string ins_text_f2 = "ADDR   CLEAR   COMPR   DIVR   MULR   RMO   SHIFTL SHIFTR   SUBR   SVC   TIXR  ";
+            if (ins_text_f2.Contains(ins_alone))
+                res = true;
+            return res;
+        }
+
+        void object_code_f1()
+        {
+            codop = what_ins_is_f1();
+            object_code = binary_to_hex(codop);
+
+        }
+        void object_code_f2()
+        {
+            codop = what_ins_is_f2();
+            if(!opIns.Contains(',')) // SVC, TIXR, CLEAR
+            {
+                reg_alone = opIns.Replace(" ", "");
+                object_code = codop + what_register_is() + "0000";
+                object_code = binary_to_hex(object_code);
+            }else
+            {
+                reg_alone = opIns.Substring(opIns.IndexOf(',') - 1);
+                reg_alone = reg_alone.Replace(" ", "");
+                reg_alone = reg_alone.Replace(",", "");
+                object_code = codop + what_register_is();
+                reg_alone = opIns.Substring(opIns.IndexOf(',') + 1);
+                reg_alone = reg_alone.Replace(" ", "");
+                reg_alone = reg_alone.Replace(",", "");
+                object_code += what_register_is();
+                object_code = binary_to_hex(object_code);
+            }
+        }
+
+        string binary_to_hex(string bin)
+        {
+            Console.WriteLine(bin);
+            string res = string.Format("{0:X}", Convert.ToInt32(bin, 2));
             return res;
         }
 
@@ -492,6 +561,114 @@ namespace Calculadora
 
             Console.WriteLine(ta_calculate);
 
+        }
+
+        string what_register_is()
+        {
+            string res = "";
+            switch (reg_alone)
+            {
+                case "A":
+                    res = A;
+                    break;
+                case "X":
+                    res = X;
+                    break;
+                case "L":
+                    res = L;
+                    break;
+                case "B":
+                    res = B;
+                    break;
+                case "S":
+                    res = S;
+                    break;
+                case "T":
+                    res = T;
+                    break;
+                case "F":
+                    res = F;
+                    break;
+                case "CP":
+                    res = CP;
+                    break;
+                case "PC":
+                    res = CP;
+                    break;
+                case "SW":
+                    res = SW;
+                    break;
+
+            }
+            return res;
+        }
+        string what_ins_is_f1()
+        {
+            string res = "";
+            switch (ins_alone)
+            {
+                case "FIX":
+                    res = FIX;
+                    break;
+                case "FLOAT":
+                    res = FLOAT;
+                    break;
+                case "HIO":
+                    res = HIO;
+                    break;
+                case "NORM":
+                    res = NORM;
+                    break;
+                case "SIO":
+                    res = SIO;
+                    break;
+                case "TIO":
+                    res = TIO;
+                    break;
+            }
+            return res;
+        }
+        string what_ins_is_f2()
+        {
+            string res = "";
+            switch (ins_alone)
+            {
+                case "ADDR":
+                    res = ADDR;
+                    break;
+                case "CLEAR":
+                    res = CLEAR;
+                    break;
+                case "COMPR":
+                    res = COMPR;
+                    break;
+                case "DIVR":
+                    res = DIVR;
+                    break;
+                case "MULR":
+                    res = MULR;
+                    break;
+                case "RMO":
+                    res = RMO;
+                    break;
+                case "SHIFTL":
+                    res = SHIFTL;
+                    break;
+                case "SHIFTR":
+                    res = SHIFTR;
+                    break;
+                case "SUBR":
+                    res = SUBR;
+                    break;
+                case "SVC":
+                    res = SVC;
+                    break;
+                case "TIXR":
+                    res = TIXR;
+                    break;
+
+            }
+            return res;
         }
 
         string what_ins_is()
