@@ -16,29 +16,32 @@ namespace Calculadora
         int linea = 0;
         int cp_next = 0;
         int num_constant = 0;
+        int ta_calculate = -10000;
         int dir_num_constant = 0;
         int base_value = -2;
         bool is_error = false;
+        bool is_error_step2 = false;
         bool n, i, x, b, p, e = false;
         bool is_constant = false;
         bool is_dir_mem = false;
+        bool is_out_range = false;
+        bool diferent_previous_cp = false;
         string[] text;
         string codop = "";// object code values in binary
-        string flags_bits = "";// object code values in binary
-        string ta_dir = "";// object code values in binary
         string ins_alone = "";
         string reg_alone = "";
+        string flags = "";
         string object_code = "";
         string opIns_aux = "";
         String label = "";
-        String error = "";
+        String error = "Error : ";
         String ins = "";
         String opIns, opIns2= "";
 
         public const string ADD = "000110", ADDF = "010110", AND = "100100", COMP = "001010", COMPF = "100010", DIV = "001001", DIVF = "011001"
             , J = "001111", JEQ = "001100", JGT = "001101", JLT = "001110", JSUB = "010010", LDA = "000000", LDB = "011010", LDCH = "010100",
             LDF = "011100", LDL = "000010", LDS = "011011", LDT = "011101", LDX = "000001", LPS = "110100", MUL = "001000", MULF = "011000",
-            OR = "010001", RD = "110110", RSUB = "010011", SSK = "111011", STA = "000011", STB = "011110", STCH = "010101", STF = "100000",
+            OR = "010001", RD = "110110", SSK = "111011", STA = "000011", STB = "011110", STCH = "010101", STF = "100000",
             STI = "110101", STL = "000101", STS = "011111", STSW = "111010", STT = "100001", STX = "000100", SUB = "000111", SUBF = "010111",
             TD = "111000", TIX = "001011", WD = "110111";
 
@@ -86,6 +89,8 @@ namespace Calculadora
                     {
                         string codObje = opIns.Remove(0, 2);
                         string codObje2 = codObje.Remove(codObje.Length - 1, 1);
+                        if(codObje2.Length % 2 != 0)
+                            codObje2 = codObje2.PadLeft(codObje2.Length + 1, '0');
                         t.WriteFileObj(linea, t.StrToIntToHex(cp.ToString()), label, ins, opIns, codObje2);
                     }
                     else if (opIns.Contains("C"))
@@ -107,39 +112,53 @@ namespace Calculadora
                 {
                     opIns2 = opIns;
                     base_value = extract_number();
+                    t.WriteFileObj(linea, t.StrToIntToHex(cp.ToString()), label, ins, opIns, "----");
                 }
                 else
-                {
-                    if (is_format3_or_format4())
-                        set_flag();
-                    else if (is_format1())
-                        object_code_f1();
-                    else if (is_format2())
-                        object_code_f2();
-
-
-                    if (is_error)
+                {                    
+                    if (!is_error ) // y ademas puede ser error pero que sea por simbolo repetido deberia entrar
                     {
-
-                    }
-                    else
-                    {
-                        
+                        if (is_format3_or_format4())
+                            set_flag();
+                        else if (is_format1())
+                            object_code_f1();
+                        else if (is_format2())
+                            object_code_f2();
+                        Console.WriteLine(linea);
+                        if (e)
+                        {
+                            if (object_code.Length < 8)
+                                object_code = object_code.PadLeft(8, '0');
+                            if(!is_error_step2)
+                                object_code += "*";
+                        }
+                        else if(is_format3_or_format4())
+                        {
+                            if (object_code.Length < 6)
+                                object_code = object_code.PadLeft(6, '0');
+                        }
+                        if (ins == "RSUB" || ins == "RSUB ")
+                            object_code = "4F0000";
+                        t.WriteFileObj(linea, t.StrToIntToHex(cp.ToString()), label, ins, opIns, object_code);
                     }
                 }
                 Console.WriteLine(object_code);
                 iterator = 0;
+                error = "Error : ";
                 index++;
                 is_constant = false;
+                diferent_previous_cp = false;
+                is_error = false;
                 base_value = -2;
                 is_dir_mem = false;
-                is_error = false;
+                is_out_range = false;
                 opIns_aux = "";
                 ins_alone = "";
                 object_code = "";
                 reg_alone = "";
                 opIns2 = "";
                 num_constant = 0;
+                is_error_step2 = false;
                 n = i = x = b = p = e = false;
             }
         }
@@ -190,11 +209,10 @@ namespace Calculadora
         {
             codop = what_ins_is_f1();
             object_code = binary_to_hex(codop);
-
         }
         void object_code_f2()
         {
-            codop = what_ins_is_f2();
+            codop = what_ins_is_f2();     
             if(!opIns.Contains(',')) // SVC, TIXR, CLEAR
             {
                 reg_alone = opIns.Replace(" ", "");
@@ -202,9 +220,8 @@ namespace Calculadora
                 object_code = binary_to_hex(object_code);
             }else
             {
-                reg_alone = opIns.Substring(opIns.IndexOf(',') - 1);
-                reg_alone = reg_alone.Replace(" ", "");
-                reg_alone = reg_alone.Replace(",", "");
+                reg_alone = opIns.Replace(" ", "");
+                reg_alone = reg_alone.Substring(0, 1);
                 object_code = codop + what_register_is();
                 reg_alone = opIns.Substring(opIns.IndexOf(',') + 1);
                 reg_alone = reg_alone.Replace(" ", "");
@@ -217,87 +234,8 @@ namespace Calculadora
         string binary_to_hex(string bin)
         {
             Console.WriteLine(bin);
-            string res = string.Format("{0:X}", Convert.ToInt32(bin, 2));
+            string res = string.Format("{0:X}", Convert.ToInt64(bin, 2));
             return res;
-        }
-
-        void set_num_constant()
-        {
-            int test;
-            opIns_aux = opIns2;
-            if (opIns2.Contains(",X "))
-                opIns_aux = opIns2.Replace(",X ", "");
-            else if (opIns2.Contains(", X "))
-                opIns_aux = opIns2.Replace(",X ", "");
-            else if (opIns2.Contains(",X"))
-                opIns_aux = opIns2.Replace(",X", "");
-            else if (opIns2.Contains(", X"))
-                    opIns_aux = opIns2.Replace(", X", "");
-            opIns_aux = opIns_aux.Replace(" ", "");
-
-            Console.WriteLine(opIns_aux);
-            if (!opIns_aux.Contains(','))
-            {
-                if (!Int32.TryParse(opIns_aux, out test))
-                {
-                        if (opIns_aux.Substring(opIns_aux.Length - 1, 1) == "H" || opIns_aux.Substring(opIns_aux.Length - 1, 1) == "h")
-                        {
-                            num_constant = t.HexToInt(opIns_aux);
-                            if (num_is_constant(num_constant) == 1)
-                                is_constant = true;
-                            else if (num_is_constant(num_constant) == 2)
-                                is_dir_mem = true;
-                        }
-                        else // seria una m verificar si m existe en TABSIM
-                            is_dir_mem = true;
-                }
-                else
-                {
-                    if (num_is_constant(-1) == 1)
-                        is_constant = true;
-                    else if (num_is_constant(-1) == 2)
-                        is_dir_mem = true;
-                }
-            }
-        }
-
-        int extract_number()
-        {
-            opIns_aux += opIns_aux == "" ? opIns2 : "";
-            string directory = Directory.GetCurrentDirectory();
-            string text_tab_sim = File.ReadAllText(directory + "TABSIM.txt");
-            if (text_tab_sim.Contains(opIns_aux.ToString()))
-            {
-                string[] lines_tab_sim = File.ReadAllLines(directory + "TABSIM.txt");
-                foreach (string line in lines_tab_sim)
-                {
-                    if (line.Contains(opIns_aux.ToString()))
-                    {
-                        dir_num_constant = getDirNumConstant(line);
-                        break;
-                    }
-                }
-            }
-            else
-                dir_num_constant = -1;
-            return dir_num_constant;
-        }
-
-        int getDirNumConstant(string line)
-        {
-            string res = "";
-            int indextabsim = 0;
-            while (indextabsim < line.Length)
-            {
-                if (line[indextabsim] == '\t')
-                {
-                    indextabsim++;
-                    while (indextabsim < line.Length)
-                        res += line[indextabsim++].ToString();
-                }
-                indextabsim++;
-            }
-            return Convert.ToInt32(res, 16);
         }
 
         void set_flag()
@@ -339,7 +277,7 @@ namespace Calculadora
             calculate_ta(x);
 
             Console.WriteLine("n\ti\tx\tb\tp\te");
-            string flags = "";
+            flags = "";
             flags += n ? '1' : '0';
             flags += "\t";
             flags += i ? '1' : '0';
@@ -353,15 +291,180 @@ namespace Calculadora
             flags += e ? '1' : '0';
             flags += "\n";
             Console.WriteLine(flags);
+            flags = flags.Replace("\t", "");
+            flags = flags.Replace("\n", "");
+            flags = flags.Replace(" ", "");
+            string ta_f4 = "";
+            if (e)
+            {
+                if(ta_calculate != -10000 && !is_error_step2)
+                {
+                    ta_f4 = Convert.ToString(ta_calculate, 2);
+                    ta_f4 = number_5_bytes(ta_f4);
+                    object_code = codop + flags + ta_f4;
+                    object_code = binary_to_hex(object_code);
+                }else
+                {
+                    if (is_error_step2)
+                    {
+                        object_code = codop + flags + object_code;
+                        object_code = binary_to_hex(object_code);
+                    }
+                    //error de algo por que en el calculo de TA no salio nada
+                }
+            }
+            else
+            {
+                if(ta_calculate != -10000 && !is_error_step2)
+                {
+                    ta_f4 = Convert.ToString(ta_calculate, 2);
+                    ta_f4 = number_3_bytes(ta_f4);
+                    object_code = codop + flags + ta_f4;
+                    object_code = binary_to_hex(object_code);
+                }else
+                {
+                    if (is_error_step2)
+                    {
+                        object_code = codop + flags + object_code;
+                        object_code = binary_to_hex(object_code);
+                    }
+                    // un error por que no hay nada en ta_calculate
+                }
+                
+            }
+        }
+
+        void set_num_constant()
+        {
+            int test;
+            opIns_aux = opIns2;
+            if (opIns2.Contains(",X "))
+                opIns_aux = opIns2.Replace(",X ", "");
+            else if (opIns2.Contains(", X "))
+                opIns_aux = opIns2.Replace(",X ", "");
+            else if (opIns2.Contains(",X"))
+                opIns_aux = opIns2.Replace(",X", "");
+            else if (opIns2.Contains(", X"))
+                opIns_aux = opIns2.Replace(", X", "");
+            opIns_aux = opIns_aux.Replace(" ", "");
+
+            Console.WriteLine(opIns_aux);
+            if (!opIns_aux.Contains(','))
+            {
+                if (!Int32.TryParse(opIns_aux, out test))
+                {
+                    if (opIns_aux.Substring(opIns_aux.Length - 1, 1) == "H" || opIns_aux.Substring(opIns_aux.Length - 1, 1) == "h")
+                    {
+                        num_constant = t.HexToInt(opIns_aux);
+                        if (num_is_constant(num_constant) == 1)
+                            is_constant = true;
+                        else if (num_is_constant(num_constant) == 2)
+                            is_dir_mem = true;
+                    }
+                    else // seria una m verificar si m existe en TABSIM
+                        is_dir_mem = true;
+                }
+                else
+                {
+                    if (num_is_constant(-1) == 1)
+                        is_constant = true;
+                    else if (num_is_constant(-1) == 2)
+                        is_dir_mem = true;
+                    else if (num_is_constant(-1) == 0)
+                        is_out_range = true;
+                }
+            }
+        }
+
+        int extract_number()
+        {
+            opIns_aux += opIns_aux == "" ? opIns2 : "";
+            string directory = Directory.GetCurrentDirectory();
+            string text_tab_sim = File.ReadAllText(directory + "TABSIM.txt");
+            if (text_tab_sim.Contains(opIns_aux.ToString()))
+            {
+                string[] lines_tab_sim = File.ReadAllLines(directory + "TABSIM.txt");
+                foreach (string line in lines_tab_sim)
+                {
+                    if (line.Contains(opIns_aux.ToString()))
+                    {
+                        dir_num_constant = getDirNumConstant(line);
+                        break;
+                    }
+                }
+            }
+            else
+                dir_num_constant = -1;
+            return dir_num_constant;
+        }
+        string number_3_bytes(string binary)
+        {
+            string res = "";
+            if (binary.Length > 12)   // desplazamiento = C2 o numero negativo FFFFFFC2   1111 1111 1111 1100 0010
+            {
+                int count_aux = binary.Length - 12;
+                for (int i = count_aux; i < binary.Length; i++)
+                    res += binary.Substring(i, 1);
+            }
+            else                         // 1100 0010
+            {
+                string plus = "";
+                for (int i = binary.Length ; i < 12; i++)
+                    plus += "0";
+                res = plus + binary;  // 0000 1100 0010
+            }
+
+            return res;
+        }
+        string number_5_bytes(string binary)
+        {
+            string res = "";
+            if (binary.Length > 20)
+            {
+                int count_aux = binary.Length - 20;
+                for (int i = count_aux - 1; i < binary.Length; i++)
+                    res += binary.Substring(i, 1);
+            }
+            else
+            {
+                string plus = "";
+                for (int i = binary.Length; i < 20; i++)
+                    plus += "0";
+                res = plus + binary;
+            }
+            return res;
+        }
+
+        int getDirNumConstant(string line)
+        {
+            string res = "";
+            int indextabsim = 0;
+            while (indextabsim < line.Length)
+            {
+                if (line[indextabsim] == '\t')
+                {
+                    indextabsim++;
+                    while (indextabsim < line.Length)
+                        res += line[indextabsim++].ToString();
+                }
+                indextabsim++;
+            }
+            return Convert.ToInt32(res, 16);
         }
 
         void calculate_ta(bool x)
         {
             codop = what_ins_is();
             Console.WriteLine(codop);
-            int ta_calculate = 0;
+            ta_calculate = -10000;
             int ta_calculate_aux = 0;
-            if (x)
+            if(is_out_range)
+            {
+                b = p = is_error_step2 = true;
+                object_code = "111111111111";
+                error += "Operando fuera de rango.";
+            }
+            else if (x)
             {
                 if (e) // TA -> dir + (X)
                 {
@@ -374,6 +477,9 @@ namespace Calculadora
                                 ta_calculate = extract_number() - 0;
                             }else
                             {
+                                b = p = is_error_step2 = true;
+                                object_code = "11111111111111111111";
+                                error += "Simbolo no encontrado en TABSIM.";
                                // error : Simbolo no encontrado en TABSIM
                             }
                             //opIns_aux tiene el simbolo
@@ -385,22 +491,22 @@ namespace Calculadora
                         }
                     }else
                     {
+                        b = p = is_error_step2 = true;
+                        object_code = "11111111111111111111";
+                        error += "Modo de direccionamiento no existe.";
                         //es error : deberia de ser una m sin embargo tiene una c en m,X
                     }
                 }else if (is_constant) //c,X    TA->desp + X
-                {
                     ta_calculate = num_constant - 0;
-                }
-                else if (is_dir_mem)
+                else if (is_dir_mem) // m,X 
                 {
                     if (num_constant == 0)
                     {
-                        ta_calculate = extract_number(); // obtiene el valor de TABSIM
-                        if(ta_calculate != -1)
+                        if(extract_number() != -1)
                         {
-                            ta_calculate_aux = ta_calculate - cp_next - 0;
+                            ta_calculate_aux = extract_number() - cp_next - 0;
                             // TA -> CP + desp + X
-                            if (ta_calculate_aux > -2049 && ta_calculate_aux < 2049)
+                            if (ta_calculate_aux > -2049 && ta_calculate_aux < 2048)
                             {
                                 p = true;
                                 b = false;
@@ -412,32 +518,105 @@ namespace Calculadora
                                 {
                                     if (base_value != -1)
                                     {
-                                        ta_calculate_aux = ta_calculate - base_value - 0;
+                                        ta_calculate_aux = extract_number() - base_value - 0;
                                         if (ta_calculate_aux >= 0 && ta_calculate_aux <= 4095)
                                         {
                                             b = true;
                                             p = false;
                                             ta_calculate = ta_calculate_aux;
+                                        }else
+                                        {
+                                            b = p = is_error_step2 = true;
+                                            object_code = "111111111111";
+                                            error += "La instruccion no es relativa al contador (CP) o a la base (B).";
                                         }
                                     }
                                     else
                                     {
-                                        //Error: Simbolo no encontrado en TABSIM
+                                        b = p = is_error_step2 = true;
+                                        object_code = "111111111111";
+                                        error += "Simbolo de la base no encontrado en TABSIM.";
+                                        // Error: Base no definida
+
                                     }
-                                }else
+                                }
+                                else
                                 {
+                                    b = p = is_error_step2 = true;
+                                    object_code = "111111111111";
+                                    error += "La instruccion no es relativa al contador (CP) o a la base (B).";
                                     // Error: Base no definida
                                 }
-                                // probar con la base
                             }
-                           
+
+                        }
+                        else
+                        {
+                            // Simbolo no esta definido en TABSIM
+                            b = p = is_error_step2 = true;
+                            object_code = "111111111111";
+                            error += "Simbolo no encontrado en TABSIM.";
                         }
 
                     }
                     else
                     {
+                        ta_calculate = num_constant;
+                        ta_calculate_aux = ta_calculate - cp_next - 0;
+                        // TA -> CP + desp + X
+                        if (ta_calculate_aux > -2049 && ta_calculate_aux < 2048)
+                        {
+                            p = true;
+                            b = false;
+                            ta_calculate = ta_calculate_aux;
+                        }
+                        else //m,X TA -> B+desp+X
+                        {
+                            if (base_value != -2)
+                            {
+                                if (base_value != -1)
+                                {
+                                    ta_calculate_aux = ta_calculate - base_value - 0;
+                                    if (ta_calculate_aux >= 0 && ta_calculate_aux <= 4095)
+                                    {
+                                        b = true;
+                                        p = false;
+                                        ta_calculate = ta_calculate_aux;
+                                    }
+                                    else
+                                    {
+                                        b = p = is_error_step2 = true;
+                                        object_code = "111111111111";
+                                        error += "La instruccion no es relativa al contador (CP) o a la base (B).";
+                                    }
+                                }
+                                else
+                                {
+                                    b = p = is_error_step2 = true;
+                                    object_code = "111111111111";
+                                    error += "Simbolo de la base no encontrado en TABSIM.";
+                                    // Error: Base no definida
+
+                                }
+                            }
+                            else
+                            {
+                                b = p = is_error_step2 = true;
+                                object_code = "111111111111";
+                                error += "La instruccion no es relativa al contador (CP) o a la base (B).";
+                                // Error: Base no definida
+                            }
+                        }
+                        ta_calculate = num_constant;
                         //num_constant es nla dir_mem mayor a 4095
                     }
+                }
+                else 
+                {
+                    b = p = is_error_step2 = true;
+                    object_code = "11111111111111111111";
+                    error += "Modo de direccionamiento no existe.";
+                    //es error : deberia de ser una m sin embargo tiene una c en m,X
                 }
             }
             else if(e)
@@ -445,6 +624,9 @@ namespace Calculadora
                 if (is_constant) //
                 {
                     //Error: No hay instruccion extendida con c
+                    b = p = is_error_step2 = true;
+                    object_code = "11111111111111111111";
+                    error += "Modo de direccionamiento no existe.";
                 }
                 else if (is_dir_mem)
                 {
@@ -457,6 +639,9 @@ namespace Calculadora
                         else
                         {
                             // Error: simbolo no encontrado en tabsim
+                            b = p = is_error_step2 = true;
+                            object_code = "11111111111111111111";
+                            error += "Simbolo no encontrado en TABSIM.";
                         }
                         //opIns_aux tiene el simbolo
                     }
@@ -465,6 +650,13 @@ namespace Calculadora
                         ta_calculate = num_constant;
                         //num_constant es nla dir_mem mayor a 4095
                     }
+                }
+                else
+                {
+                    b = p = is_error_step2 = true;
+                    object_code = "11111111111111111111";
+                    error += "Modo de direccionamiento no existe.";
+                    //es error : deberia de ser una m sin embargo tiene una c en m,X
                 }
             }
             else
@@ -478,53 +670,64 @@ namespace Calculadora
                 {
                     if (num_constant == 0)
                     {
-                        ta_calculate = extract_number(); // obtiene el valor de TABSIM
-                        if (ta_calculate != -1)
+                        if (extract_number() != -1)
                         {
-                            ta_calculate_aux = ta_calculate - cp_next;
+                            ta_calculate_aux = extract_number() - cp_next;
                             // TA -> CP + desp
-                            if (ta_calculate_aux > -2049 && ta_calculate_aux < 2049)
+                            if (ta_calculate_aux > -2049 && ta_calculate_aux < 2048)
                             {
                                 p = true;
                                 b = false;
                                 ta_calculate = ta_calculate_aux;
                             }
-                            else //m,X TA -> B+desp
+                            else //m TA -> B+desp
                             {
                                 if (base_value != -2)
                                 {
                                     if (base_value != -1)
                                     {
-                                        ta_calculate_aux = ta_calculate - base_value;
+                                        ta_calculate_aux = extract_number() - base_value;
                                         if (ta_calculate_aux >= 0 && ta_calculate_aux <= 4095)
                                         {
                                             b = true;
                                             p = false;
                                             ta_calculate = ta_calculate_aux;
+                                        }else
+                                        {
+                                            b = p = is_error_step2 = true;
+                                            object_code = "111111111111";
+                                            error += "La instruccion no es relativa al contador (CP) o a la base (B).";
                                         }
                                     }
                                     else
                                     {
-                                        //Error: o no hay base o el simbolo no fue encontrado en TABSIM
+                                        b = p = is_error_step2 = true;
+                                        object_code = "111111111111";
+                                        error += "Simbolo de la base no encontrado en TABSIM.";
+                                        //Error:El simbolo no fue encontrado en TABSIM
                                     }
                                 }
                                 else
                                 {
+                                    b = p = is_error_step2 = true;
+                                    object_code = "111111111111";
+                                    error += "La instruccion no es relativa al contador (CP) o a la base (B).";
                                     // Error: Base no definida
                                 }
-
-
                             }
-
+                        }else
+                        {
+                            b = p = is_error_step2 = true;
+                            object_code = "111111111111";
+                            error += "Simbolo no encontrado en TABSIM.";
+                            //Error:El simbolo no fue encontrado en TABSIM
                         }
-
                     }
                     else
-                    {
-                        ta_calculate = num_constant;
-                        ta_calculate_aux = ta_calculate - cp_next;
+                    { 
+                        ta_calculate_aux = num_constant - cp_next;
                         // TA -> CP + desp
-                        if (ta_calculate_aux > -2049 && ta_calculate_aux < 2049)
+                        if (ta_calculate_aux > -2049 && ta_calculate_aux < 2048)
                         {
                             p = true;
                             b = false;
@@ -536,31 +739,46 @@ namespace Calculadora
                             {
                                 if (base_value != -1)
                                 {
-                                    ta_calculate_aux = ta_calculate - base_value;
+                                    ta_calculate_aux = num_constant - base_value;
                                     if (ta_calculate_aux >= 0 && ta_calculate_aux <= 4095)
                                     {
                                         b = true;
                                         p = false;
                                         ta_calculate = ta_calculate_aux;
+                                    }else
+                                    {
+                                        b = p = is_error_step2 = true;
+                                        object_code = "111111111111";
+                                        error += "La instruccion no es relativa al contador (CP) o a la base (B).";
                                     }
                                 }
                                 else
                                 {
+                                    b = p = is_error_step2 = true;
+                                    object_code = "111111111111";
+                                    error += "Simbolo de la base no encontrado en TABSIM.";
                                     //Error: o no hay base o el simbolo no fue encontrado en TABSIM
                                 }
                             }
                             else
                             {
+                                b = p = is_error_step2 = true;
+                                object_code = "111111111111";
+                                error += "La instruccion no es relativa al contador (CP) o a la base (B).";
                                 // Error: Base no definida
                             }
-                            // probar con la base
                         }
                     }
                 }
+                else
+                {
+                    b = p = is_error_step2 = true;
+                    object_code = "111111111111";
+                    error += "Modo de direccionamiento no existe.";
+                    //es error : deberia de ser una m sin embargo tiene una c en m,X
+                }
             }
-
             Console.WriteLine(ta_calculate);
-
         }
 
         string what_register_is()
@@ -751,9 +969,6 @@ namespace Calculadora
                 case "RD":
                     res = RD;
                     break;
-                case "RSUB":
-                    res = RSUB;
-                    break;
                 case "SSK":
                     res = SSK;
                     break;
@@ -839,9 +1054,11 @@ namespace Calculadora
             while (line[iterator] != '\t')
                 res += line[iterator++].ToString();
             iterator++;
-            res = res.Contains("*") ? res.Remove(res.Length - 1) : res;
             is_error = res.Contains("*") ? true : false;
-            return t.HexToIntWithOutH(res);
+            res = res.Contains("*") ? res.Remove(res.Length - 1) : res;
+            int resHex = t.HexToIntWithOutH(res);
+            diferent_previous_cp = cp != resHex ? true : false;
+            return resHex;
         }
 
         string getLabel(string line)
@@ -877,7 +1094,6 @@ namespace Calculadora
             while (line[j] != '\t')
                 res += line[j++].ToString();
             res = res.Contains("*") ? res.Remove(res.Length - 1) : res;
-            is_error = res.Contains("*") ? true : false;
             return t.HexToIntWithOutH(res);
         }
 
