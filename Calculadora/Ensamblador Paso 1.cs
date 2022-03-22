@@ -14,7 +14,6 @@ namespace Calculadora
         public static Ensamblador_Paso_1 INSTANCE = new Ensamblador_Paso_1();
         Tools tool = new Tools();
         int CP = 0;
-        int lastCP;
         int linea = 1;
         bool repeatedSymbol = false;
         bool inst1 = false;
@@ -68,35 +67,39 @@ namespace Calculadora
             {
                 if (inst1)
                 {
-                    String line = tool.StrToIntToHex(CP.ToString()) + "*" + "    " + label + "    " + ins + "    " + error;
+                    String line = linea.ToString("D3") + "\t" + tool.StrToIntToHex(CP.ToString()).PadLeft(5, '0') + "*" + "\t" + label + "\t" + ins + "\t" + error;
                     string directory = Directory.GetCurrentDirectory();
                     using (StreamWriter file = new StreamWriter(directory + "ArchivoIntermedio.txt", true))
                     {
                         file.WriteLine(line);
                     }
-                }else if(inst2)
+                    linea++;
+                }
+                else if(inst2)
                 {
-                    String line = tool.StrToIntToHex(CP.ToString()) + "*"  + "   "+ error;
+                    String line = linea.ToString("D3") + "\t" + tool.StrToIntToHex(CP.ToString()) + "*" + "\t" + error;
                     string directory = Directory.GetCurrentDirectory();
                     using (StreamWriter file = new StreamWriter(directory + "ArchivoIntermedio.txt", true))
                     {
                         file.WriteLine(line);
                     }
+                    linea++;
                 }
                 else if (inst3)
                 {
-                    String line = tool.StrToIntToHex(CP.ToString()) + "*" + "   " + error;
+                    String line = linea.ToString("D3") + "\t" + tool.StrToIntToHex(CP.ToString()) + "*" + "\t" + error;
                     string directory = Directory.GetCurrentDirectory();
                     using (StreamWriter file = new StreamWriter(directory + "ArchivoIntermedio.txt", true))
                     {
                         file.WriteLine(line);
                     }
+                    linea++;
                 }
                 else
                 {
                     if(is_byte)
                     {
-                        byte_error = tool.StrToIntToHex(CP.ToString()) + "*\t" + byte_error;
+                        byte_error = linea.ToString("D3") + "\t" + tool.StrToIntToHex(CP.ToString()) + "*\t" + byte_error; byte_error = tool.StrToIntToHex(CP.ToString()) + "*\t" + byte_error;
                         byte_error = byte_error.Replace("\n", "");
                         string directory = Directory.GetCurrentDirectory();
                         using (StreamWriter file = new StreamWriter(directory + "ArchivoIntermedio.txt", true))
@@ -104,6 +107,7 @@ namespace Calculadora
                             file.WriteLine(byte_error);
                         }
                         is_byte = false;
+                        linea++;
                     }
                     else
                     {
@@ -113,12 +117,13 @@ namespace Calculadora
                         }
                         else
                         {
-                            error = tool.StrToIntToHex(CP.ToString()) + "*\t" + error;
+                            error = linea.ToString("D3") + "\t" + tool.StrToIntToHex(CP.ToString()) + "*\t" + error;
                             string directory = Directory.GetCurrentDirectory();
                             using (StreamWriter file = new StreamWriter(directory + "ArchivoIntermedio.txt", true))
                             {
                                 file.WriteLine(error);
                             }
+                            linea++;
                         }
                         
                     }

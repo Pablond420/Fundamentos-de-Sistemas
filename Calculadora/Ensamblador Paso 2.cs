@@ -106,7 +106,6 @@ namespace Calculadora
                         }
                         t.WriteFileObj(linea, t.StrToIntToHex(cp.ToString()), label, ins, opIns, cod_Obj);
                     }
-
                 }
                 else if (ins == "BASE" || ins == "BASE ")
                 {
