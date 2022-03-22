@@ -1,5 +1,6 @@
-LOOP     3
-COUNT     19
-TABLE    2D
-TABLE2     4B
+SIMBOLO 	0
+NUMERO 	B
+DECIMAL 	E
+INICIO 	40
+CICLO 	4B
  *Tamaño del programa:   52H
