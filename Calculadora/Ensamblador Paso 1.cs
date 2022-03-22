@@ -14,7 +14,6 @@ namespace Calculadora
         public static Ensamblador_Paso_1 INSTANCE = new Ensamblador_Paso_1();
         Tools tool = new Tools();
         int CP = 0;
-        int lastCP;
         int linea = 1;
         bool repeatedSymbol = false;
         bool inst1 = false;
@@ -75,9 +74,10 @@ namespace Calculadora
                         file.WriteLine(line);
                     }
                     linea++;
-                }else if(inst2)
+                }
+                else if(inst2)
                 {
-                    String line = linea.ToString("D3") + "\t" + tool.StrToIntToHex(CP.ToString()) + "*"  + "\t"+ error;
+                    String line = linea.ToString("D3") + "\t" + tool.StrToIntToHex(CP.ToString()) + "*" + "\t" + error;
                     string directory = Directory.GetCurrentDirectory();
                     using (StreamWriter file = new StreamWriter(directory + "ArchivoIntermedio.txt", true))
                     {
@@ -99,7 +99,7 @@ namespace Calculadora
                 {
                     if(is_byte)
                     {
-                        byte_error = linea.ToString("D3") + "\t" + tool.StrToIntToHex(CP.ToString()) + "*\t" + byte_error;
+                        byte_error = linea.ToString("D3") + "\t" + tool.StrToIntToHex(CP.ToString()) + "*\t" + byte_error; byte_error = tool.StrToIntToHex(CP.ToString()) + "*\t" + byte_error;
                         byte_error = byte_error.Replace("\n", "");
                         string directory = Directory.GetCurrentDirectory();
                         using (StreamWriter file = new StreamWriter(directory + "ArchivoIntermedio.txt", true))
