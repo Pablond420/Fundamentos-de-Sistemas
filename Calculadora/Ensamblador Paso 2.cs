@@ -9,7 +9,6 @@ namespace Calculadora
 {
     public class Ensamblador_Paso_2
     {
-        public static Ensamblador_Paso_2 INSTANCE = new Ensamblador_Paso_2();
         Tools t = new Tools();
         int cp, index = 0;
         int iterator = 0;
@@ -33,10 +32,23 @@ namespace Calculadora
         string flags = "";
         string object_code = "";
         string opIns_aux = "";
+        static string name_programa = "";
         String label = "";
         String error = "Error : ";
         String ins = "";
         String opIns, opIns2= "";
+        String reg_H = "";
+        String reg_T = "";
+        String reg_M = "";
+        String reg_E = "";
+        Programa_Objeto obj;
+
+        public static Ensamblador_Paso_2 INSTANCE = new Ensamblador_Paso_2();
+
+        public static void setName(string name)
+        {
+            name_programa = name;
+        }
 
         public const string ADD = "000110", ADDF = "010110", AND = "100100", COMP = "001010", COMPF = "100010", DIV = "001001", DIVF = "011001"
             , J = "001111", JEQ = "001100", JGT = "001101", JLT = "001110", JSUB = "010010", LDA = "000000", LDB = "011010", LDCH = "010100",
@@ -61,7 +73,21 @@ namespace Calculadora
                 deformatLine(text[index]);
                 if(ins == "START" || ins == "RESW" || ins == "RESB" || ins == "ORG" || ins == "END" || ins == "EQU" || ins == "START " || ins == "RESW " || ins == "RESB " || ins == "ORG " || ins == "END " || ins == "EQU ")
                 {
-                    t.WriteFileObj(linea, t.StrToIntToHex(cp.ToString()), label, ins, opIns, "----");
+                    if(ins == "START" || ins == "START ")
+                    {
+                        obj = new Programa_Objeto(name_programa, opIns);
+                    }
+                    if (ins == "END" || ins == "END ")
+                    {
+                        if (opIns == "")
+                            obj.setEndRegister("000000", t.StrToIntToHex(cp.ToString()));
+                        else if (extract_number() == -1)
+                            obj.setEndRegister("FFFFFF", t.StrToIntToHex(cp.ToString()));
+                        else if (extract_number() != -1)
+                            obj.setEndRegister(t.StrToIntToHex(dir_num_constant.ToString()), t.StrToIntToHex(cp.ToString()));
+                        obj.WriteFileObjProg();
+                    }
+                    WriteFileObj(linea, t.StrToIntToHex(cp.ToString()), label, ins, opIns, "----");
                 }
                 else if (ins == "WORD" || ins == "WORD ")
                 {
@@ -80,7 +106,8 @@ namespace Calculadora
                             codObj = num.ToString("X");
                         }
                     }
-                    t.WriteFileObj(linea, t.StrToIntToHex(cp.ToString()), label, ins, opIns, codObj.PadLeft(6, '0'));
+                    codObj = codObj.PadLeft(6, '0');
+                    WriteFileObj(linea, t.StrToIntToHex(cp.ToString()), label, ins, opIns, codObj);
                 }
                 else if (ins == "BYTE" || ins == "BYTE ")
                 {
@@ -91,7 +118,7 @@ namespace Calculadora
                         string codObje2 = codObje.Remove(codObje.Length - 1, 1);
                         if(codObje2.Length % 2 != 0)
                             codObje2 = codObje2.PadLeft(codObje2.Length + 1, '0');
-                        t.WriteFileObj(linea, t.StrToIntToHex(cp.ToString()), label, ins, opIns, codObje2);
+                        WriteFileObj(linea, t.StrToIntToHex(cp.ToString()), label, ins, opIns, codObje2);
                     }
                     else if (opIns.Contains("C"))
                     {
@@ -104,14 +131,14 @@ namespace Calculadora
                             int ascii_int = (int)ch;
                             cod_Obj += t.StrToIntToHex(ascii_int.ToString());
                         }
-                        t.WriteFileObj(linea, t.StrToIntToHex(cp.ToString()), label, ins, opIns, cod_Obj);
+                        WriteFileObj(linea, t.StrToIntToHex(cp.ToString()), label, ins, opIns, cod_Obj);
                     }
                 }
                 else if (ins == "BASE" || ins == "BASE ")
                 {
                     opIns2 = opIns;
                     base_value = extract_number();
-                    t.WriteFileObj(linea, t.StrToIntToHex(cp.ToString()), label, ins, opIns, "----");
+                    WriteFileObj(linea, t.StrToIntToHex(cp.ToString()), label, ins, opIns, "----");
                 }
                 else
                 {                    
@@ -138,7 +165,7 @@ namespace Calculadora
                         }
                         if (ins == "RSUB" || ins == "RSUB ")
                             object_code = "4F0000";
-                        t.WriteFileObj(linea, t.StrToIntToHex(cp.ToString()), label, ins, opIns, object_code);
+                        WriteFileObj(linea, t.StrToIntToHex(cp.ToString()), label, ins, opIns, object_code);
                     }
                 }
                 Console.WriteLine(object_code);
@@ -1096,6 +1123,24 @@ namespace Calculadora
             return t.HexToIntWithOutH(res);
         }
 
+        public void WriteFileObj(int linea, String cp, String label, String instruc, String op, String codObj)
+        {
 
+            String line = linea.ToString() + "\t" + (cp.Contains("*") ? cp.PadLeft(5, '0') : cp.PadLeft(4, '0')) + "\t" + label + "\t" + instruc + "\t" + op + "\t" + codObj;
+            string directory = Directory.GetCurrentDirectory();
+            using (StreamWriter file = new StreamWriter(directory + "ArchivoIntermedioCodObj.txt", true))
+            {
+                file.WriteLine(line);
+            }
+            linea++;
+            if ((ins == "RESB" || ins == "RESB " || ins == "RESW" || ins == "RESW ") && obj.countTextReg() > 0)
+                obj.setLastToClosed();
+            if (codObj != "----")
+                obj.addCodObj(cp, codObj, false, null);
+            if (codObj.Contains("*") && e)
+                obj.addCodObj(cp, codObj, true, t.StrToIntToHex((t.HexToIntWithOutH(cp) + 1).ToString()));
+            else if (codObj.Contains("*") && !e)
+                obj.addCodObj(cp, codObj, true, codObj.Length.ToString());
+        }
     }
 }

@@ -303,7 +303,7 @@ namespace Calculadora
             ins = "END";
             opIns = context.entrada().GetText();
             WriteFile(tool.StrToIntToHex(CP.ToString()), label, ins, opIns);
-            String line =  " *Tamaño del programa:   " + tool.StrToIntToHex(CP.ToString()) + "H";
+            String line =  "*Tamaño del programa: " + tool.StrToIntToHex(CP.ToString()) + "H";
             string directory = Directory.GetCurrentDirectory();
             using (StreamWriter file = new StreamWriter(directory + "TABSIM.txt", true))
             {
