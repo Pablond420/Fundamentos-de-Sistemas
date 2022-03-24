@@ -34,7 +34,7 @@ namespace Calculadora
         string opIns_aux = "";
         static string name_programa = "";
         String label = "";
-        String error = "Error : ";
+        String error = "";
         String ins = "";
         String opIns, opIns2= "";
         String reg_H = "";
@@ -87,7 +87,7 @@ namespace Calculadora
                             obj.setEndRegister(t.StrToIntToHex(dir_num_constant.ToString()), t.StrToIntToHex(cp.ToString()));
                         obj.WriteFileObjProg();
                     }
-                    WriteFileObj(linea, t.StrToIntToHex(cp.ToString()), label, ins, opIns, "----");
+                    WriteFileObj(linea, t.StrToIntToHex(cp.ToString()), label, ins, opIns, "----", error);
                 }
                 else if (ins == "WORD" || ins == "WORD ")
                 {
@@ -107,7 +107,7 @@ namespace Calculadora
                         }
                     }
                     codObj = codObj.PadLeft(6, '0');
-                    WriteFileObj(linea, t.StrToIntToHex(cp.ToString()), label, ins, opIns, codObj);
+                    WriteFileObj(linea, t.StrToIntToHex(cp.ToString()), label, ins, opIns, codObj, error);
                 }
                 else if (ins == "BYTE" || ins == "BYTE ")
                 {
@@ -118,7 +118,7 @@ namespace Calculadora
                         string codObje2 = codObje.Remove(codObje.Length - 1, 1);
                         if(codObje2.Length % 2 != 0)
                             codObje2 = codObje2.PadLeft(codObje2.Length + 1, '0');
-                        WriteFileObj(linea, t.StrToIntToHex(cp.ToString()), label, ins, opIns, codObje2);
+                        WriteFileObj(linea, t.StrToIntToHex(cp.ToString()), label, ins, opIns, codObje2, error);
                     }
                     else if (opIns.Contains("C"))
                     {
@@ -131,14 +131,14 @@ namespace Calculadora
                             int ascii_int = (int)ch;
                             cod_Obj += t.StrToIntToHex(ascii_int.ToString());
                         }
-                        WriteFileObj(linea, t.StrToIntToHex(cp.ToString()), label, ins, opIns, cod_Obj);
+                        WriteFileObj(linea, t.StrToIntToHex(cp.ToString()), label, ins, opIns, cod_Obj, error);
                     }
                 }
                 else if (ins == "BASE" || ins == "BASE ")
                 {
                     opIns2 = opIns;
                     base_value = extract_number();
-                    WriteFileObj(linea, t.StrToIntToHex(cp.ToString()), label, ins, opIns, "----");
+                    WriteFileObj(linea, t.StrToIntToHex(cp.ToString()), label, ins, opIns, "----", error);
                 }
                 else
                 {                    
@@ -165,12 +165,12 @@ namespace Calculadora
                         }
                         if (ins == "RSUB" || ins == "RSUB ")
                             object_code = "4F0000";
-                        WriteFileObj(linea, t.StrToIntToHex(cp.ToString()), label, ins, opIns, object_code);
+                        WriteFileObj(linea, t.StrToIntToHex(cp.ToString()), label, ins, opIns, object_code, error);
                     }
                 }
                 Console.WriteLine(object_code);
                 iterator = 0;
-                error = "Error : ";
+                error = "";
                 index++;
                 is_constant = false;
                 diferent_previous_cp = false;
@@ -1123,15 +1123,37 @@ namespace Calculadora
             return t.HexToIntWithOutH(res);
         }
 
-        public void WriteFileObj(int linea, String cp, String label, String instruc, String op, String codObj)
+        public void WriteFileObj(int linea, String cp, String label, String instruc, String op, String codObj, String error)
         {
-
-            String line = linea.ToString() + "\t" + (cp.Contains("*") ? cp.PadLeft(5, '0') : cp.PadLeft(4, '0')) + "\t" + label + "\t" + instruc + "\t" + op + "\t" + codObj;
+            String line = "";
             string directory = Directory.GetCurrentDirectory();
-            using (StreamWriter file = new StreamWriter(directory + "ArchivoIntermedioCodObj.txt", true))
+            if (error != "")
             {
-                file.WriteLine(line);
+                using (StreamWriter file = new StreamWriter(directory + "Errores.err", true))
+                {
+                    line = "'"+name_programa+ "'" + "Error | linea " + linea + ": " + error;
+                    file.WriteLine(line);
+                }
+                string correct_format_err = (codObj.Length >= 8) ? ("\t" + "Error: " + error) : ("\t\t" + "Error: " + error);
+                string correct_format_op = (op.Length >= 8) ? ("\t" + op + "\t" + codObj + correct_format_err) : ("\t" + op + "\t\t" + codObj + correct_format_err);
+                line = linea.ToString() + "\t" + (cp.Contains("*") ? cp.PadLeft(5, '0') : cp.PadLeft(4, '0')) + "\t" + label + "\t" + instruc + correct_format_op;
+                //String line2 = new String(format, linea.ToString(), (cp.Contains("*") ? cp.PadLeft(5, '0') : cp.PadLeft(4, '0')), label, instruc, op, codObj, error);
+                using (StreamWriter file = new StreamWriter(directory + "ArchivoIntermedioCodObj.txt", true))
+                {
+                    file.WriteLine(line);
+                }
             }
+            else
+            {
+                string correct_format_op = (op.Length >= 8) ? ("\t" + op + "\t" + codObj + "\t\t") : ("\t" + op + "\t\t" + codObj);
+                line = linea.ToString() + "\t" + (cp.Contains("*") ? cp.PadLeft(5, '0') : cp.PadLeft(4, '0')) + "\t" + label + "\t" + instruc + correct_format_op;
+                using (StreamWriter file = new StreamWriter(directory + "ArchivoIntermedioCodObj.txt", true))
+                {
+                    file.WriteLine(line);
+                }
+            }
+            
+            
             linea++;
             if ((ins == "RESB" || ins == "RESB " || ins == "RESW" || ins == "RESW ") && obj.countTextReg() > 0)
                 obj.setLastToClosed();
