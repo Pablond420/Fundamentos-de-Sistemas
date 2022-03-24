@@ -140,6 +140,28 @@ namespace Calculadora
                     base_value = extract_number();
                     WriteFileObj(linea, t.StrToIntToHex(cp.ToString()), label, ins, opIns, "----", error);
                 }
+                else if (ins == "SHIFTL" || ins == "SHIFTR" )
+                {
+                    reg_alone = opIns.Replace(" ", "");
+                    reg_alone = reg_alone.Substring(0, 1);
+                    object_code = codop + what_register_is();
+                    bool is_comma = false;
+                    reg_alone = "";
+                    for(int i=0; i < opIns.Length; i++)
+                    {
+                        if(is_comma)
+                        {
+                            reg_alone += opIns.Substring(i, 1);
+                        }
+                        if (opIns.Substring(i, 1) == ",")
+                            is_comma = true;
+                    }
+                    reg_alone = reg_alone.Replace(" ", "");
+                    reg_alone = reg_alone.Replace(",", "");
+                    int r2 = t.HexToInt(reg_alone) - 1;
+                    object_code +=  Convert.ToString(r2, 2).PadLeft(4, '0');
+                    object_code = binary_to_hex(object_code);
+                }
                 else
                 {                    
                     if (!is_error ) // y ademas puede ser error pero que sea por simbolo repetido deberia entrar
@@ -195,6 +217,7 @@ namespace Calculadora
             cp = getCP(line);
             label = getLabel(line);
             ins = getInst(line);
+            ins = ins.Replace(" ", "");
             opIns = getOpInst(line);
         }
 
@@ -225,7 +248,7 @@ namespace Calculadora
         {
             bool res = false;
             ins_alone = ins.Replace(" ", "");
-            string ins_text_f2 = "ADDR   CLEAR   COMPR   DIVR   MULR   RMO   SHIFTL SHIFTR   SUBR   SVC   TIXR  ";
+            string ins_text_f2 = "ADDR   CLEAR   COMPR   DIVR   MULR   RMO  SUBR   SVC  TIXR  ";
             if (ins_text_f2.Contains(ins_alone))
                 res = true;
             return res;
