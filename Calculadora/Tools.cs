@@ -49,16 +49,25 @@ namespace Calculadora
             return r;
         }
 
-        public void WriteFileObj(int linea, String cp, String label, String instruc, String op, String codObj)
-        {
 
-            String line = linea.ToString() + "\t" + (cp.Contains("*") ? cp.PadLeft(5, '0') : cp.PadLeft(4, '0')) + "\t" + label + "\t" + instruc + "\t" + op + "\t" + codObj;
+        public void WriteFileProgObj(String reg)
+        {
             string directory = Directory.GetCurrentDirectory();
-            using (StreamWriter file = new StreamWriter(directory + "ArchivoIntermedioCodObj.txt", true))
+            using (StreamWriter file = new StreamWriter(directory + "ArchivoObjeto.obj", true))
             {
-                file.WriteLine(line);
+                file.WriteLine(reg);
             }
-            linea++;
+        }
+
+        public string adjustStringToNBytes(string source, int num_bytes)
+        {
+            string res = "";
+            int diff = num_bytes - source.Length;
+            if(diff < 0)
+                res = source.Remove(0, Math.Abs(diff));
+            else
+                res = source.PadLeft(num_bytes, '0');
+            return res;
         }
     }
 }

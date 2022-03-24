@@ -21,11 +21,14 @@ namespace Calculadora
             File.WriteAllText(directory + "TABSIM.txt", string.Empty);
             File.WriteAllText(directory + "ArchivoIntermedioCodObj.txt", string.Empty);
             File.WriteAllText(directory + "ArchivoIntermedio.txt", string.Empty);
+            File.WriteAllText(directory + "ProgramaObjeto.txt", string.Empty);
             //VARIABLE PARA ALMACENAR LA CADENA DE ENTRADA
             while (true)
             {
                 Console.WriteLine("Introduzca nombre del archivo: ");
                 line = Console.ReadLine();
+                Ensamblador_Paso_2.setName(line);
+                Ensamblador_Paso_1.setName(line);
                 string entrada = File.ReadAllText(line + ".xe");
                 entrada = entrada.Replace("\r", string.Empty);
                 Console.WriteLine(entrada);
