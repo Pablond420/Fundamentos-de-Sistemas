@@ -28,6 +28,7 @@ namespace Calculadora
                 Console.WriteLine("Introduzca nombre del archivo: ");
                 line = Console.ReadLine();
                 Ensamblador_Paso_2.setName(line);
+                Ensamblador_Paso_1.setName(line);
                 string entrada = File.ReadAllText(line + ".xe");
                 entrada = entrada.Replace("\r", string.Empty);
                 Console.WriteLine(entrada);

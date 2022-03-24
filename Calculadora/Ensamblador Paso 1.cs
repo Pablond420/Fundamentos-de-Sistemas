@@ -21,10 +21,16 @@ namespace Calculadora
         bool inst3 = false;
         bool is_byte = false;
         string byte_error = "";
+        static string name_programa = "";
         String label = "";
         String error = "";
         String ins = "";
         String opIns = "";
+
+        public static void setName(string name)
+        {
+            name_programa = name;
+        }
 
         /// <summary>
         /// INICIO
@@ -99,7 +105,8 @@ namespace Calculadora
                 {
                     if(is_byte)
                     {
-                        byte_error = linea.ToString("D3") + "\t" + tool.StrToIntToHex(CP.ToString()) + "*\t" + byte_error; byte_error = tool.StrToIntToHex(CP.ToString()) + "*\t" + byte_error;
+                        byte_error = linea.ToString("D3") + "\t" + tool.StrToIntToHex(CP.ToString()) + "*\t" + byte_error;
+                        byte_error = tool.StrToIntToHex(CP.ToString()) + "*\t" + byte_error;
                         byte_error = byte_error.Replace("\n", "");
                         string directory = Directory.GetCurrentDirectory();
                         using (StreamWriter file = new StreamWriter(directory + "ArchivoIntermedio.txt", true))
@@ -343,12 +350,20 @@ namespace Calculadora
         /// <param name="op"></param>
         public void WriteFile(String cp, String label, String instruc, String op)
         {
-
             String line = linea.ToString("D3") + "\t" + (cp.Contains("*") ? cp.PadLeft(5, '0') :  cp.PadLeft(4, '0')) + "\t" + label + "\t" + instruc + "\t" + op;
             string directory = Directory.GetCurrentDirectory();
             using (StreamWriter file = new StreamWriter(directory + "ArchivoIntermedio.txt", true))
             {
                 file.WriteLine(line);
+            }
+            
+            if (repeatedSymbol && cp.Contains("*"))
+            {
+                line = "'" + name_programa + "'" + "Error | linea " + linea + ": " + "Símbolo duplicado";
+                using (StreamWriter file = new StreamWriter(directory + "Errores.err", true))
+                {
+                    file.WriteLine(line);
+                }
             }
             linea++;
         }
