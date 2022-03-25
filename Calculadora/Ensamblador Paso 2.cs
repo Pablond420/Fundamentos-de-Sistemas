@@ -32,6 +32,7 @@ namespace Calculadora
         string flags = "";
         string object_code = "";
         string opIns_aux = "";
+        string first_exec_dir_inst = "";
         static string name_programa = "";
         String label = "";
         String error = "";
@@ -80,7 +81,7 @@ namespace Calculadora
                     if (ins == "END" || ins == "END ")
                     {
                         if (opIns == "")
-                            obj.setEndRegister("000000", t.StrToIntToHex(cp.ToString()));
+                            obj.setEndRegister(first_exec_dir_inst, t.StrToIntToHex(cp.ToString()));
                         else if (extract_number() == -1)
                             obj.setEndRegister("FFFFFF", t.StrToIntToHex(cp.ToString()));
                         else if (extract_number() != -1)
@@ -161,11 +162,15 @@ namespace Calculadora
                     int r2 = t.HexToInt(reg_alone) - 1;
                     object_code +=  Convert.ToString(r2, 2).PadLeft(4, '0');
                     object_code = binary_to_hex(object_code);
+                    if (first_exec_dir_inst == "")
+                        first_exec_dir_inst = t.StrToIntToHex(cp.ToString());
                 }
                 else
                 {                    
                     if (!is_error ) // y ademas puede ser error pero que sea por simbolo repetido deberia entrar
                     {
+                        if (first_exec_dir_inst == "")
+                            first_exec_dir_inst = t.StrToIntToHex(cp.ToString());
                         if (is_format3_or_format4())
                             set_flag();
                         else if (is_format1())

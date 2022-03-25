@@ -61,8 +61,7 @@ namespace Calculadora
             else
             {
                 string cod = codObj.Remove(codObj.Length - 1);
-                if (this.modification.Count == 0)
-                    modification.Add(new Reg_M(size_modification, "+"));
+                modification.Add(new Reg_M(size_modification, "+"));
                 Reg_M last = this.modification.Last();
                 last.setExternalSymb(name);
                 last.setSize(size_modification);

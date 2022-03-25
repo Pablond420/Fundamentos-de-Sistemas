@@ -1,5 +1,7 @@
-LOOP 	3
-COUNT 	19
-TABLE	2D
-TABLE2 	4B
-*Tamaño del programa: 52H
+NUM 	30
+VALOR 	73
+INICIO 	77
+TEMP 	A7
+CAD 	AD
+TABLA 	B3
+*Tamaño del programa: 30CFH

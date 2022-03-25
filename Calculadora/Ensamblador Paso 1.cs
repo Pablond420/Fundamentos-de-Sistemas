@@ -75,6 +75,11 @@ namespace Calculadora
                 {
                     String line = linea.ToString("D3") + "\t" + tool.StrToIntToHex(CP.ToString()).PadLeft(5, '0') + "*" + "\t" + label + "\t" + ins + "\t" + error;
                     string directory = Directory.GetCurrentDirectory();
+                    line = "'" + name_programa + "'" + "Error | linea " + linea + ": " + "Error de sintaxis";
+                    using (StreamWriter file = new StreamWriter(directory + "Errores.err", true))
+                    {
+                        file.WriteLine(line);
+                    }
                     using (StreamWriter file = new StreamWriter(directory + "ArchivoIntermedio.txt", true))
                     {
                         file.WriteLine(line);
@@ -85,6 +90,11 @@ namespace Calculadora
                 {
                     String line = linea.ToString("D3") + "\t" + tool.StrToIntToHex(CP.ToString()) + "*" + "\t" + error;
                     string directory = Directory.GetCurrentDirectory();
+                    line = "'" + name_programa + "'" + "Error | linea " + linea + ": " + "Error de sintaxis";
+                    using (StreamWriter file = new StreamWriter(directory + "Errores.err", true))
+                    {
+                        file.WriteLine(line);
+                    }
                     using (StreamWriter file = new StreamWriter(directory + "ArchivoIntermedio.txt", true))
                     {
                         file.WriteLine(line);
@@ -95,6 +105,11 @@ namespace Calculadora
                 {
                     String line = linea.ToString("D3") + "\t" + tool.StrToIntToHex(CP.ToString()) + "*" + "\t" + error;
                     string directory = Directory.GetCurrentDirectory();
+                    line = "'" + name_programa + "'" + "Error | linea " + linea + ": " + "Error de sintaxis";
+                    using (StreamWriter file = new StreamWriter(directory + "Errores.err", true))
+                    {
+                        file.WriteLine(line);
+                    }
                     using (StreamWriter file = new StreamWriter(directory + "ArchivoIntermedio.txt", true))
                     {
                         file.WriteLine(line);
@@ -109,6 +124,11 @@ namespace Calculadora
                         byte_error = tool.StrToIntToHex(CP.ToString()) + "*\t" + byte_error;
                         byte_error = byte_error.Replace("\n", "");
                         string directory = Directory.GetCurrentDirectory();
+                        String line = "'" + name_programa + "'" + "Error | linea " + linea + ": " + "Error de sintaxis";
+                        using (StreamWriter file = new StreamWriter(directory + "Errores.err", true))
+                        {
+                            file.WriteLine(line);
+                        }
                         using (StreamWriter file = new StreamWriter(directory + "ArchivoIntermedio.txt", true))
                         {
                             file.WriteLine(byte_error);
@@ -126,6 +146,11 @@ namespace Calculadora
                         {
                             error = linea.ToString("D3") + "\t" + tool.StrToIntToHex(CP.ToString()) + "*\t" + error;
                             string directory = Directory.GetCurrentDirectory();
+                            String line = "'" + name_programa + "'" + "Error | linea " + linea + ": " + "Error de sintaxis";
+                            using (StreamWriter file = new StreamWriter(directory + "Errores.err", true))
+                            {
+                                file.WriteLine(line);
+                            }
                             using (StreamWriter file = new StreamWriter(directory + "ArchivoIntermedio.txt", true))
                             {
                                 file.WriteLine(error);
@@ -156,6 +181,10 @@ namespace Calculadora
                     WriteFile(tool.StrToIntToHex(CP.ToString()), label, ins, opIns);
                 CP += 2;
             }
+            //else
+            //{
+            //    WriteFile(tool.StrToIntToHex(CP.ToString()) + "*", label, ins, opIns);
+            //}
             error = "";
             ins = "";
             opIns = "";
