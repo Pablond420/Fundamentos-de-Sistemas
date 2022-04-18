@@ -21,6 +21,7 @@ namespace Calculadora
             {
                 file.WriteLine("Error del Lexer " + msg + " en la linea: " + line + " en la posición " + charPositionInLine);
             }
+
         }
     }
 

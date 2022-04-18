@@ -1,0 +1,214 @@
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+using System.IO;
+using Antlr4;
+using Antlr4.Runtime;
+
+namespace Calculadora
+{
+    public partial class Interfaz_Grafica : Form
+    {
+        string texto = "";
+        string line = "";
+        string name_program = "";
+        string directory = Directory.GetCurrentDirectory();
+        string entrada = "";
+
+        Tools t = new Tools();
+
+        Gramatica_CalculadoraParser parser;
+
+
+        public Interfaz_Grafica()
+        {
+            InitializeComponent();
+        }
+
+        private void newToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            t.is_newFile = true;
+        }
+
+        private void openToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            dataErrores.Text = "";
+            dataTabSim.Text = "";
+            dataArchInt.Text = "";
+            dataObjProg.Text = "";
+            dataSourceProgram.Text = "";
+
+            this.openFileDialog1 = new OpenFileDialog();
+            this.openFileDialog1.ShowDialog();
+            name_program = openFileDialog1.SafeFileName;
+
+            Ensamblador_Paso_1.setName(name_program);
+            Ensamblador_Paso_2.setName(name_program);
+            line = openFileDialog1.FileName;
+            
+            string[] dataFuente = File.ReadAllLines(line);
+            texto = "\r\n";
+            foreach (string str in dataFuente)
+            {
+                texto += str + "\r\n";
+            }
+            dataSourceProgram.Text = texto;
+
+            entrada = File.ReadAllText(line);
+            entrada = entrada.Replace("\r", string.Empty);
+        }
+
+        private void LexyaccToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            lexyacc();
+
+            string[] _errors = File.ReadAllLines(directory + "Errores.err");
+            t.errors = "\r\n\r\n";
+            foreach (string str in _errors)
+                t.errors += str + "\r\n";
+
+            dataErrores.Text = t.errors;
+        }
+
+        private void paso1ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            string[] _tabsim = File.ReadAllLines(directory + "TABSIM.txt");
+            t.tabsim = "\r\n\r\n";
+            foreach (string str in _tabsim)
+                t.tabsim += str + "\r\n";
+
+            string[] _errors = File.ReadAllLines(directory + "Errores.err");
+            t.errors = "\r\n\r\n";
+            foreach (string str in _errors)
+                t.errors += str + "\r\n";
+
+            string[] _archInterm = File.ReadAllLines(directory + "ArchivoIntermedio.txt");
+            t.arch_intermed= "\r\n\r\n";
+            foreach (string str in _archInterm)
+                t.arch_intermed += str + "\r\n";
+
+            dataErrores.Text = t.errors;
+            dataTabSim.Text = t.tabsim;
+            dataArchInt.Text = t.arch_intermed;
+            paso2ToolStripMenuItem.Enabled = true;
+        }
+
+        private void paso2ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if(dataSourceProgram.Text != "")
+            {
+                paso2();
+
+                string[] _tabsim = File.ReadAllLines(directory + "TABSIM.txt");
+                t.tabsim = "\r\n\r\n";
+                foreach (string str in _tabsim)
+                    t.tabsim += str + "\r\n";
+
+                string[] _errors = File.ReadAllLines(directory + "Errores.err");
+                t.errors = "\r\n\r\n";
+                foreach (string str in _errors)
+                    t.errors += str + "\r\n";
+
+                string[] _archInterm = File.ReadAllLines(directory + "ArchivoIntermedioCodObj.txt");
+                t.arch_intermed = "\r\n\r\n";
+                foreach (string str in _archInterm)
+                    t.arch_intermed += str + "\r\n";
+
+                string[] _progObj = File.ReadAllLines(directory + "ProgramaObjeto.txt");
+                t.object_program = "\r\n\r\n";
+                foreach (string str in _progObj)
+                    t.object_program += str + "\r\n";
+
+                dataErrores.Text = t.errors;
+                dataTabSim.Text = t.tabsim;
+                dataArchInt.Text = t.arch_intermed;
+                dataObjProg.Text = t.object_program;
+            }
+            
+        }
+
+        void resetTextBoxAndFiles()
+        {
+            File.WriteAllText(directory + "Errores.err", string.Empty);
+            File.WriteAllText(directory + "TABSIM.txt", string.Empty);
+            File.WriteAllText(directory + "ArchivoIntermedioCodObj.txt", string.Empty);
+            File.WriteAllText(directory + "ArchivoIntermedio.txt", string.Empty);
+            File.WriteAllText(directory + "ProgramaObjeto.txt", string.Empty);
+
+            t.arch_intermed = "";
+            t.errors = "";
+            t.object_program = "";
+            t.tabsim = "";
+
+            Ensamblador_Paso_1.INSTANCE.clearAll();
+            Ensamblador_Paso_2.INSTANCE.clearAll();
+
+            dataErrores.Text = "";
+            dataTabSim.Text = "";
+            dataArchInt.Text = "";
+            dataObjProg.Text = "";
+        }
+
+        void lexyacc()
+        {
+            Gramatica_CalculadoraLexer lex = new Gramatica_CalculadoraLexer(new AntlrInputStream(entrada + Environment.NewLine));
+            //CREAMOS UN LEXER CON LA CADENA QUE ESCRIBIO EL USUARIO
+            lex.RemoveErrorListeners();
+            lex.AddErrorListener(DescriptiveErrorListener.INSTANCE);
+
+            CommonTokenStream tokens = new CommonTokenStream(lex);
+            //CREAMOS LOS TOKENS SEGUN EL LEXER CREADO
+            parser = new Gramatica_CalculadoraParser(tokens);
+            //Agregar el Listener del Parser para control del contador de programa, archivo intermedio y TABSIM
+            parser.AddParseListener(Ensamblador_Paso_1.INSTANCE);
+
+            parser.RemoveErrorListeners();
+            parser.AddErrorListener(DescriptiveErrorListenerTk.INSTANCE);
+
+            //CREAMOS EL PARSER CON LOS TOKENS CREADOS
+            try
+            {
+                parser.programa();
+                //SE VERIFICA QUE EL ANALIZADOR EMPIECE CON LA EXPRESION
+            }
+            catch (RecognitionException ex)
+            {
+                Console.Error.WriteLine(ex);
+                Console.Error.WriteLine(ex.StackTrace);
+            }
+        }
+
+
+        void paso2()
+        {
+            lexyacc();
+            Ensamblador_Paso_2.INSTANCE.CodigoObjeto();
+        }
+
+        private void toolsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            resetTextBoxAndFiles();
+            dataErrores.Text = "";
+            dataTabSim.Text = "";
+            dataArchInt.Text = "";
+            dataObjProg.Text = "";
+            dataSourceProgram.Text = "";
+        }
+
+        private void Interfaz_Grafica_Load(object sender, EventArgs e)
+        {
+            resetTextBoxAndFiles();
+        }
+
+        private void exitToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+    }
+}

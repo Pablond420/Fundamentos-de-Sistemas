@@ -21,33 +21,10 @@ namespace Calculadora
         bool inst3 = false;
         bool is_byte = false;
         string byte_error = "";
-        static string name_programa = "";
         String label = "";
         String error = "";
         String ins = "";
         String opIns = "";
-
-        public static void setName(string name)
-        {
-            name_programa = name;
-        }
-
-        public void clearAll()
-        {
-            CP = 0;
-            linea = 1;
-            repeatedSymbol = false;
-            inst1 = false;
-            inst2 = false;
-            inst3 = false;
-            is_byte = false;
-            byte_error = "";
-            name_programa = "";
-            label = "";
-            error = "";
-            ins = "";
-            opIns = "";
-        }
 
         /// <summary>
         /// INICIO
@@ -92,11 +69,6 @@ namespace Calculadora
                 {
                     String line = linea.ToString("D3") + "\t" + tool.StrToIntToHex(CP.ToString()).PadLeft(5, '0') + "*" + "\t" + label + "\t" + ins + "\t" + error;
                     string directory = Directory.GetCurrentDirectory();
-                    line = "'" + name_programa + "'" + "Error | linea " + linea + ": " + "Error de sintaxis";
-                    using (StreamWriter file = new StreamWriter(directory + "Errores.err", true))
-                    {
-                        file.WriteLine(line);
-                    }
                     using (StreamWriter file = new StreamWriter(directory + "ArchivoIntermedio.txt", true))
                     {
                         file.WriteLine(line);
@@ -107,11 +79,6 @@ namespace Calculadora
                 {
                     String line = linea.ToString("D3") + "\t" + tool.StrToIntToHex(CP.ToString()) + "*" + "\t" + error;
                     string directory = Directory.GetCurrentDirectory();
-                    line = "'" + name_programa + "'" + "Error | linea " + linea + ": " + "Error de sintaxis";
-                    using (StreamWriter file = new StreamWriter(directory + "Errores.err", true))
-                    {
-                        file.WriteLine(line);
-                    }
                     using (StreamWriter file = new StreamWriter(directory + "ArchivoIntermedio.txt", true))
                     {
                         file.WriteLine(line);
@@ -122,11 +89,6 @@ namespace Calculadora
                 {
                     String line = linea.ToString("D3") + "\t" + tool.StrToIntToHex(CP.ToString()) + "*" + "\t" + error;
                     string directory = Directory.GetCurrentDirectory();
-                    line = "'" + name_programa + "'" + "Error | linea " + linea + ": " + "Error de sintaxis";
-                    using (StreamWriter file = new StreamWriter(directory + "Errores.err", true))
-                    {
-                        file.WriteLine(line);
-                    }
                     using (StreamWriter file = new StreamWriter(directory + "ArchivoIntermedio.txt", true))
                     {
                         file.WriteLine(line);
@@ -137,15 +99,9 @@ namespace Calculadora
                 {
                     if(is_byte)
                     {
-                        byte_error = linea.ToString("D3") + "\t" + tool.StrToIntToHex(CP.ToString()) + "*\t" + byte_error;
-                        byte_error = tool.StrToIntToHex(CP.ToString()) + "*\t" + byte_error;
+                        byte_error = linea.ToString("D3") + "\t" + tool.StrToIntToHex(CP.ToString()) + "*\t" + byte_error; byte_error = tool.StrToIntToHex(CP.ToString()) + "*\t" + byte_error;
                         byte_error = byte_error.Replace("\n", "");
                         string directory = Directory.GetCurrentDirectory();
-                        String line = "'" + name_programa + "'" + "Error | linea " + linea + ": " + "Error de sintaxis";
-                        using (StreamWriter file = new StreamWriter(directory + "Errores.err", true))
-                        {
-                            file.WriteLine(line);
-                        }
                         using (StreamWriter file = new StreamWriter(directory + "ArchivoIntermedio.txt", true))
                         {
                             file.WriteLine(byte_error);
@@ -163,11 +119,6 @@ namespace Calculadora
                         {
                             error = linea.ToString("D3") + "\t" + tool.StrToIntToHex(CP.ToString()) + "*\t" + error;
                             string directory = Directory.GetCurrentDirectory();
-                            String line = "'" + name_programa + "'" + "Error | linea " + linea + ": " + "Error de sintaxis";
-                            using (StreamWriter file = new StreamWriter(directory + "Errores.err", true))
-                            {
-                                file.WriteLine(line);
-                            }
                             using (StreamWriter file = new StreamWriter(directory + "ArchivoIntermedio.txt", true))
                             {
                                 file.WriteLine(error);
@@ -198,10 +149,6 @@ namespace Calculadora
                     WriteFile(tool.StrToIntToHex(CP.ToString()), label, ins, opIns);
                 CP += 2;
             }
-            //else
-            //{
-            //    WriteFile(tool.StrToIntToHex(CP.ToString()) + "*", label, ins, opIns);
-            //}
             error = "";
             ins = "";
             opIns = "";
@@ -356,13 +303,13 @@ namespace Calculadora
             ins = "END";
             opIns = context.entrada().GetText();
             WriteFile(tool.StrToIntToHex(CP.ToString()), label, ins, opIns);
-            String line =  "*Tamaño del programa: " + tool.StrToIntToHex(CP.ToString()) + "H";
+            String line =  " *Tamaño del programa:   " + tool.StrToIntToHex(CP.ToString()) + "H";
             string directory = Directory.GetCurrentDirectory();
             using (StreamWriter file = new StreamWriter(directory + "TABSIM.txt", true))
             {
                 file.WriteLine(line);
             }
-            tool.paso1 = true;
+            Ensamblador_Paso_2.INSTANCE.CodigoObjeto();
             base.ExitFin(context);
         }
 
@@ -396,20 +343,12 @@ namespace Calculadora
         /// <param name="op"></param>
         public void WriteFile(String cp, String label, String instruc, String op)
         {
+
             String line = linea.ToString("D3") + "\t" + (cp.Contains("*") ? cp.PadLeft(5, '0') :  cp.PadLeft(4, '0')) + "\t" + label + "\t" + instruc + "\t" + op;
             string directory = Directory.GetCurrentDirectory();
             using (StreamWriter file = new StreamWriter(directory + "ArchivoIntermedio.txt", true))
             {
                 file.WriteLine(line);
-            }
-            
-            if (repeatedSymbol && cp.Contains("*"))
-            {
-                line = "'" + name_programa + "'" + "Error | linea " + linea + ": " + "Símbolo duplicado";
-                using (StreamWriter file = new StreamWriter(directory + "Errores.err", true))
-                {
-                    file.WriteLine(line);
-                }
             }
             linea++;
         }

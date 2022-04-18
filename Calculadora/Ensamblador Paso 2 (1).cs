@@ -9,6 +9,7 @@ namespace Calculadora
 {
     public class Ensamblador_Paso_2
     {
+        public static Ensamblador_Paso_2 INSTANCE = new Ensamblador_Paso_2();
         Tools t = new Tools();
         int cp, index = 0;
         int iterator = 0;
@@ -32,67 +33,10 @@ namespace Calculadora
         string flags = "";
         string object_code = "";
         string opIns_aux = "";
-        string first_exec_dir_inst = "";
-        static string name_programa = "";
         String label = "";
-        String error = "";
+        String error = "Error : ";
         String ins = "";
         String opIns, opIns2= "";
-        String reg_H = "";
-        String reg_T = "";
-        String reg_M = "";
-        String reg_E = "";
-        Programa_Objeto obj;
-
-
-        public static Ensamblador_Paso_2 INSTANCE = new Ensamblador_Paso_2();
-
-        public static void setName(string name)
-        {
-            name_programa = name;
-        }
-
-        public void clearAll()
-        {
-            cp = 0;
-            index = 0;
-            iterator = 0;
-            linea = 0;
-            cp_next = 0;
-            num_constant = 0;
-            ta_calculate = -10000;
-            dir_num_constant = 0;
-            base_value = -2;
-            is_error = false;
-            is_error_step2 = false;
-            n = false;
-            i = false;
-            x = false;
-            b = false;
-            p = false;
-            e = false;
-            is_constant = false;
-            is_dir_mem = false;
-            is_out_range = false;
-            diferent_previous_cp = false;
-            codop = "";// object code values in binary
-            ins_alone = "";
-            reg_alone = "";
-            flags = "";
-            object_code = "";
-            opIns_aux = "";
-            first_exec_dir_inst = "";
-            name_programa = "";
-            label = "";
-            error = "";
-            ins = "";
-            opIns = "";
-            opIns2 = "";
-            reg_H = "";
-            reg_T = "";
-            reg_M = "";
-            reg_E = "";
-        }
 
         public const string ADD = "000110", ADDF = "010110", AND = "100100", COMP = "001010", COMPF = "100010", DIV = "001001", DIVF = "011001"
             , J = "001111", JEQ = "001100", JGT = "001101", JLT = "001110", JSUB = "010010", LDA = "000000", LDB = "011010", LDCH = "010100",
@@ -117,21 +61,7 @@ namespace Calculadora
                 deformatLine(text[index]);
                 if(ins == "START" || ins == "RESW" || ins == "RESB" || ins == "ORG" || ins == "END" || ins == "EQU" || ins == "START " || ins == "RESW " || ins == "RESB " || ins == "ORG " || ins == "END " || ins == "EQU ")
                 {
-                    if(ins == "START" || ins == "START ")
-                    {
-                        obj = new Programa_Objeto(name_programa, opIns);
-                    }
-                    if (ins == "END" || ins == "END ")
-                    {
-                        if (opIns == "")
-                            obj.setEndRegister(first_exec_dir_inst, t.StrToIntToHex(cp.ToString()));
-                        else if (extract_number() == -1)
-                            obj.setEndRegister("FFFFFF", t.StrToIntToHex(cp.ToString()));
-                        else if (extract_number() != -1)
-                            obj.setEndRegister(t.StrToIntToHex(dir_num_constant.ToString()), t.StrToIntToHex(cp.ToString()));
-                        obj.WriteFileObjProg();
-                    }
-                    WriteFileObj(linea, t.StrToIntToHex(cp.ToString()), label, ins, opIns, "----", error);
+                    t.WriteFileObj(linea, t.StrToIntToHex(cp.ToString()), label, ins, opIns, "----");
                 }
                 else if (ins == "WORD" || ins == "WORD ")
                 {
@@ -150,8 +80,7 @@ namespace Calculadora
                             codObj = num.ToString("X");
                         }
                     }
-                    codObj = codObj.PadLeft(6, '0');
-                    WriteFileObj(linea, t.StrToIntToHex(cp.ToString()), label, ins, opIns, codObj, error);
+                    t.WriteFileObj(linea, t.StrToIntToHex(cp.ToString()), label, ins, opIns, codObj.PadLeft(6, '0'));
                 }
                 else if (ins == "BYTE" || ins == "BYTE ")
                 {
@@ -162,7 +91,7 @@ namespace Calculadora
                         string codObje2 = codObje.Remove(codObje.Length - 1, 1);
                         if(codObje2.Length % 2 != 0)
                             codObje2 = codObje2.PadLeft(codObje2.Length + 1, '0');
-                        WriteFileObj(linea, t.StrToIntToHex(cp.ToString()), label, ins, opIns, codObje2, error);
+                        t.WriteFileObj(linea, t.StrToIntToHex(cp.ToString()), label, ins, opIns, codObje2);
                     }
                     else if (opIns.Contains("C"))
                     {
@@ -175,45 +104,19 @@ namespace Calculadora
                             int ascii_int = (int)ch;
                             cod_Obj += t.StrToIntToHex(ascii_int.ToString());
                         }
-                        WriteFileObj(linea, t.StrToIntToHex(cp.ToString()), label, ins, opIns, cod_Obj, error);
+                        t.WriteFileObj(linea, t.StrToIntToHex(cp.ToString()), label, ins, opIns, cod_Obj);
                     }
                 }
                 else if (ins == "BASE" || ins == "BASE ")
                 {
                     opIns2 = opIns;
                     base_value = extract_number();
-                    WriteFileObj(linea, t.StrToIntToHex(cp.ToString()), label, ins, opIns, "----", error);
-                }
-                else if (ins == "SHIFTL" || ins == "SHIFTR" )
-                {
-                    reg_alone = opIns.Replace(" ", "");
-                    reg_alone = reg_alone.Substring(0, 1);
-                    object_code = codop + what_register_is();
-                    bool is_comma = false;
-                    reg_alone = "";
-                    for(int i=0; i < opIns.Length; i++)
-                    {
-                        if(is_comma)
-                        {
-                            reg_alone += opIns.Substring(i, 1);
-                        }
-                        if (opIns.Substring(i, 1) == ",")
-                            is_comma = true;
-                    }
-                    reg_alone = reg_alone.Replace(" ", "");
-                    reg_alone = reg_alone.Replace(",", "");
-                    int r2 = t.HexToInt(reg_alone) - 1;
-                    object_code +=  Convert.ToString(r2, 2).PadLeft(4, '0');
-                    object_code = binary_to_hex(object_code);
-                    if (first_exec_dir_inst == "")
-                        first_exec_dir_inst = t.StrToIntToHex(cp.ToString());
+                    t.WriteFileObj(linea, t.StrToIntToHex(cp.ToString()), label, ins, opIns, "----");
                 }
                 else
                 {                    
                     if (!is_error ) // y ademas puede ser error pero que sea por simbolo repetido deberia entrar
                     {
-                        if (first_exec_dir_inst == "")
-                            first_exec_dir_inst = t.StrToIntToHex(cp.ToString());
                         if (is_format3_or_format4())
                             set_flag();
                         else if (is_format1())
@@ -235,12 +138,12 @@ namespace Calculadora
                         }
                         if (ins == "RSUB" || ins == "RSUB ")
                             object_code = "4F0000";
-                        WriteFileObj(linea, t.StrToIntToHex(cp.ToString()), label, ins, opIns, object_code, error);
+                        t.WriteFileObj(linea, t.StrToIntToHex(cp.ToString()), label, ins, opIns, object_code);
                     }
                 }
                 Console.WriteLine(object_code);
                 iterator = 0;
-                error = "";
+                error = "Error : ";
                 index++;
                 is_constant = false;
                 diferent_previous_cp = false;
@@ -265,7 +168,6 @@ namespace Calculadora
             cp = getCP(line);
             label = getLabel(line);
             ins = getInst(line);
-            ins = ins.Replace(" ", "");
             opIns = getOpInst(line);
         }
 
@@ -296,7 +198,7 @@ namespace Calculadora
         {
             bool res = false;
             ins_alone = ins.Replace(" ", "");
-            string ins_text_f2 = "ADDR   CLEAR   COMPR   DIVR   MULR   RMO  SUBR   SVC  TIXR  ";
+            string ins_text_f2 = "ADDR   CLEAR   COMPR   DIVR   MULR   RMO   SHIFTL SHIFTR   SUBR   SVC   TIXR  ";
             if (ins_text_f2.Contains(ins_alone))
                 res = true;
             return res;
@@ -1194,46 +1096,6 @@ namespace Calculadora
             return t.HexToIntWithOutH(res);
         }
 
-        public void WriteFileObj(int linea, String cp, String label, String instruc, String op, String codObj, String error)
-        {
-            String line = "";
-            string directory = Directory.GetCurrentDirectory();
-            if (error != "")
-            {
-                using (StreamWriter file = new StreamWriter(directory + "Errores.err", true))
-                {
-                    line = "'"+name_programa+ "'" + "Error | linea " + linea + ": " + error;
-                    file.WriteLine(line);
-                }
-                string correct_format_err = (codObj.Length >= 8) ? ("\t" + "Error: " + error) : ("\t\t" + "Error: " + error);
-                string correct_format_op = (op.Length >= 8) ? ("\t" + op + "\t" + codObj + correct_format_err) : ("\t" + op + "\t\t" + codObj + correct_format_err);
-                line = linea.ToString() + "\t" + (cp.Contains("*") ? cp.PadLeft(5, '0') : cp.PadLeft(4, '0')) + "\t" + label + "\t" + instruc + correct_format_op;
-                //String line2 = new String(format, linea.ToString(), (cp.Contains("*") ? cp.PadLeft(5, '0') : cp.PadLeft(4, '0')), label, instruc, op, codObj, error);
-                using (StreamWriter file = new StreamWriter(directory + "ArchivoIntermedioCodObj.txt", true))
-                {
-                    file.WriteLine(line);
-                }
-            }
-            else
-            {
-                string correct_format_op = (op.Length >= 8) ? ("\t" + op + "\t" + codObj + "\t\t") : ("\t" + op + "\t\t" + codObj);
-                line = linea.ToString() + "\t" + (cp.Contains("*") ? cp.PadLeft(5, '0') : cp.PadLeft(4, '0')) + "\t" + label + "\t" + instruc + correct_format_op;
-                using (StreamWriter file = new StreamWriter(directory + "ArchivoIntermedioCodObj.txt", true))
-                {
-                    file.WriteLine(line);
-                }
-            }
-            
-            
-            linea++;
-            if ((ins == "RESB" || ins == "RESB " || ins == "RESW" || ins == "RESW ") && obj.countTextReg() > 0)
-                obj.setLastToClosed();
-            if (codObj != "----")
-                obj.addCodObj(cp, codObj, false, null);
-            if (codObj.Contains("*") && e)
-                obj.addCodObj(cp, codObj, true, t.StrToIntToHex((t.HexToIntWithOutH(cp) + 1).ToString()));
-            else if (codObj.Contains("*") && !e)
-                obj.addCodObj(cp, codObj, true, codObj.Length.ToString());
-        }
+
     }
 }

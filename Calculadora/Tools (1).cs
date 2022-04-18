@@ -9,13 +9,6 @@ namespace Calculadora
 {
     public class Tools
     {
-        public bool paso1 = false;        
-        public string arch_intermed = "";
-        public string tabsim = "";
-        public string object_program = "";
-        public string errors = "";
-        public bool is_newFile = false;
-
         public static Tools tools = new Tools();
         /// <summary>
         /// Convierte un String a Entero hexadecimal
@@ -56,25 +49,16 @@ namespace Calculadora
             return r;
         }
 
-
-        public void WriteFileProgObj(String reg)
+        public void WriteFileObj(int linea, String cp, String label, String instruc, String op, String codObj)
         {
+
+            String line = linea.ToString() + "\t" + (cp.Contains("*") ? cp.PadLeft(5, '0') : cp.PadLeft(4, '0')) + "\t" + label + "\t" + instruc + "\t" + op + "\t" + codObj;
             string directory = Directory.GetCurrentDirectory();
-            using (StreamWriter file = new StreamWriter(directory + "ArchivoObjeto.obj", true))
+            using (StreamWriter file = new StreamWriter(directory + "ArchivoIntermedioCodObj.txt", true))
             {
-                file.WriteLine(reg);
+                file.WriteLine(line);
             }
-        }
-
-        public string adjustStringToNBytes(string source, int num_bytes)
-        {
-            string res = "";
-            int diff = num_bytes - source.Length;
-            if(diff < 0)
-                res = source.Remove(0, Math.Abs(diff));
-            else
-                res = source.PadLeft(num_bytes, '0');
-            return res;
+            linea++;
         }
     }
 }
