@@ -73,6 +73,7 @@
             this.paneldataErrores = new System.Windows.Forms.Panel();
             this.dataErrores = new System.Windows.Forms.TextBox();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
+            this.ensamblarToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menu.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitProgArch)).BeginInit();
             this.splitProgArch.Panel1.SuspendLayout();
@@ -184,10 +185,12 @@
             this.LexyaccToolStripMenuItem,
             this.toolStripSeparator3,
             this.paso1ToolStripMenuItem,
-            this.paso2ToolStripMenuItem});
+            this.paso2ToolStripMenuItem,
+            this.ensamblarToolStripMenuItem});
             this.editToolStripMenuItem.Name = "editToolStripMenuItem";
             this.editToolStripMenuItem.Size = new System.Drawing.Size(88, 20);
             this.editToolStripMenuItem.Text = "&Ensamblador";
+            this.editToolStripMenuItem.Click += new System.EventHandler(this.editToolStripMenuItem_Click);
             // 
             // LexyaccToolStripMenuItem
             // 
@@ -591,6 +594,12 @@
             this.openFileDialog1.RestoreDirectory = true;
             this.openFileDialog1.Title = "\"Abrir Programa Fuente\"";
             // 
+            // ensamblarToolStripMenuItem
+            // 
+            this.ensamblarToolStripMenuItem.Name = "ensamblarToolStripMenuItem";
+            this.ensamblarToolStripMenuItem.Size = new System.Drawing.Size(222, 22);
+            this.ensamblarToolStripMenuItem.Text = "Ensamblar";
+            // 
             // Interfaz_Grafica
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -702,5 +711,6 @@
         private System.Windows.Forms.TextBox dataTabSim;
         private System.Windows.Forms.TextBox dataObjProg;
         private System.Windows.Forms.TextBox dataErrores;
+        private System.Windows.Forms.ToolStripMenuItem ensamblarToolStripMenuItem;
     }
 }

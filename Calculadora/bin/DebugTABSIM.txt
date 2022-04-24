@@ -1,6 +1,0 @@
-LOOP 	3
-COUNT 	19
-TABLE	2D
-TABLE2 	4B
-*Tamaño del programa: 52H
-*Tamaño del programa: A4H

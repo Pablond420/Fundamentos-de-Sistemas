@@ -34,6 +34,18 @@ namespace Calculadora
         private void newToolStripMenuItem_Click(object sender, EventArgs e)
         {
             t.is_newFile = true;
+            SaveFileDialog saveFileDialog1 = new SaveFileDialog();
+            saveFileDialog1.Filter = "XE Files|*.xe";
+            saveFileDialog1.Title = "Crear nuevo archivo";
+            saveFileDialog1.ShowDialog();
+
+            if (saveFileDialog1.FileName != "")
+            {
+                System.IO.FileStream fs =
+                    (System.IO.FileStream)saveFileDialog1.OpenFile();
+                fs.Close();
+                name_program = saveFileDialog1.FileName;
+            }
         }
 
         private void openToolStripMenuItem_Click(object sender, EventArgs e)
@@ -209,6 +221,27 @@ namespace Calculadora
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        private void editToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (t.is_newFile)
+            {
+                string source = dataSourceProgram.Text;
+                char old_char = '*';
+                string new_source = "";
+                bool text_found = false;
+                foreach(char c in source)
+                {
+                    if (c != '\n' && old_char == '\n' && !text_found)
+                        text_found = true;
+                    if (text_found)
+                        new_source += c;
+                    old_char = c;
+
+                }
+                File.WriteAllText(name_program, new_source);
+            }
         }
     }
 }
