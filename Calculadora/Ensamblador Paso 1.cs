@@ -47,6 +47,7 @@ namespace Calculadora
             error = "";
             ins = "";
             opIns = "";
+            tool = new Tools();
         }
 
         /// <summary>

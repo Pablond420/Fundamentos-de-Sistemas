@@ -42,6 +42,7 @@
             this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
             this.paso1ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.paso2ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.ensamblarToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.splitProgArch = new System.Windows.Forms.SplitContainer();
             this.panelProgramaFuente = new System.Windows.Forms.Panel();
@@ -73,7 +74,6 @@
             this.paneldataErrores = new System.Windows.Forms.Panel();
             this.dataErrores = new System.Windows.Forms.TextBox();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
-            this.ensamblarToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menu.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitProgArch)).BeginInit();
             this.splitProgArch.Panel1.SuspendLayout();
@@ -132,6 +132,7 @@
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
             this.fileToolStripMenuItem.Size = new System.Drawing.Size(60, 20);
             this.fileToolStripMenuItem.Text = "&Archivo";
+            this.fileToolStripMenuItem.Click += new System.EventHandler(this.fileToolStripMenuItem_Click);
             // 
             // newToolStripMenuItem
             // 
@@ -166,6 +167,7 @@
             this.saveToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
             this.saveToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.saveToolStripMenuItem.Text = "&Guardar";
+            this.saveToolStripMenuItem.Click += new System.EventHandler(this.saveToolStripMenuItem_Click);
             // 
             // toolStripSeparator2
             // 
@@ -219,6 +221,12 @@
             this.paso2ToolStripMenuItem.Size = new System.Drawing.Size(222, 22);
             this.paso2ToolStripMenuItem.Text = "Paso 2";
             this.paso2ToolStripMenuItem.Click += new System.EventHandler(this.paso2ToolStripMenuItem_Click);
+            // 
+            // ensamblarToolStripMenuItem
+            // 
+            this.ensamblarToolStripMenuItem.Name = "ensamblarToolStripMenuItem";
+            this.ensamblarToolStripMenuItem.Size = new System.Drawing.Size(222, 22);
+            this.ensamblarToolStripMenuItem.Text = "Ensamblar";
             // 
             // toolsToolStripMenuItem
             // 
@@ -305,6 +313,7 @@
             this.dataSourceProgram.ScrollBars = System.Windows.Forms.ScrollBars.Both;
             this.dataSourceProgram.Size = new System.Drawing.Size(719, 222);
             this.dataSourceProgram.TabIndex = 0;
+            this.dataSourceProgram.TextChanged += new System.EventHandler(this.dataSourceProgram_TextChanged);
             // 
             // panelArchInter
             // 
@@ -593,12 +602,6 @@
             this.openFileDialog1.InitialDirectory = "\"C:\\\"";
             this.openFileDialog1.RestoreDirectory = true;
             this.openFileDialog1.Title = "\"Abrir Programa Fuente\"";
-            // 
-            // ensamblarToolStripMenuItem
-            // 
-            this.ensamblarToolStripMenuItem.Name = "ensamblarToolStripMenuItem";
-            this.ensamblarToolStripMenuItem.Size = new System.Drawing.Size(222, 22);
-            this.ensamblarToolStripMenuItem.Text = "Ensamblar";
             // 
             // Interfaz_Grafica
             // 

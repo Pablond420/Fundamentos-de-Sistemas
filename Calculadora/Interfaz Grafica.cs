@@ -20,11 +20,9 @@ namespace Calculadora
         string name_program = "";
         string directory = Directory.GetCurrentDirectory();
         string entrada = "";
+        bool clearAll = true;
 
         Tools t = new Tools();
-
-        Gramatica_CalculadoraParser parser;
-
 
         public Interfaz_Grafica()
         {
@@ -44,7 +42,9 @@ namespace Calculadora
                 System.IO.FileStream fs =
                     (System.IO.FileStream)saveFileDialog1.OpenFile();
                 fs.Close();
-                name_program = saveFileDialog1.FileName;
+                name_program = Path.GetFileName(saveFileDialog1.FileName);
+                Ensamblador_Paso_1.setName(name_program);
+                Ensamblador_Paso_2.setName(name_program);
             }
         }
 
@@ -64,16 +64,19 @@ namespace Calculadora
             Ensamblador_Paso_2.setName(name_program);
             line = openFileDialog1.FileName;
             
-            string[] dataFuente = File.ReadAllLines(line);
-            texto = "\r\n";
-            foreach (string str in dataFuente)
+            if(line != "")
             {
-                texto += str + "\r\n";
-            }
-            dataSourceProgram.Text = texto;
+                string[] dataFuente = File.ReadAllLines(line);
+                texto = "\r\n";
+                foreach (string str in dataFuente)
+                {
+                    texto += str + "\r\n";
+                }
+                dataSourceProgram.Text = texto;
 
-            entrada = File.ReadAllText(line);
-            entrada = entrada.Replace("\r", string.Empty);
+                entrada = File.ReadAllText(line);
+                entrada = entrada.Replace("\r", string.Empty);
+            }
         }
 
         private void LexyaccToolStripMenuItem_Click(object sender, EventArgs e)
@@ -115,7 +118,7 @@ namespace Calculadora
         {
             if(dataSourceProgram.Text != "")
             {
-                paso2();
+                Ensamblador_Paso_2.INSTANCE.CodigoObjeto();
 
                 string[] _tabsim = File.ReadAllLines(directory + "TABSIM.txt");
                 t.tabsim = "\r\n\r\n";
@@ -176,7 +179,7 @@ namespace Calculadora
 
             CommonTokenStream tokens = new CommonTokenStream(lex);
             //CREAMOS LOS TOKENS SEGUN EL LEXER CREADO
-            parser = new Gramatica_CalculadoraParser(tokens);
+            Gramatica_CalculadoraParser parser = new Gramatica_CalculadoraParser(tokens);
             //Agregar el Listener del Parser para control del contador de programa, archivo intermedio y TABSIM
             parser.AddParseListener(Ensamblador_Paso_1.INSTANCE);
 
@@ -196,15 +199,9 @@ namespace Calculadora
             }
         }
 
-
-        void paso2()
-        {
-            lexyacc();
-            Ensamblador_Paso_2.INSTANCE.CodigoObjeto();
-        }
-
         private void toolsToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            name_program = "";
             resetTextBoxAndFiles();
             dataErrores.Text = "";
             dataTabSim.Text = "";
@@ -228,20 +225,45 @@ namespace Calculadora
             if (t.is_newFile)
             {
                 string source = dataSourceProgram.Text;
-                char old_char = '*';
-                string new_source = "";
-                bool text_found = false;
-                foreach(char c in source)
-                {
-                    if (c != '\n' && old_char == '\n' && !text_found)
-                        text_found = true;
-                    if (text_found)
-                        new_source += c;
-                    old_char = c;
-
-                }
-                File.WriteAllText(name_program, new_source);
+                string new_source = getTextFromDataSourcePrg(dataSourceProgram.Text);
+                File.WriteAllText(directory + name_program, new_source);
             }
+        }
+
+        private void dataSourceProgram_TextChanged(object sender, EventArgs e)
+        {
+            if (name_program != "")
+            {
+                File.WriteAllText(directory + "\\" + name_program, getTextFromDataSourcePrg(dataSourceProgram.Text));
+                entrada = File.ReadAllText(directory + "\\"+ name_program);
+                entrada = entrada.Replace("\r", string.Empty);
+            }
+        }
+
+        string getTextFromDataSourcePrg(string source)
+        {
+            char old_char = '*';
+            string new_source = "";
+            bool text_found = false;
+            foreach (char c in source)
+            {
+                if (c != '\n' && old_char == '\n' && !text_found)
+                    text_found = true;
+                if (text_found)
+                    new_source += c;
+                old_char = c;
+            }
+            return new_source;
+        }
+
+        private void saveToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            File.WriteAllText(directory + name_program, getTextFromDataSourcePrg(dataSourceProgram.Text));
+        }
+
+        private void fileToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            
         }
     }
 }
