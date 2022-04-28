@@ -267,84 +267,106 @@ namespace Calculadora
         /// <param name="context"></param>
         public override void ExitDirectiva([NotNull] Gramatica_CalculadoraParser.DirectivaContext context)
         {
-            label = context.etiqueta().GetText();
-            ins = context.tipodirectiva().GetText();
-            if(context.tipodirectiva().GetText() == "WORD ")
+            if(context.etiqueta().GetText() != null)
             {
-                opIns = context.opdirectiva().NUM().GetText();
-                if (label != "")
-                    WriteFileTabSim(label, tool.StrToIntToHex(CP.ToString()));
-                if (repeatedSymbol)
-                    WriteFile(tool.StrToIntToHex(CP.ToString()) + "*", label, ins, opIns);
-                else
-                    WriteFile(tool.StrToIntToHex(CP.ToString()), label, ins, opIns);
-                CP += 3;
-            }else if (context.tipodirectiva().GetText() == "RESB ")
-            {
-                opIns = context.opdirectiva().NUM().GetText();
-                if (label != "")
-                    WriteFileTabSim(label, tool.StrToIntToHex(CP.ToString()));
-                if (repeatedSymbol)
-                    WriteFile(tool.StrToIntToHex(CP.ToString()) + "*", label, ins, opIns);
-                else
-                    WriteFile(tool.StrToIntToHex(CP.ToString()), label, ins, opIns);
-                CP += tool.HexToInt(context.opdirectiva().NUM().GetText());
-            }
-            else if (context.tipodirectiva().GetText() == "BYTE ")
-            {
-                if (context.opdirectiva().CONSTHEX() != null)
+                label = context.etiqueta().GetText();
+                ins = context.tipodirectiva().GetText();
+                if (context.tipodirectiva().GetText() == "WORD ")
                 {
-                    opIns = context.opdirectiva().CONSTHEX().GetText();
-                    char[] hex = context.opdirectiva().CONSTHEX().GetText().ToCharArray();
-                    float nibble = ((float)hex.Length - 3) / 2;
-                    int plus = (int)Math.Ceiling(nibble);
+                    opIns = context.opdirectiva().NUM().GetText();
                     if (label != "")
                         WriteFileTabSim(label, tool.StrToIntToHex(CP.ToString()));
                     if (repeatedSymbol)
                         WriteFile(tool.StrToIntToHex(CP.ToString()) + "*", label, ins, opIns);
                     else
                         WriteFile(tool.StrToIntToHex(CP.ToString()), label, ins, opIns);
-                    CP += plus;
+                    CP += 3;
                 }
-                else if(context.opdirectiva().CONSTCAD() != null)
+                else if (context.tipodirectiva().GetText() == "RESB ")
                 {
-                    opIns = context.opdirectiva().CONSTCAD().GetText();
-                    char[] hex = context.opdirectiva().CONSTCAD().GetText().ToCharArray();
-                    int plus = hex.Length - 3;
+                    opIns = context.opdirectiva().NUM().GetText();
                     if (label != "")
                         WriteFileTabSim(label, tool.StrToIntToHex(CP.ToString()));
                     if (repeatedSymbol)
                         WriteFile(tool.StrToIntToHex(CP.ToString()) + "*", label, ins, opIns);
                     else
                         WriteFile(tool.StrToIntToHex(CP.ToString()), label, ins, opIns);
-                    CP += plus;
+                    CP += tool.HexToInt(context.opdirectiva().NUM().GetText());
                 }
-                
-            }
-            else if (context.tipodirectiva().GetText() == "RESW ")
-            {
-                opIns = context.opdirectiva().NUM().GetText();
-                if (label != "")
-                    WriteFileTabSim(label, tool.StrToIntToHex(CP.ToString()));
-                if (repeatedSymbol)
-                    WriteFile(tool.StrToIntToHex(CP.ToString()) + "*", label, ins, opIns);
-                else
-                    WriteFile(tool.StrToIntToHex(CP.ToString()), label, ins, opIns);
-                CP += (tool.HexToInt(context.opdirectiva().NUM().GetText()) * 3);
-            }
-            else if (context.tipodirectiva().GetText() == "BASE ")
-            {
-                opIns = context.opdirectiva().MEM_DIR().GetText();
-                if (label != "")
-                    WriteFileTabSim(label, tool.StrToIntToHex(CP.ToString()));
-                if (repeatedSymbol)
-                    WriteFile(tool.StrToIntToHex(CP.ToString()) + "*", label, ins, opIns);
-                else
-                    WriteFile(tool.StrToIntToHex(CP.ToString()), label, ins, opIns);
-            }
+                else if (context.tipodirectiva().GetText() == "BYTE ")
+                {
+                    if (context.opdirectiva().CONSTHEX() != null)
+                    {
+                        opIns = context.opdirectiva().CONSTHEX().GetText();
+                        char[] hex = context.opdirectiva().CONSTHEX().GetText().ToCharArray();
+                        float nibble = ((float)hex.Length - 3) / 2;
+                        int plus = (int)Math.Ceiling(nibble);
+                        if (label != "")
+                            WriteFileTabSim(label, tool.StrToIntToHex(CP.ToString()));
+                        if (repeatedSymbol)
+                            WriteFile(tool.StrToIntToHex(CP.ToString()) + "*", label, ins, opIns);
+                        else
+                            WriteFile(tool.StrToIntToHex(CP.ToString()), label, ins, opIns);
+                        CP += plus;
+                    }
+                    else if (context.opdirectiva().CONSTCAD() != null)
+                    {
+                        opIns = context.opdirectiva().CONSTCAD().GetText();
+                        char[] hex = context.opdirectiva().CONSTCAD().GetText().ToCharArray();
+                        int plus = hex.Length - 3;
+                        if (label != "")
+                            WriteFileTabSim(label, tool.StrToIntToHex(CP.ToString()));
+                        if (repeatedSymbol)
+                            WriteFile(tool.StrToIntToHex(CP.ToString()) + "*", label, ins, opIns);
+                        else
+                            WriteFile(tool.StrToIntToHex(CP.ToString()), label, ins, opIns);
+                        CP += plus;
+                    }
 
-        var opDir = context.opdirectiva();
-            base.ExitDirectiva(context);
+                }
+                else if (context.tipodirectiva().GetText() == "RESW ")
+                {
+                    opIns = context.opdirectiva().NUM().GetText();
+                    if (label != "")
+                        WriteFileTabSim(label, tool.StrToIntToHex(CP.ToString()));
+                    if (repeatedSymbol)
+                        WriteFile(tool.StrToIntToHex(CP.ToString()) + "*", label, ins, opIns);
+                    else
+                        WriteFile(tool.StrToIntToHex(CP.ToString()), label, ins, opIns);
+                    CP += (tool.HexToInt(context.opdirectiva().NUM().GetText()) * 3);
+                }
+                else if (context.tipodirectiva().GetText() == "BASE ")
+                {
+                    opIns = context.opdirectiva().MEM_DIR().GetText();
+                    if (label != "")
+                        WriteFileTabSim(label, tool.StrToIntToHex(CP.ToString()));
+                    if (repeatedSymbol)
+                        WriteFile(tool.StrToIntToHex(CP.ToString()) + "*", label, ins, opIns);
+                    else
+                        WriteFile(tool.StrToIntToHex(CP.ToString()), label, ins, opIns);
+                }
+
+                var opDir = context.opdirectiva();
+                base.ExitDirectiva(context);
+            }
+            else//ES EQU
+            {
+                label = context.MEM_DIR().GetText();
+                tool.Calculate_expresion(context, 1); //Pabs calcula tipo termino. Funcion retorna resultado expresion
+                ins = context.EQU().GetText();
+                opIns = valorEQU;
+                //valor de EQU puede ser:
+                //-Una constante(número decimal o hex)
+                //-Una expresión, formada por constantes y / o símbolos previamente definidos.
+                //- Asterisco(*)
+                if (label != "")
+                    WriteFileTabSim(label, tool.StrToIntToHex(valorEQU), tipo_termino);
+                if (repeatedSymbol)
+                    WriteFile(tool.StrToIntToHex(CP.ToString()) + "*", label, ins, opIns);
+                else
+                    WriteFile(tool.StrToIntToHex(CP.ToString()), label, ins, opIns);
+
+            }
         }
 
         /// <summary>

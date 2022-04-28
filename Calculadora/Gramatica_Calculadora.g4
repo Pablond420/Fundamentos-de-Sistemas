@@ -31,7 +31,7 @@ instruccion:
 	etiqueta opinstruccion FINL
 	;
 directiva:
-	etiqueta tipodirectiva opdirectiva FINL | MEM_DIR EQU expresion FINL
+	etiqueta tipodirectiva opdirectiva FINL | MEM_DIR EQU expresion FINL | ORG NUM FINL
 	;
 tipodirectiva:
 	BASE | BYTE | WORD | RESB | RESW
