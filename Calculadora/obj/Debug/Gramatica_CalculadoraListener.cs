@@ -250,5 +250,38 @@ public interface IGramatica_CalculadoraListener : IParseTreeListener {
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	void ExitOpdirectiva([NotNull] Gramatica_CalculadoraParser.OpdirectivaContext context);
+
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="Gramatica_CalculadoraParser.expresion"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterExpresion([NotNull] Gramatica_CalculadoraParser.ExpresionContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="Gramatica_CalculadoraParser.expresion"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitExpresion([NotNull] Gramatica_CalculadoraParser.ExpresionContext context);
+
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="Gramatica_CalculadoraParser.multiplicacion"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterMultiplicacion([NotNull] Gramatica_CalculadoraParser.MultiplicacionContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="Gramatica_CalculadoraParser.multiplicacion"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitMultiplicacion([NotNull] Gramatica_CalculadoraParser.MultiplicacionContext context);
+
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="Gramatica_CalculadoraParser.numero"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterNumero([NotNull] Gramatica_CalculadoraParser.NumeroContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="Gramatica_CalculadoraParser.numero"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitNumero([NotNull] Gramatica_CalculadoraParser.NumeroContext context);
 }
 } // namespace Calculadora

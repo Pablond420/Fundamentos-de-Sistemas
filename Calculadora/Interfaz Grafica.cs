@@ -114,6 +114,62 @@ namespace Calculadora
             paso2ToolStripMenuItem.Enabled = true;
         }
 
+        void paso1()
+        {
+            string[] _tabsim = File.ReadAllLines(directory + "TABSIM.txt");
+            t.tabsim = "\r\n\r\n";
+            foreach (string str in _tabsim)
+                t.tabsim += str + "\r\n";
+
+            string[] _errors = File.ReadAllLines(directory + "Errores.err");
+            t.errors = "\r\n\r\n";
+            foreach (string str in _errors)
+                t.errors += str + "\r\n";
+
+            string[] _archInterm = File.ReadAllLines(directory + "ArchivoIntermedio.txt");
+            t.arch_intermed = "\r\n\r\n";
+            foreach (string str in _archInterm)
+                t.arch_intermed += str + "\r\n";
+
+            dataErrores.Text = t.errors;
+            dataTabSim.Text = t.tabsim;
+            dataArchInt.Text = t.arch_intermed;
+            paso2ToolStripMenuItem.Enabled = true;
+        }
+
+        void paso2()
+        {
+            if (dataSourceProgram.Text != "")
+            {
+                Ensamblador_Paso_2.INSTANCE.CodigoObjeto();
+
+                string[] _tabsim = File.ReadAllLines(directory + "TABSIM.txt");
+                t.tabsim = "\r\n\r\n";
+                foreach (string str in _tabsim)
+                    t.tabsim += str + "\r\n";
+
+                string[] _errors = File.ReadAllLines(directory + "Errores.err");
+                t.errors = "\r\n\r\n";
+                foreach (string str in _errors)
+                    t.errors += str + "\r\n";
+
+                string[] _archInterm = File.ReadAllLines(directory + "ArchivoIntermedioCodObj.txt");
+                t.arch_intermed = "\r\n\r\n";
+                foreach (string str in _archInterm)
+                    t.arch_intermed += str + "\r\n";
+
+                string[] _progObj = File.ReadAllLines(directory + "ProgramaObjeto.txt");
+                t.object_program = "\r\n\r\n";
+                foreach (string str in _progObj)
+                    t.object_program += str + "\r\n";
+
+                dataErrores.Text = t.errors;
+                dataTabSim.Text = t.tabsim;
+                dataArchInt.Text = t.arch_intermed;
+                dataObjProg.Text = t.object_program;
+            }
+        }
+
         private void paso2ToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if(dataSourceProgram.Text != "")
@@ -264,6 +320,13 @@ namespace Calculadora
         private void fileToolStripMenuItem_Click(object sender, EventArgs e)
         {
             
+        }
+
+        private void ensamblarToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            lexyacc();
+            paso1();
+            paso2();
         }
     }
 }

@@ -295,6 +295,45 @@ public partial class Gramatica_CalculadoraBaseListener : IGramatica_CalculadoraL
 	/// <param name="context">The parse tree.</param>
 	public virtual void ExitOpdirectiva([NotNull] Gramatica_CalculadoraParser.OpdirectivaContext context) { }
 
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="Gramatica_CalculadoraParser.expresion"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void EnterExpresion([NotNull] Gramatica_CalculadoraParser.ExpresionContext context) { }
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="Gramatica_CalculadoraParser.expresion"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void ExitExpresion([NotNull] Gramatica_CalculadoraParser.ExpresionContext context) { }
+
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="Gramatica_CalculadoraParser.multiplicacion"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void EnterMultiplicacion([NotNull] Gramatica_CalculadoraParser.MultiplicacionContext context) { }
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="Gramatica_CalculadoraParser.multiplicacion"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void ExitMultiplicacion([NotNull] Gramatica_CalculadoraParser.MultiplicacionContext context) { }
+
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="Gramatica_CalculadoraParser.numero"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void EnterNumero([NotNull] Gramatica_CalculadoraParser.NumeroContext context) { }
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="Gramatica_CalculadoraParser.numero"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void ExitNumero([NotNull] Gramatica_CalculadoraParser.NumeroContext context) { }
+
 	/// <inheritdoc/>
 	/// <remarks>The default implementation does nothing.</remarks>
 	public virtual void EnterEveryRule([NotNull] ParserRuleContext context) { }

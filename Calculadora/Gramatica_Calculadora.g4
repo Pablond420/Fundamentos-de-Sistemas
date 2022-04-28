@@ -34,7 +34,7 @@ directiva:
 	etiqueta tipodirectiva opdirectiva FINL
 	;
 tipodirectiva:
-	BASE | BYTE | WORD | RESB | RESW
+	BASE | BYTE | WORD | RESB | RESW | MEM_DIR EQU expresion FINL
 	;
 etiqueta:
 	MEM_DIR?
@@ -58,18 +58,45 @@ f4:
 	FORMATO4+f3
 	;
 simple3:
-	COD_OP_F3 MEM_DIR | COD_OP_F3 NUM | COD_OP_F3 NUM COMA REG | COD_OP_F3 MEM_DIR COMA REG
+	COD_OP_F3 MEM_DIR | COD_OP_F3 NUM | COD_OP_F3 NUM COMA REG | COD_OP_F3 MEM_DIR COMA REG | COD_OP_F3 expresion
 	;
 indirecto3:
-	COD_OP_F3 ARROBA NUM | COD_OP_F3 ARROBA MEM_DIR
+	COD_OP_F3 ARROBA NUM | COD_OP_F3 ARROBA MEM_DIR | COD_OP_F3 ARROBA expresion
 	;
 inmediato3:
-	COD_OP_F3 HASHTAG NUM | COD_OP_F3 HASHTAG MEM_DIR
+	COD_OP_F3 HASHTAG NUM | COD_OP_F3 HASHTAG MEM_DIR | COD_OP_F3 HASHTAG expresion
 	;
 opdirectiva:
-	NUM | CONSTHEX| CONSTCAD | MEM_DIR
+	NUM | CONSTHEX| CONSTCAD | MEM_DIR | expresion
 	;
-
+expresion returns[float value]						
+	:	
+	a = multiplicacion(		
+	FORMATO4 b = multiplicacion 				
+	|
+	MENOS b = multiplicacion)*	
+	;
+	
+multiplicacion returns[float value]					
+	:	
+	a = numero (				
+	POR b = numero		
+	|
+	ENTRE b = numero
+	)*	
+	;
+numero returns[float value]							
+	:	
+	NUM				
+	|	
+	PARENI expresion PAREND	
+	|
+	MEM_DIR
+	|
+	MENOS NUM //numeros negativos
+	|
+	MENOS MEM_DIR
+	;
 /*
 *	Reglas del Lexer.
 */
@@ -100,11 +127,30 @@ RESW	:	'RESW '|'RESW';
 END	:		'END ' | 'END';
 BYTE	:	'BYTE '|'BYTE';
 BASE	:	'BASE '|'BASE';
+EQU	:	'EQU' | 'EQU ';
 ARROBA	:	'@';
 HASHTAG	:	'#';
 FORMATO4:	'+';
 COMA	:	', '|',';
 COMILLA	:	'"';
+PARENI
+	:	'('		//token de parentesis derecho
+	;
+PAREND
+	:	')'		//token de parentesis izquierdo.
+	;
+MENOS 
+	: '-'		//token de signo menos
+	;
+POR
+	: '*'		//token de signo por
+	;
+INT
+	:('0'..'9')+	//tokens validos para numeros
+	;
+ENTRE
+	: '/'		//token de signo entre
+	;
 NUM
 	:('0'..'9')+|('a'..'z'|'A'..'Z'|'0'..'9')+'H'|('a'..'z'|'A'..'Z'|'0'..'9')+'h'
 	;
@@ -116,3 +162,5 @@ FINL
 WS
 	: (' '|'\r'|'\n'|'\t')+ {Skip();}
 	;
+//EXPRESION
+//	:	('a'..'z'|'A'..'Z'|'0'..'9'|'+'|'-'|'*'|'/'|'('|')')+|('a'..'z'|'A'..'Z'|'0'..'9'|'+'|'-'|'*'|'/'|'('|')')+' ';

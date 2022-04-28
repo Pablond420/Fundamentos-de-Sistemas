@@ -171,5 +171,26 @@ public interface IGramatica_CalculadoraVisitor<Result> : IParseTreeVisitor<Resul
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
 	Result VisitOpdirectiva([NotNull] Gramatica_CalculadoraParser.OpdirectivaContext context);
+
+	/// <summary>
+	/// Visit a parse tree produced by <see cref="Gramatica_CalculadoraParser.expresion"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitExpresion([NotNull] Gramatica_CalculadoraParser.ExpresionContext context);
+
+	/// <summary>
+	/// Visit a parse tree produced by <see cref="Gramatica_CalculadoraParser.multiplicacion"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitMultiplicacion([NotNull] Gramatica_CalculadoraParser.MultiplicacionContext context);
+
+	/// <summary>
+	/// Visit a parse tree produced by <see cref="Gramatica_CalculadoraParser.numero"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitNumero([NotNull] Gramatica_CalculadoraParser.NumeroContext context);
 }
 } // namespace Calculadora

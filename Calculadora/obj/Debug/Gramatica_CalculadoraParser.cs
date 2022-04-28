@@ -32,30 +32,33 @@ using DFA = Antlr4.Runtime.Dfa.DFA;
 public partial class Gramatica_CalculadoraParser : Parser {
 	public const int
 		CONSTHEX=1, CONSTCAD=2, RSUB=3, COD_OP_F1=4, COD_OP_F2=5, COD_OP_F3=6, 
-		REG=7, WORD=8, RESB=9, START=10, RESW=11, END=12, BYTE=13, BASE=14, ARROBA=15, 
-		HASHTAG=16, FORMATO4=17, COMA=18, COMILLA=19, NUM=20, MEM_DIR=21, FINL=22, 
-		WS=23;
+		REG=7, WORD=8, RESB=9, START=10, RESW=11, END=12, BYTE=13, BASE=14, EQU=15, 
+		ARROBA=16, HASHTAG=17, FORMATO4=18, COMA=19, COMILLA=20, PARENI=21, PAREND=22, 
+		MENOS=23, POR=24, INT=25, ENTRE=26, NUM=27, MEM_DIR=28, FINL=29, WS=30;
 	public const int
 		RULE_programa = 0, RULE_inicio = 1, RULE_fin = 2, RULE_entrada = 3, RULE_proposiciones = 4, 
 		RULE_proposicion = 5, RULE_instruccion = 6, RULE_directiva = 7, RULE_tipodirectiva = 8, 
 		RULE_etiqueta = 9, RULE_opinstruccion = 10, RULE_formato = 11, RULE_f1 = 12, 
 		RULE_f2 = 13, RULE_f3 = 14, RULE_f4 = 15, RULE_simple3 = 16, RULE_indirecto3 = 17, 
-		RULE_inmediato3 = 18, RULE_opdirectiva = 19;
+		RULE_inmediato3 = 18, RULE_opdirectiva = 19, RULE_expresion = 20, RULE_multiplicacion = 21, 
+		RULE_numero = 22;
 	public static readonly string[] ruleNames = {
 		"programa", "inicio", "fin", "entrada", "proposiciones", "proposicion", 
 		"instruccion", "directiva", "tipodirectiva", "etiqueta", "opinstruccion", 
 		"formato", "f1", "f2", "f3", "f4", "simple3", "indirecto3", "inmediato3", 
-		"opdirectiva"
+		"opdirectiva", "expresion", "multiplicacion", "numero"
 	};
 
 	private static readonly string[] _LiteralNames = {
 		null, null, null, null, null, null, null, null, null, null, null, null, 
-		null, null, null, "'@'", "'#'", "'+'", null, "'\"'", null, null, "'\n'"
+		null, null, null, null, "'@'", "'#'", "'+'", null, "'\"'", "'('", "')'", 
+		"'-'", "'*'", null, "'/'", null, null, "'\n'"
 	};
 	private static readonly string[] _SymbolicNames = {
 		null, "CONSTHEX", "CONSTCAD", "RSUB", "COD_OP_F1", "COD_OP_F2", "COD_OP_F3", 
-		"REG", "WORD", "RESB", "START", "RESW", "END", "BYTE", "BASE", "ARROBA", 
-		"HASHTAG", "FORMATO4", "COMA", "COMILLA", "NUM", "MEM_DIR", "FINL", "WS"
+		"REG", "WORD", "RESB", "START", "RESW", "END", "BYTE", "BASE", "EQU", 
+		"ARROBA", "HASHTAG", "FORMATO4", "COMA", "COMILLA", "PARENI", "PAREND", 
+		"MENOS", "POR", "INT", "ENTRE", "NUM", "MEM_DIR", "FINL", "WS"
 	};
 	public static readonly IVocabulary DefaultVocabulary = new Vocabulary(_LiteralNames, _SymbolicNames);
 
@@ -144,9 +147,9 @@ public partial class Gramatica_CalculadoraParser : Parser {
 		try {
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 40; inicio();
-			State = 41; proposiciones();
-			State = 42; fin();
+			State = 46; inicio();
+			State = 47; proposiciones();
+			State = 48; fin();
 			}
 		}
 		catch (RecognitionException re) {
@@ -195,23 +198,23 @@ public partial class Gramatica_CalculadoraParser : Parser {
 		InicioContext _localctx = new InicioContext(_ctx, State);
 		EnterRule(_localctx, 2, RULE_inicio);
 		try {
-			State = 50;
+			State = 56;
 			_errHandler.Sync(this);
 			switch ( Interpreter.AdaptivePredict(_input,0,_ctx) ) {
 			case 1:
 				EnterOuterAlt(_localctx, 1);
 				{
-				State = 44; etiqueta();
-				State = 45; Match(START);
-				State = 46; Match(NUM);
-				State = 47; Match(FINL);
+				State = 50; etiqueta();
+				State = 51; Match(START);
+				State = 52; Match(NUM);
+				State = 53; Match(FINL);
 				}
 				break;
 
 			case 2:
 				EnterOuterAlt(_localctx, 2);
 				{
-				State = 49; proposicion();
+				State = 55; proposicion();
 				}
 				break;
 			}
@@ -258,23 +261,23 @@ public partial class Gramatica_CalculadoraParser : Parser {
 		FinContext _localctx = new FinContext(_ctx, State);
 		EnterRule(_localctx, 4, RULE_fin);
 		try {
-			State = 58;
+			State = 64;
 			_errHandler.Sync(this);
 			switch ( Interpreter.AdaptivePredict(_input,1,_ctx) ) {
 			case 1:
 				EnterOuterAlt(_localctx, 1);
 				{
-				State = 52; Match(END);
-				State = 53; entrada();
-				State = 54; Match(FINL);
+				State = 58; Match(END);
+				State = 59; entrada();
+				State = 60; Match(FINL);
 				}
 				break;
 
 			case 2:
 				EnterOuterAlt(_localctx, 2);
 				{
-				State = 56; Match(END);
-				State = 57; entrada();
+				State = 62; Match(END);
+				State = 63; entrada();
 				}
 				break;
 			}
@@ -320,12 +323,12 @@ public partial class Gramatica_CalculadoraParser : Parser {
 		try {
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 61;
+			State = 67;
 			_errHandler.Sync(this);
 			_la = _input.La(1);
 			if (_la==MEM_DIR) {
 				{
-				State = 60; Match(MEM_DIR);
+				State = 66; Match(MEM_DIR);
 				}
 			}
 
@@ -378,18 +381,18 @@ public partial class Gramatica_CalculadoraParser : Parser {
 			EnterOuterAlt(_localctx, 1);
 			{
 			{
-			State = 63; proposicion();
+			State = 69; proposicion();
 			}
-			State = 67;
+			State = 73;
 			_errHandler.Sync(this);
 			_la = _input.La(1);
 			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << RSUB) | (1L << COD_OP_F1) | (1L << COD_OP_F2) | (1L << COD_OP_F3) | (1L << WORD) | (1L << RESB) | (1L << START) | (1L << RESW) | (1L << BYTE) | (1L << BASE) | (1L << FORMATO4) | (1L << MEM_DIR))) != 0)) {
 				{
 				{
-				State = 64; proposicion();
+				State = 70; proposicion();
 				}
 				}
-				State = 69;
+				State = 75;
 				_errHandler.Sync(this);
 				_la = _input.La(1);
 			}
@@ -438,20 +441,20 @@ public partial class Gramatica_CalculadoraParser : Parser {
 		ProposicionContext _localctx = new ProposicionContext(_ctx, State);
 		EnterRule(_localctx, 10, RULE_proposicion);
 		try {
-			State = 72;
+			State = 78;
 			_errHandler.Sync(this);
 			switch ( Interpreter.AdaptivePredict(_input,4,_ctx) ) {
 			case 1:
 				EnterOuterAlt(_localctx, 1);
 				{
-				State = 70; instruccion();
+				State = 76; instruccion();
 				}
 				break;
 
 			case 2:
 				EnterOuterAlt(_localctx, 2);
 				{
-				State = 71; directiva();
+				State = 77; directiva();
 				}
 				break;
 			}
@@ -502,9 +505,9 @@ public partial class Gramatica_CalculadoraParser : Parser {
 		try {
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 74; etiqueta();
-			State = 75; opinstruccion();
-			State = 76; Match(FINL);
+			State = 80; etiqueta();
+			State = 81; opinstruccion();
+			State = 82; Match(FINL);
 			}
 		}
 		catch (RecognitionException re) {
@@ -556,10 +559,10 @@ public partial class Gramatica_CalculadoraParser : Parser {
 		try {
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 78; etiqueta();
-			State = 79; tipodirectiva();
-			State = 80; opdirectiva();
-			State = 81; Match(FINL);
+			State = 84; etiqueta();
+			State = 85; tipodirectiva();
+			State = 86; opdirectiva();
+			State = 87; Match(FINL);
 			}
 		}
 		catch (RecognitionException re) {
@@ -579,6 +582,12 @@ public partial class Gramatica_CalculadoraParser : Parser {
 		public ITerminalNode WORD() { return GetToken(Gramatica_CalculadoraParser.WORD, 0); }
 		public ITerminalNode RESB() { return GetToken(Gramatica_CalculadoraParser.RESB, 0); }
 		public ITerminalNode RESW() { return GetToken(Gramatica_CalculadoraParser.RESW, 0); }
+		public ITerminalNode MEM_DIR() { return GetToken(Gramatica_CalculadoraParser.MEM_DIR, 0); }
+		public ITerminalNode EQU() { return GetToken(Gramatica_CalculadoraParser.EQU, 0); }
+		public ExpresionContext expresion() {
+			return GetRuleContext<ExpresionContext>(0);
+		}
+		public ITerminalNode FINL() { return GetToken(Gramatica_CalculadoraParser.FINL, 0); }
 		public TipodirectivaContext(ParserRuleContext parent, int invokingState)
 			: base(parent, invokingState)
 		{
@@ -603,22 +612,51 @@ public partial class Gramatica_CalculadoraParser : Parser {
 	public TipodirectivaContext tipodirectiva() {
 		TipodirectivaContext _localctx = new TipodirectivaContext(_ctx, State);
 		EnterRule(_localctx, 16, RULE_tipodirectiva);
-		int _la;
 		try {
-			EnterOuterAlt(_localctx, 1);
-			{
-			State = 83;
-			_la = _input.La(1);
-			if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << WORD) | (1L << RESB) | (1L << RESW) | (1L << BYTE) | (1L << BASE))) != 0)) ) {
-			_errHandler.RecoverInline(this);
-			} else {
-				if (_input.La(1) == TokenConstants.Eof) {
-					matchedEOF = true;
+			State = 99;
+			_errHandler.Sync(this);
+			switch (_input.La(1)) {
+			case BASE:
+				EnterOuterAlt(_localctx, 1);
+				{
+				State = 89; Match(BASE);
 				}
-
-				_errHandler.ReportMatch(this);
-				Consume();
-			}
+				break;
+			case BYTE:
+				EnterOuterAlt(_localctx, 2);
+				{
+				State = 90; Match(BYTE);
+				}
+				break;
+			case WORD:
+				EnterOuterAlt(_localctx, 3);
+				{
+				State = 91; Match(WORD);
+				}
+				break;
+			case RESB:
+				EnterOuterAlt(_localctx, 4);
+				{
+				State = 92; Match(RESB);
+				}
+				break;
+			case RESW:
+				EnterOuterAlt(_localctx, 5);
+				{
+				State = 93; Match(RESW);
+				}
+				break;
+			case MEM_DIR:
+				EnterOuterAlt(_localctx, 6);
+				{
+				State = 94; Match(MEM_DIR);
+				State = 95; Match(EQU);
+				State = 96; expresion();
+				State = 97; Match(FINL);
+				}
+				break;
+			default:
+				throw new NoViableAltException(this);
 			}
 		}
 		catch (RecognitionException re) {
@@ -658,19 +696,18 @@ public partial class Gramatica_CalculadoraParser : Parser {
 	public EtiquetaContext etiqueta() {
 		EtiquetaContext _localctx = new EtiquetaContext(_ctx, State);
 		EnterRule(_localctx, 18, RULE_etiqueta);
-		int _la;
 		try {
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 86;
+			State = 102;
 			_errHandler.Sync(this);
-			_la = _input.La(1);
-			if (_la==MEM_DIR) {
+			switch ( Interpreter.AdaptivePredict(_input,6,_ctx) ) {
+			case 1:
 				{
-				State = 85; Match(MEM_DIR);
+				State = 101; Match(MEM_DIR);
 				}
+				break;
 			}
-
 			}
 		}
 		catch (RecognitionException re) {
@@ -715,7 +752,7 @@ public partial class Gramatica_CalculadoraParser : Parser {
 		try {
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 88; formato();
+			State = 104; formato();
 			}
 		}
 		catch (RecognitionException re) {
@@ -767,32 +804,32 @@ public partial class Gramatica_CalculadoraParser : Parser {
 		FormatoContext _localctx = new FormatoContext(_ctx, State);
 		EnterRule(_localctx, 22, RULE_formato);
 		try {
-			State = 94;
+			State = 110;
 			_errHandler.Sync(this);
 			switch (_input.La(1)) {
 			case COD_OP_F1:
 				EnterOuterAlt(_localctx, 1);
 				{
-				State = 90; f1();
+				State = 106; f1();
 				}
 				break;
 			case COD_OP_F2:
 				EnterOuterAlt(_localctx, 2);
 				{
-				State = 91; f2();
+				State = 107; f2();
 				}
 				break;
 			case RSUB:
 			case COD_OP_F3:
 				EnterOuterAlt(_localctx, 3);
 				{
-				State = 92; f3();
+				State = 108; f3();
 				}
 				break;
 			case FORMATO4:
 				EnterOuterAlt(_localctx, 4);
 				{
-				State = 93; f4();
+				State = 109; f4();
 				}
 				break;
 			default:
@@ -838,21 +875,21 @@ public partial class Gramatica_CalculadoraParser : Parser {
 		F1Context _localctx = new F1Context(_ctx, State);
 		EnterRule(_localctx, 24, RULE_f1);
 		try {
-			State = 99;
+			State = 115;
 			_errHandler.Sync(this);
-			switch ( Interpreter.AdaptivePredict(_input,7,_ctx) ) {
+			switch ( Interpreter.AdaptivePredict(_input,8,_ctx) ) {
 			case 1:
 				EnterOuterAlt(_localctx, 1);
 				{
-				State = 96; Match(COD_OP_F1);
-				State = 97; Match(FINL);
+				State = 112; Match(COD_OP_F1);
+				State = 113; Match(FINL);
 				}
 				break;
 
 			case 2:
 				EnterOuterAlt(_localctx, 2);
 				{
-				State = 98; Match(COD_OP_F1);
+				State = 114; Match(COD_OP_F1);
 				}
 				break;
 			}
@@ -901,34 +938,34 @@ public partial class Gramatica_CalculadoraParser : Parser {
 		F2Context _localctx = new F2Context(_ctx, State);
 		EnterRule(_localctx, 26, RULE_f2);
 		try {
-			State = 111;
+			State = 127;
 			_errHandler.Sync(this);
-			switch ( Interpreter.AdaptivePredict(_input,8,_ctx) ) {
+			switch ( Interpreter.AdaptivePredict(_input,9,_ctx) ) {
 			case 1:
 				EnterOuterAlt(_localctx, 1);
 				{
-				State = 101; Match(COD_OP_F2);
-				State = 102; Match(REG);
+				State = 117; Match(COD_OP_F2);
+				State = 118; Match(REG);
 				}
 				break;
 
 			case 2:
 				EnterOuterAlt(_localctx, 2);
 				{
-				State = 103; Match(COD_OP_F2);
-				State = 104; Match(REG);
-				State = 105; Match(COMA);
-				State = 106; Match(REG);
+				State = 119; Match(COD_OP_F2);
+				State = 120; Match(REG);
+				State = 121; Match(COMA);
+				State = 122; Match(REG);
 				}
 				break;
 
 			case 3:
 				EnterOuterAlt(_localctx, 3);
 				{
-				State = 107; Match(COD_OP_F2);
-				State = 108; Match(REG);
-				State = 109; Match(COMA);
-				State = 110; Match(NUM);
+				State = 123; Match(COD_OP_F2);
+				State = 124; Match(REG);
+				State = 125; Match(COMA);
+				State = 126; Match(NUM);
 				}
 				break;
 			}
@@ -980,34 +1017,34 @@ public partial class Gramatica_CalculadoraParser : Parser {
 		F3Context _localctx = new F3Context(_ctx, State);
 		EnterRule(_localctx, 28, RULE_f3);
 		try {
-			State = 117;
+			State = 133;
 			_errHandler.Sync(this);
-			switch ( Interpreter.AdaptivePredict(_input,9,_ctx) ) {
+			switch ( Interpreter.AdaptivePredict(_input,10,_ctx) ) {
 			case 1:
 				EnterOuterAlt(_localctx, 1);
 				{
-				State = 113; simple3();
+				State = 129; simple3();
 				}
 				break;
 
 			case 2:
 				EnterOuterAlt(_localctx, 2);
 				{
-				State = 114; indirecto3();
+				State = 130; indirecto3();
 				}
 				break;
 
 			case 3:
 				EnterOuterAlt(_localctx, 3);
 				{
-				State = 115; inmediato3();
+				State = 131; inmediato3();
 				}
 				break;
 
 			case 4:
 				EnterOuterAlt(_localctx, 4);
 				{
-				State = 116; Match(RSUB);
+				State = 132; Match(RSUB);
 				}
 				break;
 			}
@@ -1059,20 +1096,20 @@ public partial class Gramatica_CalculadoraParser : Parser {
 		try {
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 120;
+			State = 136;
 			_errHandler.Sync(this);
 			_la = _input.La(1);
 			do {
 				{
 				{
-				State = 119; Match(FORMATO4);
+				State = 135; Match(FORMATO4);
 				}
 				}
-				State = 122;
+				State = 138;
 				_errHandler.Sync(this);
 				_la = _input.La(1);
 			} while ( _la==FORMATO4 );
-			State = 124; f3();
+			State = 140; f3();
 			}
 		}
 		catch (RecognitionException re) {
@@ -1092,6 +1129,9 @@ public partial class Gramatica_CalculadoraParser : Parser {
 		public ITerminalNode NUM() { return GetToken(Gramatica_CalculadoraParser.NUM, 0); }
 		public ITerminalNode COMA() { return GetToken(Gramatica_CalculadoraParser.COMA, 0); }
 		public ITerminalNode REG() { return GetToken(Gramatica_CalculadoraParser.REG, 0); }
+		public ExpresionContext expresion() {
+			return GetRuleContext<ExpresionContext>(0);
+		}
 		public Simple3Context(ParserRuleContext parent, int invokingState)
 			: base(parent, invokingState)
 		{
@@ -1117,42 +1157,50 @@ public partial class Gramatica_CalculadoraParser : Parser {
 		Simple3Context _localctx = new Simple3Context(_ctx, State);
 		EnterRule(_localctx, 32, RULE_simple3);
 		try {
-			State = 138;
+			State = 156;
 			_errHandler.Sync(this);
-			switch ( Interpreter.AdaptivePredict(_input,11,_ctx) ) {
+			switch ( Interpreter.AdaptivePredict(_input,12,_ctx) ) {
 			case 1:
 				EnterOuterAlt(_localctx, 1);
 				{
-				State = 126; Match(COD_OP_F3);
-				State = 127; Match(MEM_DIR);
+				State = 142; Match(COD_OP_F3);
+				State = 143; Match(MEM_DIR);
 				}
 				break;
 
 			case 2:
 				EnterOuterAlt(_localctx, 2);
 				{
-				State = 128; Match(COD_OP_F3);
-				State = 129; Match(NUM);
+				State = 144; Match(COD_OP_F3);
+				State = 145; Match(NUM);
 				}
 				break;
 
 			case 3:
 				EnterOuterAlt(_localctx, 3);
 				{
-				State = 130; Match(COD_OP_F3);
-				State = 131; Match(NUM);
-				State = 132; Match(COMA);
-				State = 133; Match(REG);
+				State = 146; Match(COD_OP_F3);
+				State = 147; Match(NUM);
+				State = 148; Match(COMA);
+				State = 149; Match(REG);
 				}
 				break;
 
 			case 4:
 				EnterOuterAlt(_localctx, 4);
 				{
-				State = 134; Match(COD_OP_F3);
-				State = 135; Match(MEM_DIR);
-				State = 136; Match(COMA);
-				State = 137; Match(REG);
+				State = 150; Match(COD_OP_F3);
+				State = 151; Match(MEM_DIR);
+				State = 152; Match(COMA);
+				State = 153; Match(REG);
+				}
+				break;
+
+			case 5:
+				EnterOuterAlt(_localctx, 5);
+				{
+				State = 154; Match(COD_OP_F3);
+				State = 155; expresion();
 				}
 				break;
 			}
@@ -1173,6 +1221,9 @@ public partial class Gramatica_CalculadoraParser : Parser {
 		public ITerminalNode ARROBA() { return GetToken(Gramatica_CalculadoraParser.ARROBA, 0); }
 		public ITerminalNode NUM() { return GetToken(Gramatica_CalculadoraParser.NUM, 0); }
 		public ITerminalNode MEM_DIR() { return GetToken(Gramatica_CalculadoraParser.MEM_DIR, 0); }
+		public ExpresionContext expresion() {
+			return GetRuleContext<ExpresionContext>(0);
+		}
 		public Indirecto3Context(ParserRuleContext parent, int invokingState)
 			: base(parent, invokingState)
 		{
@@ -1198,24 +1249,33 @@ public partial class Gramatica_CalculadoraParser : Parser {
 		Indirecto3Context _localctx = new Indirecto3Context(_ctx, State);
 		EnterRule(_localctx, 34, RULE_indirecto3);
 		try {
-			State = 146;
+			State = 167;
 			_errHandler.Sync(this);
-			switch ( Interpreter.AdaptivePredict(_input,12,_ctx) ) {
+			switch ( Interpreter.AdaptivePredict(_input,13,_ctx) ) {
 			case 1:
 				EnterOuterAlt(_localctx, 1);
 				{
-				State = 140; Match(COD_OP_F3);
-				State = 141; Match(ARROBA);
-				State = 142; Match(NUM);
+				State = 158; Match(COD_OP_F3);
+				State = 159; Match(ARROBA);
+				State = 160; Match(NUM);
 				}
 				break;
 
 			case 2:
 				EnterOuterAlt(_localctx, 2);
 				{
-				State = 143; Match(COD_OP_F3);
-				State = 144; Match(ARROBA);
-				State = 145; Match(MEM_DIR);
+				State = 161; Match(COD_OP_F3);
+				State = 162; Match(ARROBA);
+				State = 163; Match(MEM_DIR);
+				}
+				break;
+
+			case 3:
+				EnterOuterAlt(_localctx, 3);
+				{
+				State = 164; Match(COD_OP_F3);
+				State = 165; Match(ARROBA);
+				State = 166; expresion();
 				}
 				break;
 			}
@@ -1236,6 +1296,9 @@ public partial class Gramatica_CalculadoraParser : Parser {
 		public ITerminalNode HASHTAG() { return GetToken(Gramatica_CalculadoraParser.HASHTAG, 0); }
 		public ITerminalNode NUM() { return GetToken(Gramatica_CalculadoraParser.NUM, 0); }
 		public ITerminalNode MEM_DIR() { return GetToken(Gramatica_CalculadoraParser.MEM_DIR, 0); }
+		public ExpresionContext expresion() {
+			return GetRuleContext<ExpresionContext>(0);
+		}
 		public Inmediato3Context(ParserRuleContext parent, int invokingState)
 			: base(parent, invokingState)
 		{
@@ -1261,24 +1324,33 @@ public partial class Gramatica_CalculadoraParser : Parser {
 		Inmediato3Context _localctx = new Inmediato3Context(_ctx, State);
 		EnterRule(_localctx, 36, RULE_inmediato3);
 		try {
-			State = 154;
+			State = 178;
 			_errHandler.Sync(this);
-			switch ( Interpreter.AdaptivePredict(_input,13,_ctx) ) {
+			switch ( Interpreter.AdaptivePredict(_input,14,_ctx) ) {
 			case 1:
 				EnterOuterAlt(_localctx, 1);
 				{
-				State = 148; Match(COD_OP_F3);
-				State = 149; Match(HASHTAG);
-				State = 150; Match(NUM);
+				State = 169; Match(COD_OP_F3);
+				State = 170; Match(HASHTAG);
+				State = 171; Match(NUM);
 				}
 				break;
 
 			case 2:
 				EnterOuterAlt(_localctx, 2);
 				{
-				State = 151; Match(COD_OP_F3);
-				State = 152; Match(HASHTAG);
-				State = 153; Match(MEM_DIR);
+				State = 172; Match(COD_OP_F3);
+				State = 173; Match(HASHTAG);
+				State = 174; Match(MEM_DIR);
+				}
+				break;
+
+			case 3:
+				EnterOuterAlt(_localctx, 3);
+				{
+				State = 175; Match(COD_OP_F3);
+				State = 176; Match(HASHTAG);
+				State = 177; expresion();
 				}
 				break;
 			}
@@ -1299,6 +1371,9 @@ public partial class Gramatica_CalculadoraParser : Parser {
 		public ITerminalNode CONSTHEX() { return GetToken(Gramatica_CalculadoraParser.CONSTHEX, 0); }
 		public ITerminalNode CONSTCAD() { return GetToken(Gramatica_CalculadoraParser.CONSTCAD, 0); }
 		public ITerminalNode MEM_DIR() { return GetToken(Gramatica_CalculadoraParser.MEM_DIR, 0); }
+		public ExpresionContext expresion() {
+			return GetRuleContext<ExpresionContext>(0);
+		}
 		public OpdirectivaContext(ParserRuleContext parent, int invokingState)
 			: base(parent, invokingState)
 		{
@@ -1323,21 +1398,131 @@ public partial class Gramatica_CalculadoraParser : Parser {
 	public OpdirectivaContext opdirectiva() {
 		OpdirectivaContext _localctx = new OpdirectivaContext(_ctx, State);
 		EnterRule(_localctx, 38, RULE_opdirectiva);
+		try {
+			State = 185;
+			_errHandler.Sync(this);
+			switch ( Interpreter.AdaptivePredict(_input,15,_ctx) ) {
+			case 1:
+				EnterOuterAlt(_localctx, 1);
+				{
+				State = 180; Match(NUM);
+				}
+				break;
+
+			case 2:
+				EnterOuterAlt(_localctx, 2);
+				{
+				State = 181; Match(CONSTHEX);
+				}
+				break;
+
+			case 3:
+				EnterOuterAlt(_localctx, 3);
+				{
+				State = 182; Match(CONSTCAD);
+				}
+				break;
+
+			case 4:
+				EnterOuterAlt(_localctx, 4);
+				{
+				State = 183; Match(MEM_DIR);
+				}
+				break;
+
+			case 5:
+				EnterOuterAlt(_localctx, 5);
+				{
+				State = 184; expresion();
+				}
+				break;
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			_errHandler.ReportError(this, re);
+			_errHandler.Recover(this, re);
+		}
+		finally {
+			ExitRule();
+		}
+		return _localctx;
+	}
+
+	public partial class ExpresionContext : ParserRuleContext {
+		public float value;
+		public MultiplicacionContext a;
+		public MultiplicacionContext b;
+		public MultiplicacionContext[] multiplicacion() {
+			return GetRuleContexts<MultiplicacionContext>();
+		}
+		public MultiplicacionContext multiplicacion(int i) {
+			return GetRuleContext<MultiplicacionContext>(i);
+		}
+		public ITerminalNode[] FORMATO4() { return GetTokens(Gramatica_CalculadoraParser.FORMATO4); }
+		public ITerminalNode FORMATO4(int i) {
+			return GetToken(Gramatica_CalculadoraParser.FORMATO4, i);
+		}
+		public ITerminalNode[] MENOS() { return GetTokens(Gramatica_CalculadoraParser.MENOS); }
+		public ITerminalNode MENOS(int i) {
+			return GetToken(Gramatica_CalculadoraParser.MENOS, i);
+		}
+		public ExpresionContext(ParserRuleContext parent, int invokingState)
+			: base(parent, invokingState)
+		{
+		}
+		public override int RuleIndex { get { return RULE_expresion; } }
+		public override void EnterRule(IParseTreeListener listener) {
+			IGramatica_CalculadoraListener typedListener = listener as IGramatica_CalculadoraListener;
+			if (typedListener != null) typedListener.EnterExpresion(this);
+		}
+		public override void ExitRule(IParseTreeListener listener) {
+			IGramatica_CalculadoraListener typedListener = listener as IGramatica_CalculadoraListener;
+			if (typedListener != null) typedListener.ExitExpresion(this);
+		}
+		public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor) {
+			IGramatica_CalculadoraVisitor<TResult> typedVisitor = visitor as IGramatica_CalculadoraVisitor<TResult>;
+			if (typedVisitor != null) return typedVisitor.VisitExpresion(this);
+			else return visitor.VisitChildren(this);
+		}
+	}
+
+	[RuleVersion(0)]
+	public ExpresionContext expresion() {
+		ExpresionContext _localctx = new ExpresionContext(_ctx, State);
+		EnterRule(_localctx, 40, RULE_expresion);
 		int _la;
 		try {
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 156;
+			State = 187; _localctx.a = multiplicacion();
+			State = 194;
+			_errHandler.Sync(this);
 			_la = _input.La(1);
-			if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << CONSTHEX) | (1L << CONSTCAD) | (1L << NUM) | (1L << MEM_DIR))) != 0)) ) {
-			_errHandler.RecoverInline(this);
-			} else {
-				if (_input.La(1) == TokenConstants.Eof) {
-					matchedEOF = true;
+			while (_la==FORMATO4 || _la==MENOS) {
+				{
+				State = 192;
+				_errHandler.Sync(this);
+				switch (_input.La(1)) {
+				case FORMATO4:
+					{
+					State = 188; Match(FORMATO4);
+					State = 189; _localctx.b = multiplicacion();
+					}
+					break;
+				case MENOS:
+					{
+					State = 190; Match(MENOS);
+					State = 191; _localctx.b = multiplicacion();
+					}
+					break;
+				default:
+					throw new NoViableAltException(this);
 				}
-
-				_errHandler.ReportMatch(this);
-				Consume();
+				}
+				State = 196;
+				_errHandler.Sync(this);
+				_la = _input.La(1);
 			}
 			}
 		}
@@ -1352,63 +1537,269 @@ public partial class Gramatica_CalculadoraParser : Parser {
 		return _localctx;
 	}
 
+	public partial class MultiplicacionContext : ParserRuleContext {
+		public float value;
+		public NumeroContext a;
+		public NumeroContext b;
+		public NumeroContext[] numero() {
+			return GetRuleContexts<NumeroContext>();
+		}
+		public NumeroContext numero(int i) {
+			return GetRuleContext<NumeroContext>(i);
+		}
+		public ITerminalNode[] POR() { return GetTokens(Gramatica_CalculadoraParser.POR); }
+		public ITerminalNode POR(int i) {
+			return GetToken(Gramatica_CalculadoraParser.POR, i);
+		}
+		public ITerminalNode[] ENTRE() { return GetTokens(Gramatica_CalculadoraParser.ENTRE); }
+		public ITerminalNode ENTRE(int i) {
+			return GetToken(Gramatica_CalculadoraParser.ENTRE, i);
+		}
+		public MultiplicacionContext(ParserRuleContext parent, int invokingState)
+			: base(parent, invokingState)
+		{
+		}
+		public override int RuleIndex { get { return RULE_multiplicacion; } }
+		public override void EnterRule(IParseTreeListener listener) {
+			IGramatica_CalculadoraListener typedListener = listener as IGramatica_CalculadoraListener;
+			if (typedListener != null) typedListener.EnterMultiplicacion(this);
+		}
+		public override void ExitRule(IParseTreeListener listener) {
+			IGramatica_CalculadoraListener typedListener = listener as IGramatica_CalculadoraListener;
+			if (typedListener != null) typedListener.ExitMultiplicacion(this);
+		}
+		public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor) {
+			IGramatica_CalculadoraVisitor<TResult> typedVisitor = visitor as IGramatica_CalculadoraVisitor<TResult>;
+			if (typedVisitor != null) return typedVisitor.VisitMultiplicacion(this);
+			else return visitor.VisitChildren(this);
+		}
+	}
+
+	[RuleVersion(0)]
+	public MultiplicacionContext multiplicacion() {
+		MultiplicacionContext _localctx = new MultiplicacionContext(_ctx, State);
+		EnterRule(_localctx, 42, RULE_multiplicacion);
+		int _la;
+		try {
+			EnterOuterAlt(_localctx, 1);
+			{
+			State = 197; _localctx.a = numero();
+			State = 204;
+			_errHandler.Sync(this);
+			_la = _input.La(1);
+			while (_la==POR || _la==ENTRE) {
+				{
+				State = 202;
+				_errHandler.Sync(this);
+				switch (_input.La(1)) {
+				case POR:
+					{
+					State = 198; Match(POR);
+					State = 199; _localctx.b = numero();
+					}
+					break;
+				case ENTRE:
+					{
+					State = 200; Match(ENTRE);
+					State = 201; _localctx.b = numero();
+					}
+					break;
+				default:
+					throw new NoViableAltException(this);
+				}
+				}
+				State = 206;
+				_errHandler.Sync(this);
+				_la = _input.La(1);
+			}
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			_errHandler.ReportError(this, re);
+			_errHandler.Recover(this, re);
+		}
+		finally {
+			ExitRule();
+		}
+		return _localctx;
+	}
+
+	public partial class NumeroContext : ParserRuleContext {
+		public float value;
+		public ITerminalNode NUM() { return GetToken(Gramatica_CalculadoraParser.NUM, 0); }
+		public ITerminalNode PARENI() { return GetToken(Gramatica_CalculadoraParser.PARENI, 0); }
+		public ExpresionContext expresion() {
+			return GetRuleContext<ExpresionContext>(0);
+		}
+		public ITerminalNode PAREND() { return GetToken(Gramatica_CalculadoraParser.PAREND, 0); }
+		public ITerminalNode MEM_DIR() { return GetToken(Gramatica_CalculadoraParser.MEM_DIR, 0); }
+		public ITerminalNode MENOS() { return GetToken(Gramatica_CalculadoraParser.MENOS, 0); }
+		public NumeroContext(ParserRuleContext parent, int invokingState)
+			: base(parent, invokingState)
+		{
+		}
+		public override int RuleIndex { get { return RULE_numero; } }
+		public override void EnterRule(IParseTreeListener listener) {
+			IGramatica_CalculadoraListener typedListener = listener as IGramatica_CalculadoraListener;
+			if (typedListener != null) typedListener.EnterNumero(this);
+		}
+		public override void ExitRule(IParseTreeListener listener) {
+			IGramatica_CalculadoraListener typedListener = listener as IGramatica_CalculadoraListener;
+			if (typedListener != null) typedListener.ExitNumero(this);
+		}
+		public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor) {
+			IGramatica_CalculadoraVisitor<TResult> typedVisitor = visitor as IGramatica_CalculadoraVisitor<TResult>;
+			if (typedVisitor != null) return typedVisitor.VisitNumero(this);
+			else return visitor.VisitChildren(this);
+		}
+	}
+
+	[RuleVersion(0)]
+	public NumeroContext numero() {
+		NumeroContext _localctx = new NumeroContext(_ctx, State);
+		EnterRule(_localctx, 44, RULE_numero);
+		try {
+			State = 217;
+			_errHandler.Sync(this);
+			switch ( Interpreter.AdaptivePredict(_input,20,_ctx) ) {
+			case 1:
+				EnterOuterAlt(_localctx, 1);
+				{
+				State = 207; Match(NUM);
+				}
+				break;
+
+			case 2:
+				EnterOuterAlt(_localctx, 2);
+				{
+				State = 208; Match(PARENI);
+				State = 209; expresion();
+				State = 210; Match(PAREND);
+				}
+				break;
+
+			case 3:
+				EnterOuterAlt(_localctx, 3);
+				{
+				State = 212; Match(MEM_DIR);
+				}
+				break;
+
+			case 4:
+				EnterOuterAlt(_localctx, 4);
+				{
+				State = 213; Match(MENOS);
+				State = 214; Match(NUM);
+				}
+				break;
+
+			case 5:
+				EnterOuterAlt(_localctx, 5);
+				{
+				State = 215; Match(MENOS);
+				State = 216; Match(MEM_DIR);
+				}
+				break;
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			_errHandler.ReportError(this, re);
+			_errHandler.Recover(this, re);
+		}
+		finally {
+			ExitRule();
+		}
+		return _localctx;
+	}
+
 	public static readonly string _serializedATN =
-		"\x3\xAF6F\x8320\x479D\xB75C\x4880\x1605\x191C\xAB37\x3\x19\xA1\x4\x2\t"+
-		"\x2\x4\x3\t\x3\x4\x4\t\x4\x4\x5\t\x5\x4\x6\t\x6\x4\a\t\a\x4\b\t\b\x4\t"+
-		"\t\t\x4\n\t\n\x4\v\t\v\x4\f\t\f\x4\r\t\r\x4\xE\t\xE\x4\xF\t\xF\x4\x10"+
-		"\t\x10\x4\x11\t\x11\x4\x12\t\x12\x4\x13\t\x13\x4\x14\t\x14\x4\x15\t\x15"+
-		"\x3\x2\x3\x2\x3\x2\x3\x2\x3\x3\x3\x3\x3\x3\x3\x3\x3\x3\x3\x3\x5\x3\x35"+
-		"\n\x3\x3\x4\x3\x4\x3\x4\x3\x4\x3\x4\x3\x4\x5\x4=\n\x4\x3\x5\x5\x5@\n\x5"+
-		"\x3\x6\x3\x6\a\x6\x44\n\x6\f\x6\xE\x6G\v\x6\x3\a\x3\a\x5\aK\n\a\x3\b\x3"+
-		"\b\x3\b\x3\b\x3\t\x3\t\x3\t\x3\t\x3\t\x3\n\x3\n\x3\v\x5\vY\n\v\x3\f\x3"+
-		"\f\x3\r\x3\r\x3\r\x3\r\x5\r\x61\n\r\x3\xE\x3\xE\x3\xE\x5\xE\x66\n\xE\x3"+
-		"\xF\x3\xF\x3\xF\x3\xF\x3\xF\x3\xF\x3\xF\x3\xF\x3\xF\x3\xF\x5\xFr\n\xF"+
-		"\x3\x10\x3\x10\x3\x10\x3\x10\x5\x10x\n\x10\x3\x11\x6\x11{\n\x11\r\x11"+
-		"\xE\x11|\x3\x11\x3\x11\x3\x12\x3\x12\x3\x12\x3\x12\x3\x12\x3\x12\x3\x12"+
-		"\x3\x12\x3\x12\x3\x12\x3\x12\x3\x12\x5\x12\x8D\n\x12\x3\x13\x3\x13\x3"+
-		"\x13\x3\x13\x3\x13\x3\x13\x5\x13\x95\n\x13\x3\x14\x3\x14\x3\x14\x3\x14"+
-		"\x3\x14\x3\x14\x5\x14\x9D\n\x14\x3\x15\x3\x15\x3\x15\x2\x2\x2\x16\x2\x2"+
-		"\x4\x2\x6\x2\b\x2\n\x2\f\x2\xE\x2\x10\x2\x12\x2\x14\x2\x16\x2\x18\x2\x1A"+
-		"\x2\x1C\x2\x1E\x2 \x2\"\x2$\x2&\x2(\x2\x2\x4\x5\x2\n\v\r\r\xF\x10\x4\x2"+
-		"\x3\x4\x16\x17\xA1\x2*\x3\x2\x2\x2\x4\x34\x3\x2\x2\x2\x6<\x3\x2\x2\x2"+
-		"\b?\x3\x2\x2\x2\n\x41\x3\x2\x2\x2\fJ\x3\x2\x2\x2\xEL\x3\x2\x2\x2\x10P"+
-		"\x3\x2\x2\x2\x12U\x3\x2\x2\x2\x14X\x3\x2\x2\x2\x16Z\x3\x2\x2\x2\x18`\x3"+
-		"\x2\x2\x2\x1A\x65\x3\x2\x2\x2\x1Cq\x3\x2\x2\x2\x1Ew\x3\x2\x2\x2 z\x3\x2"+
-		"\x2\x2\"\x8C\x3\x2\x2\x2$\x94\x3\x2\x2\x2&\x9C\x3\x2\x2\x2(\x9E\x3\x2"+
-		"\x2\x2*+\x5\x4\x3\x2+,\x5\n\x6\x2,-\x5\x6\x4\x2-\x3\x3\x2\x2\x2./\x5\x14"+
-		"\v\x2/\x30\a\f\x2\x2\x30\x31\a\x16\x2\x2\x31\x32\a\x18\x2\x2\x32\x35\x3"+
-		"\x2\x2\x2\x33\x35\x5\f\a\x2\x34.\x3\x2\x2\x2\x34\x33\x3\x2\x2\x2\x35\x5"+
-		"\x3\x2\x2\x2\x36\x37\a\xE\x2\x2\x37\x38\x5\b\x5\x2\x38\x39\a\x18\x2\x2"+
-		"\x39=\x3\x2\x2\x2:;\a\xE\x2\x2;=\x5\b\x5\x2<\x36\x3\x2\x2\x2<:\x3\x2\x2"+
-		"\x2=\a\x3\x2\x2\x2>@\a\x17\x2\x2?>\x3\x2\x2\x2?@\x3\x2\x2\x2@\t\x3\x2"+
-		"\x2\x2\x41\x45\x5\f\a\x2\x42\x44\x5\f\a\x2\x43\x42\x3\x2\x2\x2\x44G\x3"+
-		"\x2\x2\x2\x45\x43\x3\x2\x2\x2\x45\x46\x3\x2\x2\x2\x46\v\x3\x2\x2\x2G\x45"+
-		"\x3\x2\x2\x2HK\x5\xE\b\x2IK\x5\x10\t\x2JH\x3\x2\x2\x2JI\x3\x2\x2\x2K\r"+
-		"\x3\x2\x2\x2LM\x5\x14\v\x2MN\x5\x16\f\x2NO\a\x18\x2\x2O\xF\x3\x2\x2\x2"+
-		"PQ\x5\x14\v\x2QR\x5\x12\n\x2RS\x5(\x15\x2ST\a\x18\x2\x2T\x11\x3\x2\x2"+
-		"\x2UV\t\x2\x2\x2V\x13\x3\x2\x2\x2WY\a\x17\x2\x2XW\x3\x2\x2\x2XY\x3\x2"+
-		"\x2\x2Y\x15\x3\x2\x2\x2Z[\x5\x18\r\x2[\x17\x3\x2\x2\x2\\\x61\x5\x1A\xE"+
-		"\x2]\x61\x5\x1C\xF\x2^\x61\x5\x1E\x10\x2_\x61\x5 \x11\x2`\\\x3\x2\x2\x2"+
-		"`]\x3\x2\x2\x2`^\x3\x2\x2\x2`_\x3\x2\x2\x2\x61\x19\x3\x2\x2\x2\x62\x63"+
-		"\a\x6\x2\x2\x63\x66\a\x18\x2\x2\x64\x66\a\x6\x2\x2\x65\x62\x3\x2\x2\x2"+
-		"\x65\x64\x3\x2\x2\x2\x66\x1B\x3\x2\x2\x2gh\a\a\x2\x2hr\a\t\x2\x2ij\a\a"+
-		"\x2\x2jk\a\t\x2\x2kl\a\x14\x2\x2lr\a\t\x2\x2mn\a\a\x2\x2no\a\t\x2\x2o"+
-		"p\a\x14\x2\x2pr\a\x16\x2\x2qg\x3\x2\x2\x2qi\x3\x2\x2\x2qm\x3\x2\x2\x2"+
-		"r\x1D\x3\x2\x2\x2sx\x5\"\x12\x2tx\x5$\x13\x2ux\x5&\x14\x2vx\a\x5\x2\x2"+
-		"ws\x3\x2\x2\x2wt\x3\x2\x2\x2wu\x3\x2\x2\x2wv\x3\x2\x2\x2x\x1F\x3\x2\x2"+
-		"\x2y{\a\x13\x2\x2zy\x3\x2\x2\x2{|\x3\x2\x2\x2|z\x3\x2\x2\x2|}\x3\x2\x2"+
-		"\x2}~\x3\x2\x2\x2~\x7F\x5\x1E\x10\x2\x7F!\x3\x2\x2\x2\x80\x81\a\b\x2\x2"+
-		"\x81\x8D\a\x17\x2\x2\x82\x83\a\b\x2\x2\x83\x8D\a\x16\x2\x2\x84\x85\a\b"+
-		"\x2\x2\x85\x86\a\x16\x2\x2\x86\x87\a\x14\x2\x2\x87\x8D\a\t\x2\x2\x88\x89"+
-		"\a\b\x2\x2\x89\x8A\a\x17\x2\x2\x8A\x8B\a\x14\x2\x2\x8B\x8D\a\t\x2\x2\x8C"+
-		"\x80\x3\x2\x2\x2\x8C\x82\x3\x2\x2\x2\x8C\x84\x3\x2\x2\x2\x8C\x88\x3\x2"+
-		"\x2\x2\x8D#\x3\x2\x2\x2\x8E\x8F\a\b\x2\x2\x8F\x90\a\x11\x2\x2\x90\x95"+
-		"\a\x16\x2\x2\x91\x92\a\b\x2\x2\x92\x93\a\x11\x2\x2\x93\x95\a\x17\x2\x2"+
-		"\x94\x8E\x3\x2\x2\x2\x94\x91\x3\x2\x2\x2\x95%\x3\x2\x2\x2\x96\x97\a\b"+
-		"\x2\x2\x97\x98\a\x12\x2\x2\x98\x9D\a\x16\x2\x2\x99\x9A\a\b\x2\x2\x9A\x9B"+
-		"\a\x12\x2\x2\x9B\x9D\a\x17\x2\x2\x9C\x96\x3\x2\x2\x2\x9C\x99\x3\x2\x2"+
-		"\x2\x9D\'\x3\x2\x2\x2\x9E\x9F\t\x3\x2\x2\x9F)\x3\x2\x2\x2\x10\x34<?\x45"+
-		"JX`\x65qw|\x8C\x94\x9C";
+		"\x3\xAF6F\x8320\x479D\xB75C\x4880\x1605\x191C\xAB37\x3 \xDE\x4\x2\t\x2"+
+		"\x4\x3\t\x3\x4\x4\t\x4\x4\x5\t\x5\x4\x6\t\x6\x4\a\t\a\x4\b\t\b\x4\t\t"+
+		"\t\x4\n\t\n\x4\v\t\v\x4\f\t\f\x4\r\t\r\x4\xE\t\xE\x4\xF\t\xF\x4\x10\t"+
+		"\x10\x4\x11\t\x11\x4\x12\t\x12\x4\x13\t\x13\x4\x14\t\x14\x4\x15\t\x15"+
+		"\x4\x16\t\x16\x4\x17\t\x17\x4\x18\t\x18\x3\x2\x3\x2\x3\x2\x3\x2\x3\x3"+
+		"\x3\x3\x3\x3\x3\x3\x3\x3\x3\x3\x5\x3;\n\x3\x3\x4\x3\x4\x3\x4\x3\x4\x3"+
+		"\x4\x3\x4\x5\x4\x43\n\x4\x3\x5\x5\x5\x46\n\x5\x3\x6\x3\x6\a\x6J\n\x6\f"+
+		"\x6\xE\x6M\v\x6\x3\a\x3\a\x5\aQ\n\a\x3\b\x3\b\x3\b\x3\b\x3\t\x3\t\x3\t"+
+		"\x3\t\x3\t\x3\n\x3\n\x3\n\x3\n\x3\n\x3\n\x3\n\x3\n\x3\n\x3\n\x5\n\x66"+
+		"\n\n\x3\v\x5\vi\n\v\x3\f\x3\f\x3\r\x3\r\x3\r\x3\r\x5\rq\n\r\x3\xE\x3\xE"+
+		"\x3\xE\x5\xEv\n\xE\x3\xF\x3\xF\x3\xF\x3\xF\x3\xF\x3\xF\x3\xF\x3\xF\x3"+
+		"\xF\x3\xF\x5\xF\x82\n\xF\x3\x10\x3\x10\x3\x10\x3\x10\x5\x10\x88\n\x10"+
+		"\x3\x11\x6\x11\x8B\n\x11\r\x11\xE\x11\x8C\x3\x11\x3\x11\x3\x12\x3\x12"+
+		"\x3\x12\x3\x12\x3\x12\x3\x12\x3\x12\x3\x12\x3\x12\x3\x12\x3\x12\x3\x12"+
+		"\x3\x12\x3\x12\x5\x12\x9F\n\x12\x3\x13\x3\x13\x3\x13\x3\x13\x3\x13\x3"+
+		"\x13\x3\x13\x3\x13\x3\x13\x5\x13\xAA\n\x13\x3\x14\x3\x14\x3\x14\x3\x14"+
+		"\x3\x14\x3\x14\x3\x14\x3\x14\x3\x14\x5\x14\xB5\n\x14\x3\x15\x3\x15\x3"+
+		"\x15\x3\x15\x3\x15\x5\x15\xBC\n\x15\x3\x16\x3\x16\x3\x16\x3\x16\x3\x16"+
+		"\a\x16\xC3\n\x16\f\x16\xE\x16\xC6\v\x16\x3\x17\x3\x17\x3\x17\x3\x17\x3"+
+		"\x17\a\x17\xCD\n\x17\f\x17\xE\x17\xD0\v\x17\x3\x18\x3\x18\x3\x18\x3\x18"+
+		"\x3\x18\x3\x18\x3\x18\x3\x18\x3\x18\x3\x18\x5\x18\xDC\n\x18\x3\x18\x2"+
+		"\x2\x2\x19\x2\x2\x4\x2\x6\x2\b\x2\n\x2\f\x2\xE\x2\x10\x2\x12\x2\x14\x2"+
+		"\x16\x2\x18\x2\x1A\x2\x1C\x2\x1E\x2 \x2\"\x2$\x2&\x2(\x2*\x2,\x2.\x2\x2"+
+		"\x2\xEF\x2\x30\x3\x2\x2\x2\x4:\x3\x2\x2\x2\x6\x42\x3\x2\x2\x2\b\x45\x3"+
+		"\x2\x2\x2\nG\x3\x2\x2\x2\fP\x3\x2\x2\x2\xER\x3\x2\x2\x2\x10V\x3\x2\x2"+
+		"\x2\x12\x65\x3\x2\x2\x2\x14h\x3\x2\x2\x2\x16j\x3\x2\x2\x2\x18p\x3\x2\x2"+
+		"\x2\x1Au\x3\x2\x2\x2\x1C\x81\x3\x2\x2\x2\x1E\x87\x3\x2\x2\x2 \x8A\x3\x2"+
+		"\x2\x2\"\x9E\x3\x2\x2\x2$\xA9\x3\x2\x2\x2&\xB4\x3\x2\x2\x2(\xBB\x3\x2"+
+		"\x2\x2*\xBD\x3\x2\x2\x2,\xC7\x3\x2\x2\x2.\xDB\x3\x2\x2\x2\x30\x31\x5\x4"+
+		"\x3\x2\x31\x32\x5\n\x6\x2\x32\x33\x5\x6\x4\x2\x33\x3\x3\x2\x2\x2\x34\x35"+
+		"\x5\x14\v\x2\x35\x36\a\f\x2\x2\x36\x37\a\x1D\x2\x2\x37\x38\a\x1F\x2\x2"+
+		"\x38;\x3\x2\x2\x2\x39;\x5\f\a\x2:\x34\x3\x2\x2\x2:\x39\x3\x2\x2\x2;\x5"+
+		"\x3\x2\x2\x2<=\a\xE\x2\x2=>\x5\b\x5\x2>?\a\x1F\x2\x2?\x43\x3\x2\x2\x2"+
+		"@\x41\a\xE\x2\x2\x41\x43\x5\b\x5\x2\x42<\x3\x2\x2\x2\x42@\x3\x2\x2\x2"+
+		"\x43\a\x3\x2\x2\x2\x44\x46\a\x1E\x2\x2\x45\x44\x3\x2\x2\x2\x45\x46\x3"+
+		"\x2\x2\x2\x46\t\x3\x2\x2\x2GK\x5\f\a\x2HJ\x5\f\a\x2IH\x3\x2\x2\x2JM\x3"+
+		"\x2\x2\x2KI\x3\x2\x2\x2KL\x3\x2\x2\x2L\v\x3\x2\x2\x2MK\x3\x2\x2\x2NQ\x5"+
+		"\xE\b\x2OQ\x5\x10\t\x2PN\x3\x2\x2\x2PO\x3\x2\x2\x2Q\r\x3\x2\x2\x2RS\x5"+
+		"\x14\v\x2ST\x5\x16\f\x2TU\a\x1F\x2\x2U\xF\x3\x2\x2\x2VW\x5\x14\v\x2WX"+
+		"\x5\x12\n\x2XY\x5(\x15\x2YZ\a\x1F\x2\x2Z\x11\x3\x2\x2\x2[\x66\a\x10\x2"+
+		"\x2\\\x66\a\xF\x2\x2]\x66\a\n\x2\x2^\x66\a\v\x2\x2_\x66\a\r\x2\x2`\x61"+
+		"\a\x1E\x2\x2\x61\x62\a\x11\x2\x2\x62\x63\x5*\x16\x2\x63\x64\a\x1F\x2\x2"+
+		"\x64\x66\x3\x2\x2\x2\x65[\x3\x2\x2\x2\x65\\\x3\x2\x2\x2\x65]\x3\x2\x2"+
+		"\x2\x65^\x3\x2\x2\x2\x65_\x3\x2\x2\x2\x65`\x3\x2\x2\x2\x66\x13\x3\x2\x2"+
+		"\x2gi\a\x1E\x2\x2hg\x3\x2\x2\x2hi\x3\x2\x2\x2i\x15\x3\x2\x2\x2jk\x5\x18"+
+		"\r\x2k\x17\x3\x2\x2\x2lq\x5\x1A\xE\x2mq\x5\x1C\xF\x2nq\x5\x1E\x10\x2o"+
+		"q\x5 \x11\x2pl\x3\x2\x2\x2pm\x3\x2\x2\x2pn\x3\x2\x2\x2po\x3\x2\x2\x2q"+
+		"\x19\x3\x2\x2\x2rs\a\x6\x2\x2sv\a\x1F\x2\x2tv\a\x6\x2\x2ur\x3\x2\x2\x2"+
+		"ut\x3\x2\x2\x2v\x1B\x3\x2\x2\x2wx\a\a\x2\x2x\x82\a\t\x2\x2yz\a\a\x2\x2"+
+		"z{\a\t\x2\x2{|\a\x15\x2\x2|\x82\a\t\x2\x2}~\a\a\x2\x2~\x7F\a\t\x2\x2\x7F"+
+		"\x80\a\x15\x2\x2\x80\x82\a\x1D\x2\x2\x81w\x3\x2\x2\x2\x81y\x3\x2\x2\x2"+
+		"\x81}\x3\x2\x2\x2\x82\x1D\x3\x2\x2\x2\x83\x88\x5\"\x12\x2\x84\x88\x5$"+
+		"\x13\x2\x85\x88\x5&\x14\x2\x86\x88\a\x5\x2\x2\x87\x83\x3\x2\x2\x2\x87"+
+		"\x84\x3\x2\x2\x2\x87\x85\x3\x2\x2\x2\x87\x86\x3\x2\x2\x2\x88\x1F\x3\x2"+
+		"\x2\x2\x89\x8B\a\x14\x2\x2\x8A\x89\x3\x2\x2\x2\x8B\x8C\x3\x2\x2\x2\x8C"+
+		"\x8A\x3\x2\x2\x2\x8C\x8D\x3\x2\x2\x2\x8D\x8E\x3\x2\x2\x2\x8E\x8F\x5\x1E"+
+		"\x10\x2\x8F!\x3\x2\x2\x2\x90\x91\a\b\x2\x2\x91\x9F\a\x1E\x2\x2\x92\x93"+
+		"\a\b\x2\x2\x93\x9F\a\x1D\x2\x2\x94\x95\a\b\x2\x2\x95\x96\a\x1D\x2\x2\x96"+
+		"\x97\a\x15\x2\x2\x97\x9F\a\t\x2\x2\x98\x99\a\b\x2\x2\x99\x9A\a\x1E\x2"+
+		"\x2\x9A\x9B\a\x15\x2\x2\x9B\x9F\a\t\x2\x2\x9C\x9D\a\b\x2\x2\x9D\x9F\x5"+
+		"*\x16\x2\x9E\x90\x3\x2\x2\x2\x9E\x92\x3\x2\x2\x2\x9E\x94\x3\x2\x2\x2\x9E"+
+		"\x98\x3\x2\x2\x2\x9E\x9C\x3\x2\x2\x2\x9F#\x3\x2\x2\x2\xA0\xA1\a\b\x2\x2"+
+		"\xA1\xA2\a\x12\x2\x2\xA2\xAA\a\x1D\x2\x2\xA3\xA4\a\b\x2\x2\xA4\xA5\a\x12"+
+		"\x2\x2\xA5\xAA\a\x1E\x2\x2\xA6\xA7\a\b\x2\x2\xA7\xA8\a\x12\x2\x2\xA8\xAA"+
+		"\x5*\x16\x2\xA9\xA0\x3\x2\x2\x2\xA9\xA3\x3\x2\x2\x2\xA9\xA6\x3\x2\x2\x2"+
+		"\xAA%\x3\x2\x2\x2\xAB\xAC\a\b\x2\x2\xAC\xAD\a\x13\x2\x2\xAD\xB5\a\x1D"+
+		"\x2\x2\xAE\xAF\a\b\x2\x2\xAF\xB0\a\x13\x2\x2\xB0\xB5\a\x1E\x2\x2\xB1\xB2"+
+		"\a\b\x2\x2\xB2\xB3\a\x13\x2\x2\xB3\xB5\x5*\x16\x2\xB4\xAB\x3\x2\x2\x2"+
+		"\xB4\xAE\x3\x2\x2\x2\xB4\xB1\x3\x2\x2\x2\xB5\'\x3\x2\x2\x2\xB6\xBC\a\x1D"+
+		"\x2\x2\xB7\xBC\a\x3\x2\x2\xB8\xBC\a\x4\x2\x2\xB9\xBC\a\x1E\x2\x2\xBA\xBC"+
+		"\x5*\x16\x2\xBB\xB6\x3\x2\x2\x2\xBB\xB7\x3\x2\x2\x2\xBB\xB8\x3\x2\x2\x2"+
+		"\xBB\xB9\x3\x2\x2\x2\xBB\xBA\x3\x2\x2\x2\xBC)\x3\x2\x2\x2\xBD\xC4\x5,"+
+		"\x17\x2\xBE\xBF\a\x14\x2\x2\xBF\xC3\x5,\x17\x2\xC0\xC1\a\x19\x2\x2\xC1"+
+		"\xC3\x5,\x17\x2\xC2\xBE\x3\x2\x2\x2\xC2\xC0\x3\x2\x2\x2\xC3\xC6\x3\x2"+
+		"\x2\x2\xC4\xC2\x3\x2\x2\x2\xC4\xC5\x3\x2\x2\x2\xC5+\x3\x2\x2\x2\xC6\xC4"+
+		"\x3\x2\x2\x2\xC7\xCE\x5.\x18\x2\xC8\xC9\a\x1A\x2\x2\xC9\xCD\x5.\x18\x2"+
+		"\xCA\xCB\a\x1C\x2\x2\xCB\xCD\x5.\x18\x2\xCC\xC8\x3\x2\x2\x2\xCC\xCA\x3"+
+		"\x2\x2\x2\xCD\xD0\x3\x2\x2\x2\xCE\xCC\x3\x2\x2\x2\xCE\xCF\x3\x2\x2\x2"+
+		"\xCF-\x3\x2\x2\x2\xD0\xCE\x3\x2\x2\x2\xD1\xDC\a\x1D\x2\x2\xD2\xD3\a\x17"+
+		"\x2\x2\xD3\xD4\x5*\x16\x2\xD4\xD5\a\x18\x2\x2\xD5\xDC\x3\x2\x2\x2\xD6"+
+		"\xDC\a\x1E\x2\x2\xD7\xD8\a\x19\x2\x2\xD8\xDC\a\x1D\x2\x2\xD9\xDA\a\x19"+
+		"\x2\x2\xDA\xDC\a\x1E\x2\x2\xDB\xD1\x3\x2\x2\x2\xDB\xD2\x3\x2\x2\x2\xDB"+
+		"\xD6\x3\x2\x2\x2\xDB\xD7\x3\x2\x2\x2\xDB\xD9\x3\x2\x2\x2\xDC/\x3\x2\x2"+
+		"\x2\x17:\x42\x45KP\x65hpu\x81\x87\x8C\x9E\xA9\xB4\xBB\xC2\xC4\xCC\xCE"+
+		"\xDB";
 	public static readonly ATN _ATN =
 		new ATNDeserializer().Deserialize(_serializedATN.ToCharArray());
 }
