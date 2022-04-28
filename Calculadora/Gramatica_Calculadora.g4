@@ -31,10 +31,10 @@ instruccion:
 	etiqueta opinstruccion FINL
 	;
 directiva:
-	etiqueta tipodirectiva opdirectiva FINL
+	etiqueta tipodirectiva opdirectiva FINL | MEM_DIR EQU expresion FINL
 	;
 tipodirectiva:
-	BASE | BYTE | WORD | RESB | RESW | MEM_DIR EQU expresion FINL
+	BASE | BYTE | WORD | RESB | RESW
 	;
 etiqueta:
 	MEM_DIR?
@@ -67,9 +67,9 @@ inmediato3:
 	COD_OP_F3 HASHTAG NUM | COD_OP_F3 HASHTAG MEM_DIR | COD_OP_F3 HASHTAG expresion
 	;
 opdirectiva:
-	NUM | CONSTHEX| CONSTCAD | MEM_DIR | expresion
+	NUM | CONSTHEX| CONSTCAD | MEM_DIR
 	;
-expresion returns[float value]						
+expresion		
 	:	
 	a = multiplicacion(		
 	FORMATO4 b = multiplicacion 				
@@ -77,17 +77,18 @@ expresion returns[float value]
 	MENOS b = multiplicacion)*	
 	;
 	
-multiplicacion returns[float value]					
-	:	
-	a = numero (				
-	POR b = numero		
+multiplicacion				
+	:
+	a = numero (			
+	POR b = numero	
 	|
 	ENTRE b = numero
-	)*	
+	)*
 	;
-numero returns[float value]							
+	
+numero						
 	:	
-	NUM				
+	INT				
 	|	
 	PARENI expresion PAREND	
 	|
