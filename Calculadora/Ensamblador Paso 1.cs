@@ -267,9 +267,9 @@ namespace Calculadora
         /// <param name="context"></param>
         public override void ExitDirectiva([NotNull] Gramatica_CalculadoraParser.DirectivaContext context)
         {
-            if(context.etiqueta().GetText() != null)
+            label = context.etiqueta().GetText();
+            if (context.tipodirectiva() != null)
             {
-                label = context.etiqueta().GetText();
                 ins = context.tipodirectiva().GetText();
                 if (context.tipodirectiva().GetText() == "WORD ")
                 {
@@ -345,28 +345,26 @@ namespace Calculadora
                     else
                         WriteFile(tool.StrToIntToHex(CP.ToString()), label, ins, opIns);
                 }
-
                 var opDir = context.opdirectiva();
-                base.ExitDirectiva(context);
-            }
-            else//ES EQU
+            }else
             {
-                label = context.MEM_DIR().GetText();
-                tool.Calculate_expresion(context, 1); //Pabs calcula tipo termino. Funcion retorna resultado expresion
-                ins = context.EQU().GetText();
-                opIns = valorEQU;
-                //valor de EQU puede ser:
-                //-Una constante(número decimal o hex)
-                //-Una expresión, formada por constantes y / o símbolos previamente definidos.
-                //- Asterisco(*)
-                if (label != "")
-                    WriteFileTabSim(label, tool.StrToIntToHex(valorEQU), tipo_termino);
-                if (repeatedSymbol)
-                    WriteFile(tool.StrToIntToHex(CP.ToString()) + "*", label, ins, opIns);
+                ins = "EQU ";
+                if (context.direqu().expresion() != null)
+                    opIns = context.direqu().expresion().GetText();
                 else
-                    WriteFile(tool.StrToIntToHex(CP.ToString()), label, ins, opIns);
+                    opIns = "*";
+                if (label != "" && opIns == "*")
+                {
+                    WriteFileTabSim(label, tool.StrToIntToHex(CP.ToString()));
+                    if (repeatedSymbol)
+                        WriteFile(tool.StrToIntToHex(CP.ToString()) + "*", label, ins, opIns);
+                    else
+                        WriteFile(tool.StrToIntToHex(CP.ToString()), label, ins, opIns);
+                }
+                    
 
             }
+            base.ExitDirectiva(context);
         }
 
         /// <summary>
@@ -475,7 +473,11 @@ namespace Calculadora
             if (formato.f3().simple3() != null)
             {
                 ins = formato.f3().simple3().COD_OP_F3().GetText();
-                if (formato.f3().simple3().MEM_DIR() != null)
+                if(formato.f3().simple3().expresion() != null)
+                {
+                    opIns += formato.f3().simple3().expresion().GetText();
+                }
+                else if (formato.f3().simple3().MEM_DIR() != null)
                 {
                     if (formato.f3().simple3().REG() != null)
                     {
@@ -502,26 +504,26 @@ namespace Calculadora
             else if (formato.f3().indirecto3() != null)
             {
                 ins = formato.f3().indirecto3().COD_OP_F3().GetText();
-                if (formato.f3().indirecto3().MEM_DIR() != null)
+                if (formato.f3().indirecto3().expresion().MEM_DIR() != null)
                 {
-                    opIns += "@" + formato.f3().indirecto3().MEM_DIR().GetText();
+                    opIns += "@" + formato.f3().indirecto3().expresion().MEM_DIR().GetText();
                 }
                 else
                 {
-                    opIns += "@" + formato.f3().indirecto3().NUM().GetText();
+                    opIns += "@" + formato.f3().indirecto3().expresion().NUM().GetText();
                 }
             }
             else if (formato.f3().inmediato3() != null)
             {
                 
                 ins = formato.f3().inmediato3().COD_OP_F3().GetText();
-                if (formato.f3().inmediato3().MEM_DIR() != null)
+                if (formato.f3().inmediato3().expresion().MEM_DIR() != null)
                 {
-                    opIns += "#" + formato.f3().inmediato3().MEM_DIR().GetText();
+                    opIns += "#" + formato.f3().inmediato3().expresion().MEM_DIR().GetText();
                 }
                 else
                 {
-                    opIns += "#" + formato.f3().inmediato3().NUM().GetText();
+                    opIns += "#" + formato.f3().inmediato3().expresion().NUM().GetText();
                 }
             }else
             {
@@ -547,7 +549,11 @@ namespace Calculadora
             if (formato.f4().f3().simple3() != null)
             {
                 ins = "+" + formato.f4().f3().simple3().COD_OP_F3().GetText();
-                if (formato.f4().f3().simple3().MEM_DIR() != null)
+                if (formato.f4().f3().simple3().expresion() != null)
+                {
+                    opIns += formato.f4().f3().simple3().expresion().GetText();
+                }
+                else if (formato.f4().f3().simple3().MEM_DIR() != null)
                 {
                     if (formato.f4().f3().simple3().REG() != null)
                     {
@@ -574,26 +580,28 @@ namespace Calculadora
             else if (formato.f4().f3().indirecto3() != null)
             {
                 ins = "+" + formato.f4().f3().indirecto3().COD_OP_F3().GetText();
-                if (formato.f4().f3().indirecto3().MEM_DIR() != null)
-                {
-                    opIns += "@" + formato.f4().f3().indirecto3().MEM_DIR().GetText();
-                }
-                else
-                {
-                    opIns += "@" + formato.f4().f3().indirecto3().NUM().GetText();
-                }
+                opIns += formato.f4().f3().indirecto3().expresion().GetText();
+                //if (formato.f4().f3().indirecto3().expresion().MEM_DIR() != null)
+                //{
+                //    opIns += "@" + formato.f4().f3().indirecto3().expresion().MEM_DIR().GetText();
+                //}
+                //else
+                //{
+                //    opIns += "@" + formato.f4().f3().indirecto3().expresion().NUM().GetText();
+                //}
             }
             else
             {
                 ins = "+" + formato.f4().f3().inmediato3().COD_OP_F3().GetText();
-                if (formato.f4().f3().inmediato3().MEM_DIR() != null)
-                {
-                    opIns += "#" + formato.f4().f3().inmediato3().MEM_DIR().GetText();
-                }
-                else
-                {
-                    opIns += "#" + formato.f4().f3().inmediato3().NUM().GetText();
-                }
+                opIns += formato.f4().f3().inmediato3().expresion().GetText();
+                //if (formato.f4().f3().inmediato3().expresion().MEM_DIR() != null)
+                //{
+                //    opIns += "#" + formato.f4().f3().inmediato3().expresion().MEM_DIR().GetText();
+                //}
+                //else
+                //{
+                //    opIns += "#" + formato.f4().f3().inmediato3().expresion().NUM().GetText();
+                //}
             }
             if (label != "")
                 WriteFileTabSim(label, tool.StrToIntToHex(CP.ToString()));

@@ -31,8 +31,11 @@ instruccion:
 	etiqueta opinstruccion FINL
 	;
 directiva:
-	etiqueta tipodirectiva opdirectiva FINL | MEM_DIR EQU expresion FINL | ORG NUM FINL
+	etiqueta tipodirectiva opdirectiva FINL | etiqueta direqu FINL
 	;
+	
+direqu	:EQU expresion | EQU POR ;
+
 tipodirectiva:
 	BASE | BYTE | WORD | RESB | RESW
 	;
@@ -58,45 +61,22 @@ f4:
 	FORMATO4+f3
 	;
 simple3:
-	COD_OP_F3 MEM_DIR | COD_OP_F3 NUM | COD_OP_F3 NUM COMA REG | COD_OP_F3 MEM_DIR COMA REG | COD_OP_F3 expresion
+	COD_OP_F3 NUM COMA REG | COD_OP_F3 MEM_DIR COMA REG | COD_OP_F3 expresion
 	;
 indirecto3:
-	COD_OP_F3 ARROBA NUM | COD_OP_F3 ARROBA MEM_DIR | COD_OP_F3 ARROBA expresion
+	COD_OP_F3 ARROBA expresion
 	;
 inmediato3:
-	COD_OP_F3 HASHTAG NUM | COD_OP_F3 HASHTAG MEM_DIR | COD_OP_F3 HASHTAG expresion
+	COD_OP_F3 HASHTAG expresion
 	;
 opdirectiva:
 	NUM | CONSTHEX| CONSTCAD | MEM_DIR
 	;
-expresion		
-	:	
-	a = multiplicacion(		
-	FORMATO4 b = multiplicacion 				
-	|
-	MENOS b = multiplicacion)*	
+expresion	:	
+	PARENI expresion PAREND expresion2 | MENOS expresion expresion2 |MEM_DIR expresion2|NUM expresion2
 	;
-	
-multiplicacion				
-	:
-	a = numero (			
-	POR b = numero	
-	|
-	ENTRE b = numero
-	)*
-	;
-	
-numero						
-	:	
-	INT				
-	|	
-	PARENI expresion PAREND	
-	|
-	MEM_DIR
-	|
-	MENOS NUM //numeros negativos
-	|
-	MENOS MEM_DIR
+expresion2	:
+	FORMATO4 expresion expresion2 | MENOS expresion expresion2 |POR expresion expresion2 | ENTRE expresion expresion2|
 	;
 /*
 *	Reglas del Lexer.
@@ -131,26 +111,23 @@ BASE	:	'BASE '|'BASE';
 EQU	:	'EQU' | 'EQU ';
 ARROBA	:	'@';
 HASHTAG	:	'#';
-FORMATO4:	'+';
+FORMATO4:	'+' | '+ ';
 COMA	:	', '|',';
 COMILLA	:	'"';
 PARENI
-	:	'('		//token de parentesis derecho
+	:	'('	| '( '	//token de parentesis derecho
 	;
 PAREND
-	:	')'		//token de parentesis izquierdo.
+	:	')'	| ') '	//token de parentesis izquierdo.
 	;
 MENOS 
-	: '-'		//token de signo menos
+	: '-'	| '- '	//token de signo menos
 	;
 POR
-	: '*'		//token de signo por
-	;
-INT
-	:('0'..'9')+	//tokens validos para numeros
+	: '*'	| '* '	//token de signo por
 	;
 ENTRE
-	: '/'		//token de signo entre
+	: '/'	| '/ '	//token de signo entre
 	;
 NUM
 	:('0'..'9')+|('a'..'z'|'A'..'Z'|'0'..'9')+'H'|('a'..'z'|'A'..'Z'|'0'..'9')+'h'
