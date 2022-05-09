@@ -20,6 +20,7 @@ namespace Calculadora
         bool inst2 = false;
         bool inst3 = false;
         bool is_byte = false;
+        String tipo = "R";
         string byte_error = "";
         static string name_programa = "";
         String label = "";
@@ -183,7 +184,7 @@ namespace Calculadora
             if(inst1 && error == "")
             {
                 if (label != "")
-                    WriteFileTabSim(label, tool.StrToIntToHex(CP.ToString()));
+                    WriteFileTabSim(label, tool.StrToIntToHex(CP.ToString()),tipo);
                 if (repeatedSymbol)
                     WriteFile(tool.StrToIntToHex(CP.ToString()) + "*", label, ins, opIns);
                 else
@@ -192,7 +193,7 @@ namespace Calculadora
             }else if (inst2 && error == "")
             {
                 if (label != "")
-                    WriteFileTabSim(label, tool.StrToIntToHex(CP.ToString()));
+                    WriteFileTabSim(label, tool.StrToIntToHex(CP.ToString()), tipo);
                 if (repeatedSymbol)
                     WriteFile(tool.StrToIntToHex(CP.ToString()) + "*", label, ins, opIns);
                 else
@@ -275,7 +276,7 @@ namespace Calculadora
                 {
                     opIns = context.opdirectiva().NUM().GetText();
                     if (label != "")
-                        WriteFileTabSim(label, tool.StrToIntToHex(CP.ToString()));
+                        WriteFileTabSim(label, tool.StrToIntToHex(CP.ToString()), tipo);
                     if (repeatedSymbol)
                         WriteFile(tool.StrToIntToHex(CP.ToString()) + "*", label, ins, opIns);
                     else
@@ -286,7 +287,7 @@ namespace Calculadora
                 {
                     opIns = context.opdirectiva().NUM().GetText();
                     if (label != "")
-                        WriteFileTabSim(label, tool.StrToIntToHex(CP.ToString()));
+                        WriteFileTabSim(label, tool.StrToIntToHex(CP.ToString()), tipo);
                     if (repeatedSymbol)
                         WriteFile(tool.StrToIntToHex(CP.ToString()) + "*", label, ins, opIns);
                     else
@@ -302,7 +303,7 @@ namespace Calculadora
                         float nibble = ((float)hex.Length - 3) / 2;
                         int plus = (int)Math.Ceiling(nibble);
                         if (label != "")
-                            WriteFileTabSim(label, tool.StrToIntToHex(CP.ToString()));
+                            WriteFileTabSim(label, tool.StrToIntToHex(CP.ToString()), tipo);
                         if (repeatedSymbol)
                             WriteFile(tool.StrToIntToHex(CP.ToString()) + "*", label, ins, opIns);
                         else
@@ -315,7 +316,7 @@ namespace Calculadora
                         char[] hex = context.opdirectiva().CONSTCAD().GetText().ToCharArray();
                         int plus = hex.Length - 3;
                         if (label != "")
-                            WriteFileTabSim(label, tool.StrToIntToHex(CP.ToString()));
+                            WriteFileTabSim(label, tool.StrToIntToHex(CP.ToString()), tipo);
                         if (repeatedSymbol)
                             WriteFile(tool.StrToIntToHex(CP.ToString()) + "*", label, ins, opIns);
                         else
@@ -328,7 +329,7 @@ namespace Calculadora
                 {
                     opIns = context.opdirectiva().NUM().GetText();
                     if (label != "")
-                        WriteFileTabSim(label, tool.StrToIntToHex(CP.ToString()));
+                        WriteFileTabSim(label, tool.StrToIntToHex(CP.ToString()), tipo);
                     if (repeatedSymbol)
                         WriteFile(tool.StrToIntToHex(CP.ToString()) + "*", label, ins, opIns);
                     else
@@ -339,7 +340,7 @@ namespace Calculadora
                 {
                     opIns = context.opdirectiva().MEM_DIR().GetText();
                     if (label != "")
-                        WriteFileTabSim(label, tool.StrToIntToHex(CP.ToString()));
+                        WriteFileTabSim(label, tool.StrToIntToHex(CP.ToString()), tipo);
                     if (repeatedSymbol)
                         WriteFile(tool.StrToIntToHex(CP.ToString()) + "*", label, ins, opIns);
                     else
@@ -355,11 +356,38 @@ namespace Calculadora
                     opIns = "*";
                 if (label != "" && opIns == "*")
                 {
-                    WriteFileTabSim(label, tool.StrToIntToHex(CP.ToString()));
+                    WriteFileTabSim(label, tool.StrToIntToHex(CP.ToString()), tipo);
                     if (repeatedSymbol)
                         WriteFile(tool.StrToIntToHex(CP.ToString()) + "*", label, ins, opIns);
                     else
                         WriteFile(tool.StrToIntToHex(CP.ToString()), label, ins, opIns);
+                }
+                else if(label != "")
+                {
+                    switch(tool.Calculate_expression(opIns, 1))
+                    {
+                        case -1: // expresion no es valida
+                            tipo = "A";
+                            WriteFileTabSim(label, "FFFFFF", tipo);
+                            WriteFile(tool.StrToIntToHex(CP.ToString()) + "*", label, ins, opIns);
+                            tipo = "R";
+                            //error
+                            break;
+                        case 0: // es valida absoluta sin expresion
+                            tipo = "A";
+                            String str= tool.StrToIntToHex(tool.HexToInt(opIns).ToString());
+                            WriteFileTabSim(label, str, tipo);
+                            if (repeatedSymbol)
+                                WriteFile(tool.StrToIntToHex(CP.ToString()) + "*", label, ins, opIns);
+                            else
+                                WriteFile(tool.StrToIntToHex(CP.ToString()), label, ins, opIns);
+                            tipo = "R";
+                            break;
+                        case 1: // es valida absoluta
+                            break;
+                        case 2: // es valida relativa
+                            break;
+                    }
                 }
                     
 
@@ -440,10 +468,10 @@ namespace Calculadora
         /// </summary>
         /// <param name="symb"></param>
         /// <param name="dir"></param>
-        public void WriteFileTabSim(String symb, String dir)
+        public void WriteFileTabSim(String symb, String dir, String tipo)
         {
             // String line = "Simbolo" + "    Direccion";
-            String line = symb + "\t" + dir;
+            String line = symb + "\t" + dir + "\t" + tipo;
             string directory = Directory.GetCurrentDirectory();
             string path = directory + "TABSIM.txt";
             if (File.Exists(path))
@@ -531,7 +559,7 @@ namespace Calculadora
                 opIns = "";
             }
             if (label != "")
-                WriteFileTabSim(label, tool.StrToIntToHex(CP.ToString()));
+                WriteFileTabSim(label, tool.StrToIntToHex(CP.ToString()),tipo);
             if (repeatedSymbol)
                 WriteFile(tool.StrToIntToHex(CP.ToString()) + "*", label, ins, opIns);
             else
@@ -604,7 +632,7 @@ namespace Calculadora
                 //}
             }
             if (label != "")
-                WriteFileTabSim(label, tool.StrToIntToHex(CP.ToString()));
+                WriteFileTabSim(label, tool.StrToIntToHex(CP.ToString()), tipo);
             if (repeatedSymbol)
                 WriteFile(tool.StrToIntToHex(CP.ToString()) + "*", label, ins, opIns);
             else

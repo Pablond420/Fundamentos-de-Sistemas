@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-// Generated from C:\Users\Usuario\Google Drive\UASLP\Semestre X\Fundamentos de Software de Sistemas\Laboratorio\Fundamentos-de-Sistemas\Calculadora\Gramatica_Calculadora.g4 by ANTLR 4.6.6
+// Generated from C:\Users\USUARIO\Documents\Repositorios\SICXe\Calculadora\Gramatica_Calculadora.g4 by ANTLR 4.6.6
 
 // Unreachable code detected
 #pragma warning disable 0162
@@ -87,6 +87,13 @@ public interface IGramatica_CalculadoraVisitor<Result> : IParseTreeVisitor<Resul
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
 	Result VisitDirectiva([NotNull] Gramatica_CalculadoraParser.DirectivaContext context);
+
+	/// <summary>
+	/// Visit a parse tree produced by <see cref="Gramatica_CalculadoraParser.direqu"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitDirequ([NotNull] Gramatica_CalculadoraParser.DirequContext context);
 
 	/// <summary>
 	/// Visit a parse tree produced by <see cref="Gramatica_CalculadoraParser.tipodirectiva"/>.
@@ -180,17 +187,10 @@ public interface IGramatica_CalculadoraVisitor<Result> : IParseTreeVisitor<Resul
 	Result VisitExpresion([NotNull] Gramatica_CalculadoraParser.ExpresionContext context);
 
 	/// <summary>
-	/// Visit a parse tree produced by <see cref="Gramatica_CalculadoraParser.multiplicacion"/>.
+	/// Visit a parse tree produced by <see cref="Gramatica_CalculadoraParser.expresion2"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
-	Result VisitMultiplicacion([NotNull] Gramatica_CalculadoraParser.MultiplicacionContext context);
-
-	/// <summary>
-	/// Visit a parse tree produced by <see cref="Gramatica_CalculadoraParser.numero"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	/// <return>The visitor result.</return>
-	Result VisitNumero([NotNull] Gramatica_CalculadoraParser.NumeroContext context);
+	Result VisitExpresion2([NotNull] Gramatica_CalculadoraParser.Expresion2Context context);
 }
 } // namespace Calculadora

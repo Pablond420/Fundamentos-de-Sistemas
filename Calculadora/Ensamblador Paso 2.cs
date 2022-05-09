@@ -542,7 +542,17 @@ namespace Calculadora
                 {
                     indextabsim++;
                     while (indextabsim < line.Length)
-                        res += line[indextabsim++].ToString();
+                    {
+                        if (line[indextabsim] != '\t')
+                            res += line[indextabsim++].ToString();
+                        else
+                        {
+                            indextabsim++;
+                            break;
+                        }
+                    }
+                        
+                    break;
                 }
                 indextabsim++;
             }

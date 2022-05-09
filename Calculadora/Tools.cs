@@ -17,10 +17,19 @@ namespace Calculadora
         public string object_program = "";
         public string errors = "";
         public bool is_newFile = false;
+        public bool is_symbol = false;
+        public bool expresion_type = false;
+        public int value_expr = 0;
+        public int ret = -1;
+
         public string text = "";
         public string directory = Directory.GetCurrentDirectory();
         public string path = "";
         public bool is_constant;
+        public string type = "";
+        
+        List<string> expression = new List<string>();
+        List<string> types = new List<string>();
 
         public static Tools tools = new Tools();
 
@@ -67,9 +76,284 @@ namespace Calculadora
             return r;
         }
 
-        public void Calculate_expression([NotNull] Gramatica_CalculadoraParser.InstruccionContext context, int step)
+        public int Calculate_expression(string context, int step)
         {
+            string txtaux = "";
+            List<string> expresion = new List<string>();
+            context = context.Replace(" ", "");
+            value_expr = 0;
+            expresion.Clear();
+            expression.Clear();
+            types.Clear();
+            ret = -1;
+            for (int i = 0; i < context.Length; i++)
+            {
+                
+                if (context.Substring(i, 1) != "+" && context.Substring(i, 1) != "*" && context.Substring(i, 1) != "/"
+                    && context.Substring(i, 1) != "-" && context.Substring(i, 1) != "(" && context.Substring(i, 1) != ")")
+                {
+                    txtaux += context.Substring(i, 1);
+                }
+                else
+                {
+                    if (txtaux == "")
+                        expresion.Add(context.Substring(i, 1));
+                    expresion.Add(txtaux);
+                    expresion.Add(context.Substring(i, 1));
+                    txtaux = "";
+                }
+                if (i == context.Length - 1)
+                {
+                    expresion.Add(txtaux);
+                }
+            }
+           if (valid_expresion(expresion))
+            {
+                if (step == 1)
+                {
+                    if(types.Count == 1)
+                    {
+                        if(types.ElementAt(0) == "A")
+                        {
+                            ret = 0; // el simbolo que registra equ es absoluto
+                        }
+                    }
+                    else
+                    {
+                        string calc_expr = "";
+                        for(int i=0; i<expression.Count();i++)
+                            calc_expr += expression.ElementAt(i);
 
+                        
+                    }
+                }
+            }else
+            {
+                ret = -1;
+            }
+
+            return ret;
+        }
+        public bool valid_expresion(List<string> s)
+        {
+            bool is_valid = false;
+            bool is_negative = false;
+            bool flag_error = false;
+            int value_op = 0;
+            string expre = "";
+            for (int i = 0; i<s.Count();i++)
+            {
+                is_symbol = false;
+                type = "";
+                value_op = 0;
+                
+                if(s.ElementAt(i) != "+" && s.ElementAt(i) != "-" && s.ElementAt(i) != "*" &&
+                    s.ElementAt(i) != "/" && s.ElementAt(i) != "(" && s.ElementAt(i) != ")")
+                {
+                    value_op = value_operand(s.ElementAt(i));
+                    if(is_symbol)
+                    {
+                        if(value_op != -1)
+                        {
+                            expression.Add(value_op.ToString());
+                            types.Add(type);
+                        }
+                        else
+                        {
+                            flag_error = true;
+                            break;
+                        }
+                    }else
+                    {
+                        if (value_op != -1)
+                            expression.Add(value_op.ToString());
+                        else
+                        {
+                            flag_error = true;
+                            break;
+                        }
+                        if (is_constant)
+                            types.Add("A");
+                        else
+                            types.Add("R");
+                    }
+                }
+                else
+                {
+                    expression.Add(s.ElementAt(i));
+                    types.Add(s.ElementAt(i));
+                }
+            }
+            if (!flag_error)
+            {
+                if (types.Count == s.Count)
+                {
+                    bool final = false;
+                    int index_aux = -1;
+                    bool opadd = false;
+
+                    do
+                    {
+                        index_aux = -1;
+                        is_negative = false;
+                        opadd = false;
+                        for (int i = 0; i < types.Count; i++)
+                        {
+                            if (i == types.Count - 1)
+                                final = true;
+                            if (types.ElementAt(i) == "+")
+                            {
+                                opadd = true;
+                                is_negative = false;
+                                continue;
+                            }
+                            if (types.ElementAt(i) == "-")
+                            {
+                                opadd = true;
+                                is_negative = true;
+                                continue;
+                            }
+                            if (types.ElementAt(i) == "(")
+                            {
+                                index_aux = i;
+                                break;
+                            }
+                            else if (types.ElementAt(i) == "R" || types.ElementAt(i) == "A")
+                            {
+                                opadd = false;
+                                is_negative = false;
+                            }
+                        }
+
+                        if (index_aux != -1)
+                            if (opadd)
+                                delete_parent(index_aux, is_negative);
+
+                    } while (final != true);
+                    
+                    for (int i = 0; i < types.Count; i++)
+                        expre += types.ElementAt(i);
+                    if (expre.Contains("*R") || expre.Contains("R*") || expre.Contains("/R") || expre.Contains("R/") ||
+                        expre.Contains("*(R") || expre.Contains("R)*") || expre.Contains("/(R") || expre.Contains("R)/"))
+                            flag_error = true;
+                }
+            }
+            if (!flag_error)
+            {
+                List<string> negativeR = new List<string>();
+                List<string> positiveR = new List<string>();
+                negativeR.Clear();
+                positiveR.Clear();
+                is_valid = true;
+                if (!expre.Contains("R"))
+                    expresion_type = true; // Absoluto
+                if(!expresion_type)
+                {
+                    is_negative = false;
+                    for(int i=0; i<types.Count();i++)
+                    {
+                        if(types.ElementAt(i) == "-")
+                        {
+                            is_negative = true;
+                        }else if (types.ElementAt(i) == "R")
+                        {
+                            if (!is_negative)
+                                positiveR.Add(types.ElementAt(i));
+                            else
+                                negativeR.Add(types.ElementAt(i));
+                            is_negative = false;
+                        }
+                    }
+                    if (positiveR.Count == negativeR.Count)
+                    {
+                        is_valid = true;
+                        ret = 1;
+                        //es absoluto
+                    }
+                    else if(positiveR.Count == negativeR.Count + 1)
+                    {
+                        is_valid = true;
+                        ret = 2;
+                        // es relativo
+                    }
+                    else
+                    {
+                        is_valid = false;
+                    }
+
+                }
+
+
+            }
+
+            return is_valid;
+        }
+        public void delete_parent(int it, bool sign)
+        {
+            int left_parent = it;
+            int count_aux = 0;
+            bool flag1 = false;
+            List<string> aux = new List<string>();
+            for(int i=0 ; i < types.Count; i++)
+            {
+                if (sign && it>0)
+                    if(i == it - 1)
+                        continue;
+                if (i == it)
+                {
+                    flag1 = true;
+                    continue;
+                }
+                if(!flag1)
+                    aux.Add(types.ElementAt(i));
+                else
+                {
+                    if (types.ElementAt(i) == "(")
+                    {
+                        count_aux++;
+                        aux.Add(types.ElementAt(i));
+                    }
+                    if (types.ElementAt(i) == ")")
+                    {
+                        if (count_aux == 0)
+                        {
+                            flag1 = false;
+                            continue;
+                        }
+                        else
+                        {
+                            count_aux--;
+                        }
+                    }
+                    if (sign)
+                    {
+                        if (types.ElementAt(i) == "+")
+                            aux.Add("-");
+                        else if (types.ElementAt(i) == "A" || types.ElementAt(i) == "R")
+                        {
+                            aux.Add("-");
+                            aux.Add(types.ElementAt(i));
+                        }
+                        else if(types.ElementAt(i) == "-")
+                        {
+                            aux.Add("+");
+                        }
+                        else
+                        {
+                            aux.Add(types.ElementAt(i));
+                        }
+                    }
+                    else
+                    {
+                        aux.Add(types.ElementAt(i));
+                    }
+                    
+                }
+            }
+
+            types.Clear();
+            for(int i = 0; i < aux.Count; i++)
+                types.Add(aux.ElementAt(i));
         }
 
         public int value_operand(string operand)
@@ -104,6 +388,7 @@ namespace Calculadora
                                 if (line.Contains(operand))
                                 {
                                     res = getDirNumConstant(line);
+                                    is_symbol = true;
                                     break;
                                 }
                             }
@@ -124,6 +409,7 @@ namespace Calculadora
                             if (line.Contains(operand))
                             {
                                 res = getDirNumConstant(line);
+                                is_symbol = true;
                                 break;
                             }
                         }
@@ -139,6 +425,7 @@ namespace Calculadora
             return res;
         }
 
+
         int getDirNumConstant(string line)
         {
             string res = "";
@@ -152,7 +439,12 @@ namespace Calculadora
                         if (line[indextabsim] != '\t')
                             res += line[indextabsim++].ToString();
                         else
+                        {
+                            indextabsim++;
+                            type = line[indextabsim].ToString();
                             break;
+
+                        }
                     break;
                 }
                 indextabsim++;
@@ -194,5 +486,28 @@ namespace Calculadora
                 res = source.PadLeft(num_bytes, '0');
             return res;
         }
+
+        //public bool WriteFileTabSim(String symb, String dir, String tipo)
+        //{
+        //    // String line = "Simbolo" + "    Direccion";
+        //    String line = symb + "\t" + dir + "\t" + tipo;
+        //    bool repeatedSymbol = false;
+        //    if (File.Exists(path))
+        //    {
+        //        String text = File.ReadAllText(directory + "TABSIM.txt");
+        //        if (!text.Contains(symb))
+        //        {
+        //            using (StreamWriter file = new StreamWriter(directory + "TABSIM.txt", true))
+        //            {
+        //                file.WriteLine(line);
+        //            }
+        //        }
+        //        else
+        //        {
+        //            repeatedSymbol = true;
+        //        }
+        //    }
+        //    return repeatedSymbol;
+        //}
     }
 }

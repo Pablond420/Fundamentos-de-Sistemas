@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-// Generated from C:\Users\Usuario\Google Drive\UASLP\Semestre X\Fundamentos de Software de Sistemas\Laboratorio\Fundamentos-de-Sistemas\Calculadora\Gramatica_Calculadora.g4 by ANTLR 4.6.6
+// Generated from C:\Users\USUARIO\Documents\Repositorios\SICXe\Calculadora\Gramatica_Calculadora.g4 by ANTLR 4.6.6
 
 // Unreachable code detected
 #pragma warning disable 0162
@@ -138,6 +138,19 @@ public partial class Gramatica_CalculadoraBaseListener : IGramatica_CalculadoraL
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	public virtual void ExitDirectiva([NotNull] Gramatica_CalculadoraParser.DirectivaContext context) { }
+
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="Gramatica_CalculadoraParser.direqu"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void EnterDirequ([NotNull] Gramatica_CalculadoraParser.DirequContext context) { }
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="Gramatica_CalculadoraParser.direqu"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void ExitDirequ([NotNull] Gramatica_CalculadoraParser.DirequContext context) { }
 
 	/// <summary>
 	/// Enter a parse tree produced by <see cref="Gramatica_CalculadoraParser.tipodirectiva"/>.
@@ -309,30 +322,17 @@ public partial class Gramatica_CalculadoraBaseListener : IGramatica_CalculadoraL
 	public virtual void ExitExpresion([NotNull] Gramatica_CalculadoraParser.ExpresionContext context) { }
 
 	/// <summary>
-	/// Enter a parse tree produced by <see cref="Gramatica_CalculadoraParser.multiplicacion"/>.
+	/// Enter a parse tree produced by <see cref="Gramatica_CalculadoraParser.expresion2"/>.
 	/// <para>The default implementation does nothing.</para>
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	public virtual void EnterMultiplicacion([NotNull] Gramatica_CalculadoraParser.MultiplicacionContext context) { }
+	public virtual void EnterExpresion2([NotNull] Gramatica_CalculadoraParser.Expresion2Context context) { }
 	/// <summary>
-	/// Exit a parse tree produced by <see cref="Gramatica_CalculadoraParser.multiplicacion"/>.
+	/// Exit a parse tree produced by <see cref="Gramatica_CalculadoraParser.expresion2"/>.
 	/// <para>The default implementation does nothing.</para>
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	public virtual void ExitMultiplicacion([NotNull] Gramatica_CalculadoraParser.MultiplicacionContext context) { }
-
-	/// <summary>
-	/// Enter a parse tree produced by <see cref="Gramatica_CalculadoraParser.numero"/>.
-	/// <para>The default implementation does nothing.</para>
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	public virtual void EnterNumero([NotNull] Gramatica_CalculadoraParser.NumeroContext context) { }
-	/// <summary>
-	/// Exit a parse tree produced by <see cref="Gramatica_CalculadoraParser.numero"/>.
-	/// <para>The default implementation does nothing.</para>
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	public virtual void ExitNumero([NotNull] Gramatica_CalculadoraParser.NumeroContext context) { }
+	public virtual void ExitExpresion2([NotNull] Gramatica_CalculadoraParser.Expresion2Context context) { }
 
 	/// <inheritdoc/>
 	/// <remarks>The default implementation does nothing.</remarks>

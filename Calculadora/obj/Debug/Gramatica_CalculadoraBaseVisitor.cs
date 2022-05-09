@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-// Generated from C:\Users\Usuario\Google Drive\UASLP\Semestre X\Fundamentos de Software de Sistemas\Laboratorio\Fundamentos-de-Sistemas\Calculadora\Gramatica_Calculadora.g4 by ANTLR 4.6.6
+// Generated from C:\Users\USUARIO\Documents\Repositorios\SICXe\Calculadora\Gramatica_Calculadora.g4 by ANTLR 4.6.6
 
 // Unreachable code detected
 #pragma warning disable 0162
@@ -121,6 +121,17 @@ public partial class Gramatica_CalculadoraBaseVisitor<Result> : AbstractParseTre
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
 	public virtual Result VisitDirectiva([NotNull] Gramatica_CalculadoraParser.DirectivaContext context) { return VisitChildren(context); }
+
+	/// <summary>
+	/// Visit a parse tree produced by <see cref="Gramatica_CalculadoraParser.direqu"/>.
+	/// <para>
+	/// The default implementation returns the result of calling <see cref="AbstractParseTreeVisitor{Result}.VisitChildren(IRuleNode)"/>
+	/// on <paramref name="context"/>.
+	/// </para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	public virtual Result VisitDirequ([NotNull] Gramatica_CalculadoraParser.DirequContext context) { return VisitChildren(context); }
 
 	/// <summary>
 	/// Visit a parse tree produced by <see cref="Gramatica_CalculadoraParser.tipodirectiva"/>.
@@ -266,7 +277,7 @@ public partial class Gramatica_CalculadoraBaseVisitor<Result> : AbstractParseTre
 	public virtual Result VisitExpresion([NotNull] Gramatica_CalculadoraParser.ExpresionContext context) { return VisitChildren(context); }
 
 	/// <summary>
-	/// Visit a parse tree produced by <see cref="Gramatica_CalculadoraParser.multiplicacion"/>.
+	/// Visit a parse tree produced by <see cref="Gramatica_CalculadoraParser.expresion2"/>.
 	/// <para>
 	/// The default implementation returns the result of calling <see cref="AbstractParseTreeVisitor{Result}.VisitChildren(IRuleNode)"/>
 	/// on <paramref name="context"/>.
@@ -274,17 +285,6 @@ public partial class Gramatica_CalculadoraBaseVisitor<Result> : AbstractParseTre
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
-	public virtual Result VisitMultiplicacion([NotNull] Gramatica_CalculadoraParser.MultiplicacionContext context) { return VisitChildren(context); }
-
-	/// <summary>
-	/// Visit a parse tree produced by <see cref="Gramatica_CalculadoraParser.numero"/>.
-	/// <para>
-	/// The default implementation returns the result of calling <see cref="AbstractParseTreeVisitor{Result}.VisitChildren(IRuleNode)"/>
-	/// on <paramref name="context"/>.
-	/// </para>
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	/// <return>The visitor result.</return>
-	public virtual Result VisitNumero([NotNull] Gramatica_CalculadoraParser.NumeroContext context) { return VisitChildren(context); }
+	public virtual Result VisitExpresion2([NotNull] Gramatica_CalculadoraParser.Expresion2Context context) { return VisitChildren(context); }
 }
 } // namespace Calculadora

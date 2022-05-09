@@ -1,6 +1,6 @@
-C:\Users\Usuario\Google Drive\UASLP\Semestre X\Fundamentos de Software de Sistemas\Laboratorio\Fundamentos-de-Sistemas\Calculadora\obj\Debug\Gramatica_CalculadoraLexer.cs
-C:\Users\Usuario\Google Drive\UASLP\Semestre X\Fundamentos de Software de Sistemas\Laboratorio\Fundamentos-de-Sistemas\Calculadora\obj\Debug\Gramatica_CalculadoraParser.cs
-C:\Users\Usuario\Google Drive\UASLP\Semestre X\Fundamentos de Software de Sistemas\Laboratorio\Fundamentos-de-Sistemas\Calculadora\obj\Debug\Gramatica_CalculadoraListener.cs
-C:\Users\Usuario\Google Drive\UASLP\Semestre X\Fundamentos de Software de Sistemas\Laboratorio\Fundamentos-de-Sistemas\Calculadora\obj\Debug\Gramatica_CalculadoraBaseListener.cs
-C:\Users\Usuario\Google Drive\UASLP\Semestre X\Fundamentos de Software de Sistemas\Laboratorio\Fundamentos-de-Sistemas\Calculadora\obj\Debug\Gramatica_CalculadoraVisitor.cs
-C:\Users\Usuario\Google Drive\UASLP\Semestre X\Fundamentos de Software de Sistemas\Laboratorio\Fundamentos-de-Sistemas\Calculadora\obj\Debug\Gramatica_CalculadoraBaseVisitor.cs
+C:\Users\USUARIO\Documents\Repositorios\SICXe\Calculadora\obj\Debug\Gramatica_CalculadoraLexer.cs
+C:\Users\USUARIO\Documents\Repositorios\SICXe\Calculadora\obj\Debug\Gramatica_CalculadoraParser.cs
+C:\Users\USUARIO\Documents\Repositorios\SICXe\Calculadora\obj\Debug\Gramatica_CalculadoraListener.cs
+C:\Users\USUARIO\Documents\Repositorios\SICXe\Calculadora\obj\Debug\Gramatica_CalculadoraBaseListener.cs
+C:\Users\USUARIO\Documents\Repositorios\SICXe\Calculadora\obj\Debug\Gramatica_CalculadoraVisitor.cs
+C:\Users\USUARIO\Documents\Repositorios\SICXe\Calculadora\obj\Debug\Gramatica_CalculadoraBaseVisitor.cs
