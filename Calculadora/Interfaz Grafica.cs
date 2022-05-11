@@ -330,5 +330,11 @@ namespace Calculadora
             paso1();
             paso2();
         }
+
+        private void cargadorToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            MapaMemoria mapa = new MapaMemoria();
+            mapa.ShowDialog();
+        }
     }
 }

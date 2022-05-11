@@ -43,69 +43,37 @@
             this.paso1ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.paso2ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ensamblarToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.cargadorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.splitProgArch = new System.Windows.Forms.SplitContainer();
-            this.panelProgramaFuente = new System.Windows.Forms.Panel();
-            this.panelLabelProgFuente = new System.Windows.Forms.Panel();
-            this.label6 = new System.Windows.Forms.Label();
-            this.paneldataProgFuente = new System.Windows.Forms.Panel();
-            this.dataSourceProgram = new System.Windows.Forms.TextBox();
-            this.panelArchInter = new System.Windows.Forms.Panel();
-            this.panelLabelArchInt = new System.Windows.Forms.Panel();
-            this.label7 = new System.Windows.Forms.Label();
-            this.panelDataArchInt = new System.Windows.Forms.Panel();
-            this.dataArchInt = new System.Windows.Forms.TextBox();
-            this.splitTabProg = new System.Windows.Forms.SplitContainer();
-            this.panelTabSim = new System.Windows.Forms.Panel();
-            this.panelLabelTabSim = new System.Windows.Forms.Panel();
-            this.label8 = new System.Windows.Forms.Label();
-            this.paneldataTabSim = new System.Windows.Forms.Panel();
-            this.dataTabSim = new System.Windows.Forms.TextBox();
-            this.panelProgObj = new System.Windows.Forms.Panel();
-            this.panelLabelProgObj = new System.Windows.Forms.Panel();
-            this.label9 = new System.Windows.Forms.Label();
-            this.paneldataProgObj = new System.Windows.Forms.Panel();
-            this.dataObjProg = new System.Windows.Forms.TextBox();
-            this.splitPTAP = new System.Windows.Forms.SplitContainer();
-            this.splitPrincipal = new System.Windows.Forms.SplitContainer();
-            this.panelErrores = new System.Windows.Forms.Panel();
-            this.panelLabelErrores = new System.Windows.Forms.Panel();
-            this.label10 = new System.Windows.Forms.Label();
-            this.paneldataErrores = new System.Windows.Forms.Panel();
-            this.dataErrores = new System.Windows.Forms.TextBox();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
+            this.panel4 = new System.Windows.Forms.Panel();
+            this.splitter2 = new System.Windows.Forms.Splitter();
+            this.splitter1 = new System.Windows.Forms.Splitter();
+            this.splitter3 = new System.Windows.Forms.Splitter();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.dataSourceProgram = new System.Windows.Forms.TextBox();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.dataTabSim = new System.Windows.Forms.TextBox();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.dataObjProg = new System.Windows.Forms.TextBox();
+            this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.panel2 = new System.Windows.Forms.Panel();
+            this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.dataArchInt = new System.Windows.Forms.TextBox();
+            this.splitter4 = new System.Windows.Forms.Splitter();
+            this.panel3 = new System.Windows.Forms.Panel();
+            this.groupBox5 = new System.Windows.Forms.GroupBox();
+            this.dataErrores = new System.Windows.Forms.TextBox();
             this.menu.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.splitProgArch)).BeginInit();
-            this.splitProgArch.Panel1.SuspendLayout();
-            this.splitProgArch.Panel2.SuspendLayout();
-            this.splitProgArch.SuspendLayout();
-            this.panelProgramaFuente.SuspendLayout();
-            this.panelLabelProgFuente.SuspendLayout();
-            this.paneldataProgFuente.SuspendLayout();
-            this.panelArchInter.SuspendLayout();
-            this.panelLabelArchInt.SuspendLayout();
-            this.panelDataArchInt.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.splitTabProg)).BeginInit();
-            this.splitTabProg.Panel1.SuspendLayout();
-            this.splitTabProg.Panel2.SuspendLayout();
-            this.splitTabProg.SuspendLayout();
-            this.panelTabSim.SuspendLayout();
-            this.panelLabelTabSim.SuspendLayout();
-            this.paneldataTabSim.SuspendLayout();
-            this.panelProgObj.SuspendLayout();
-            this.panelLabelProgObj.SuspendLayout();
-            this.paneldataProgObj.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.splitPTAP)).BeginInit();
-            this.splitPTAP.Panel1.SuspendLayout();
-            this.splitPTAP.Panel2.SuspendLayout();
-            this.splitPTAP.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.splitPrincipal)).BeginInit();
-            this.splitPrincipal.Panel1.SuspendLayout();
-            this.splitPrincipal.Panel2.SuspendLayout();
-            this.splitPrincipal.SuspendLayout();
-            this.panelErrores.SuspendLayout();
-            this.panelLabelErrores.SuspendLayout();
-            this.paneldataErrores.SuspendLayout();
+            this.panel4.SuspendLayout();
+            this.panel1.SuspendLayout();
+            this.groupBox1.SuspendLayout();
+            this.groupBox2.SuspendLayout();
+            this.groupBox3.SuspendLayout();
+            this.panel2.SuspendLayout();
+            this.groupBox4.SuspendLayout();
+            this.panel3.SuspendLayout();
+            this.groupBox5.SuspendLayout();
             this.SuspendLayout();
             // 
             // menu
@@ -113,6 +81,7 @@
             this.menu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.fileToolStripMenuItem,
             this.editToolStripMenuItem,
+            this.cargadorToolStripMenuItem,
             this.toolsToolStripMenuItem});
             this.menu.Location = new System.Drawing.Point(0, 0);
             this.menu.Name = "menu";
@@ -229,373 +198,19 @@
             this.ensamblarToolStripMenuItem.Text = "Ensamblar";
             this.ensamblarToolStripMenuItem.Click += new System.EventHandler(this.ensamblarToolStripMenuItem_Click);
             // 
+            // cargadorToolStripMenuItem
+            // 
+            this.cargadorToolStripMenuItem.Name = "cargadorToolStripMenuItem";
+            this.cargadorToolStripMenuItem.Size = new System.Drawing.Size(68, 20);
+            this.cargadorToolStripMenuItem.Text = "Cargador";
+            this.cargadorToolStripMenuItem.Click += new System.EventHandler(this.cargadorToolStripMenuItem_Click);
+            // 
             // toolsToolStripMenuItem
             // 
             this.toolsToolStripMenuItem.Name = "toolsToolStripMenuItem";
             this.toolsToolStripMenuItem.Size = new System.Drawing.Size(59, 20);
             this.toolsToolStripMenuItem.Text = "Limpiar";
             this.toolsToolStripMenuItem.Click += new System.EventHandler(this.toolsToolStripMenuItem_Click);
-            // 
-            // splitProgArch
-            // 
-            this.splitProgArch.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.splitProgArch.Location = new System.Drawing.Point(0, 0);
-            this.splitProgArch.Name = "splitProgArch";
-            this.splitProgArch.Orientation = System.Windows.Forms.Orientation.Horizontal;
-            // 
-            // splitProgArch.Panel1
-            // 
-            this.splitProgArch.Panel1.Controls.Add(this.panelProgramaFuente);
-            // 
-            // splitProgArch.Panel2
-            // 
-            this.splitProgArch.Panel2.Controls.Add(this.panelArchInter);
-            this.splitProgArch.Size = new System.Drawing.Size(719, 444);
-            this.splitProgArch.SplitterDistance = 222;
-            this.splitProgArch.TabIndex = 12;
-            // 
-            // panelProgramaFuente
-            // 
-            this.panelProgramaFuente.AutoSize = true;
-            this.panelProgramaFuente.Controls.Add(this.panelLabelProgFuente);
-            this.panelProgramaFuente.Controls.Add(this.paneldataProgFuente);
-            this.panelProgramaFuente.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panelProgramaFuente.Location = new System.Drawing.Point(0, 0);
-            this.panelProgramaFuente.Name = "panelProgramaFuente";
-            this.panelProgramaFuente.Size = new System.Drawing.Size(719, 222);
-            this.panelProgramaFuente.TabIndex = 13;
-            // 
-            // panelLabelProgFuente
-            // 
-            this.panelLabelProgFuente.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.panelLabelProgFuente.Controls.Add(this.label6);
-            this.panelLabelProgFuente.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panelLabelProgFuente.Location = new System.Drawing.Point(0, 0);
-            this.panelLabelProgFuente.Name = "panelLabelProgFuente";
-            this.panelLabelProgFuente.Size = new System.Drawing.Size(719, 27);
-            this.panelLabelProgFuente.TabIndex = 2;
-            // 
-            // label6
-            // 
-            this.label6.BackColor = System.Drawing.Color.SteelBlue;
-            this.label6.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label6.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.label6.Font = new System.Drawing.Font("Montserrat", 9.749999F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label6.ForeColor = System.Drawing.Color.White;
-            this.label6.Location = new System.Drawing.Point(0, 0);
-            this.label6.Margin = new System.Windows.Forms.Padding(0);
-            this.label6.Name = "label6";
-            this.label6.Padding = new System.Windows.Forms.Padding(0, 5, 0, 5);
-            this.label6.Size = new System.Drawing.Size(719, 27);
-            this.label6.TabIndex = 0;
-            this.label6.Text = "PROGRAMA FUENTE";
-            this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // paneldataProgFuente
-            // 
-            this.paneldataProgFuente.AutoSize = true;
-            this.paneldataProgFuente.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.paneldataProgFuente.Controls.Add(this.dataSourceProgram);
-            this.paneldataProgFuente.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.paneldataProgFuente.Location = new System.Drawing.Point(0, 0);
-            this.paneldataProgFuente.Name = "paneldataProgFuente";
-            this.paneldataProgFuente.Size = new System.Drawing.Size(719, 222);
-            this.paneldataProgFuente.TabIndex = 1;
-            // 
-            // dataSourceProgram
-            // 
-            this.dataSourceProgram.AcceptsReturn = true;
-            this.dataSourceProgram.AcceptsTab = true;
-            this.dataSourceProgram.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dataSourceProgram.Font = new System.Drawing.Font("Montserrat", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.dataSourceProgram.Location = new System.Drawing.Point(0, 0);
-            this.dataSourceProgram.Multiline = true;
-            this.dataSourceProgram.Name = "dataSourceProgram";
-            this.dataSourceProgram.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.dataSourceProgram.Size = new System.Drawing.Size(719, 222);
-            this.dataSourceProgram.TabIndex = 0;
-            this.dataSourceProgram.TextChanged += new System.EventHandler(this.dataSourceProgram_TextChanged);
-            // 
-            // panelArchInter
-            // 
-            this.panelArchInter.AutoSize = true;
-            this.panelArchInter.Controls.Add(this.panelLabelArchInt);
-            this.panelArchInter.Controls.Add(this.panelDataArchInt);
-            this.panelArchInter.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panelArchInter.Location = new System.Drawing.Point(0, 0);
-            this.panelArchInter.Name = "panelArchInter";
-            this.panelArchInter.Size = new System.Drawing.Size(719, 218);
-            this.panelArchInter.TabIndex = 13;
-            // 
-            // panelLabelArchInt
-            // 
-            this.panelLabelArchInt.Controls.Add(this.label7);
-            this.panelLabelArchInt.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panelLabelArchInt.Location = new System.Drawing.Point(0, 0);
-            this.panelLabelArchInt.Name = "panelLabelArchInt";
-            this.panelLabelArchInt.Size = new System.Drawing.Size(719, 27);
-            this.panelLabelArchInt.TabIndex = 2;
-            // 
-            // label7
-            // 
-            this.label7.BackColor = System.Drawing.Color.SteelBlue;
-            this.label7.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label7.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.label7.Font = new System.Drawing.Font("Montserrat", 9.749999F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label7.ForeColor = System.Drawing.Color.White;
-            this.label7.Location = new System.Drawing.Point(0, 0);
-            this.label7.Margin = new System.Windows.Forms.Padding(0);
-            this.label7.Name = "label7";
-            this.label7.Padding = new System.Windows.Forms.Padding(0, 5, 0, 5);
-            this.label7.Size = new System.Drawing.Size(719, 27);
-            this.label7.TabIndex = 0;
-            this.label7.Text = "ARCHIVO INTERMEDIO";
-            this.label7.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // panelDataArchInt
-            // 
-            this.panelDataArchInt.AutoSize = true;
-            this.panelDataArchInt.Controls.Add(this.dataArchInt);
-            this.panelDataArchInt.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panelDataArchInt.Location = new System.Drawing.Point(0, 0);
-            this.panelDataArchInt.Name = "panelDataArchInt";
-            this.panelDataArchInt.Size = new System.Drawing.Size(719, 218);
-            this.panelDataArchInt.TabIndex = 1;
-            // 
-            // dataArchInt
-            // 
-            this.dataArchInt.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dataArchInt.Font = new System.Drawing.Font("Montserrat Medium", 9.749999F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.dataArchInt.Location = new System.Drawing.Point(0, 0);
-            this.dataArchInt.Multiline = true;
-            this.dataArchInt.Name = "dataArchInt";
-            this.dataArchInt.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.dataArchInt.Size = new System.Drawing.Size(719, 218);
-            this.dataArchInt.TabIndex = 0;
-            // 
-            // splitTabProg
-            // 
-            this.splitTabProg.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.splitTabProg.Location = new System.Drawing.Point(0, 0);
-            this.splitTabProg.Name = "splitTabProg";
-            this.splitTabProg.Orientation = System.Windows.Forms.Orientation.Horizontal;
-            // 
-            // splitTabProg.Panel1
-            // 
-            this.splitTabProg.Panel1.Controls.Add(this.panelTabSim);
-            // 
-            // splitTabProg.Panel2
-            // 
-            this.splitTabProg.Panel2.Controls.Add(this.panelProgObj);
-            this.splitTabProg.Size = new System.Drawing.Size(397, 444);
-            this.splitTabProg.SplitterDistance = 222;
-            this.splitTabProg.TabIndex = 13;
-            // 
-            // panelTabSim
-            // 
-            this.panelTabSim.AutoSize = true;
-            this.panelTabSim.Controls.Add(this.panelLabelTabSim);
-            this.panelTabSim.Controls.Add(this.paneldataTabSim);
-            this.panelTabSim.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panelTabSim.Location = new System.Drawing.Point(0, 0);
-            this.panelTabSim.Name = "panelTabSim";
-            this.panelTabSim.Size = new System.Drawing.Size(397, 222);
-            this.panelTabSim.TabIndex = 14;
-            // 
-            // panelLabelTabSim
-            // 
-            this.panelLabelTabSim.Controls.Add(this.label8);
-            this.panelLabelTabSim.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panelLabelTabSim.Location = new System.Drawing.Point(0, 0);
-            this.panelLabelTabSim.Name = "panelLabelTabSim";
-            this.panelLabelTabSim.Size = new System.Drawing.Size(397, 27);
-            this.panelLabelTabSim.TabIndex = 2;
-            // 
-            // label8
-            // 
-            this.label8.BackColor = System.Drawing.Color.SteelBlue;
-            this.label8.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label8.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.label8.Font = new System.Drawing.Font("Montserrat", 9.749999F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label8.ForeColor = System.Drawing.Color.White;
-            this.label8.Location = new System.Drawing.Point(0, 0);
-            this.label8.Margin = new System.Windows.Forms.Padding(0);
-            this.label8.Name = "label8";
-            this.label8.Padding = new System.Windows.Forms.Padding(0, 5, 0, 5);
-            this.label8.Size = new System.Drawing.Size(397, 27);
-            this.label8.TabIndex = 0;
-            this.label8.Text = "TABSIM";
-            this.label8.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // paneldataTabSim
-            // 
-            this.paneldataTabSim.AutoSize = true;
-            this.paneldataTabSim.Controls.Add(this.dataTabSim);
-            this.paneldataTabSim.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.paneldataTabSim.Location = new System.Drawing.Point(0, 0);
-            this.paneldataTabSim.Name = "paneldataTabSim";
-            this.paneldataTabSim.Size = new System.Drawing.Size(397, 222);
-            this.paneldataTabSim.TabIndex = 1;
-            // 
-            // dataTabSim
-            // 
-            this.dataTabSim.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dataTabSim.Font = new System.Drawing.Font("Montserrat", 9.749999F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.dataTabSim.Location = new System.Drawing.Point(0, 0);
-            this.dataTabSim.Multiline = true;
-            this.dataTabSim.Name = "dataTabSim";
-            this.dataTabSim.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.dataTabSim.Size = new System.Drawing.Size(397, 222);
-            this.dataTabSim.TabIndex = 0;
-            // 
-            // panelProgObj
-            // 
-            this.panelProgObj.AutoSize = true;
-            this.panelProgObj.Controls.Add(this.panelLabelProgObj);
-            this.panelProgObj.Controls.Add(this.paneldataProgObj);
-            this.panelProgObj.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panelProgObj.Location = new System.Drawing.Point(0, 0);
-            this.panelProgObj.Name = "panelProgObj";
-            this.panelProgObj.Size = new System.Drawing.Size(397, 218);
-            this.panelProgObj.TabIndex = 14;
-            // 
-            // panelLabelProgObj
-            // 
-            this.panelLabelProgObj.Controls.Add(this.label9);
-            this.panelLabelProgObj.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panelLabelProgObj.Location = new System.Drawing.Point(0, 0);
-            this.panelLabelProgObj.Name = "panelLabelProgObj";
-            this.panelLabelProgObj.Size = new System.Drawing.Size(397, 27);
-            this.panelLabelProgObj.TabIndex = 2;
-            // 
-            // label9
-            // 
-            this.label9.BackColor = System.Drawing.Color.SteelBlue;
-            this.label9.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label9.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.label9.Font = new System.Drawing.Font("Montserrat", 9.749999F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label9.ForeColor = System.Drawing.Color.White;
-            this.label9.Location = new System.Drawing.Point(0, 0);
-            this.label9.Margin = new System.Windows.Forms.Padding(0);
-            this.label9.Name = "label9";
-            this.label9.Padding = new System.Windows.Forms.Padding(0, 5, 0, 5);
-            this.label9.Size = new System.Drawing.Size(397, 27);
-            this.label9.TabIndex = 0;
-            this.label9.Text = "PROGRAMA OBJETO";
-            this.label9.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // paneldataProgObj
-            // 
-            this.paneldataProgObj.AutoSize = true;
-            this.paneldataProgObj.Controls.Add(this.dataObjProg);
-            this.paneldataProgObj.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.paneldataProgObj.Location = new System.Drawing.Point(0, 0);
-            this.paneldataProgObj.Name = "paneldataProgObj";
-            this.paneldataProgObj.Size = new System.Drawing.Size(397, 218);
-            this.paneldataProgObj.TabIndex = 1;
-            // 
-            // dataObjProg
-            // 
-            this.dataObjProg.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dataObjProg.Font = new System.Drawing.Font("Montserrat", 9.749999F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.dataObjProg.Location = new System.Drawing.Point(0, 0);
-            this.dataObjProg.Multiline = true;
-            this.dataObjProg.Name = "dataObjProg";
-            this.dataObjProg.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.dataObjProg.Size = new System.Drawing.Size(397, 218);
-            this.dataObjProg.TabIndex = 0;
-            // 
-            // splitPTAP
-            // 
-            this.splitPTAP.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.splitPTAP.Location = new System.Drawing.Point(0, 0);
-            this.splitPTAP.Name = "splitPTAP";
-            // 
-            // splitPTAP.Panel1
-            // 
-            this.splitPTAP.Panel1.Controls.Add(this.splitProgArch);
-            // 
-            // splitPTAP.Panel2
-            // 
-            this.splitPTAP.Panel2.Controls.Add(this.splitTabProg);
-            this.splitPTAP.Size = new System.Drawing.Size(1120, 444);
-            this.splitPTAP.SplitterDistance = 719;
-            this.splitPTAP.TabIndex = 14;
-            // 
-            // splitPrincipal
-            // 
-            this.splitPrincipal.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.splitPrincipal.Location = new System.Drawing.Point(0, 24);
-            this.splitPrincipal.Name = "splitPrincipal";
-            this.splitPrincipal.Orientation = System.Windows.Forms.Orientation.Horizontal;
-            // 
-            // splitPrincipal.Panel1
-            // 
-            this.splitPrincipal.Panel1.Controls.Add(this.splitPTAP);
-            // 
-            // splitPrincipal.Panel2
-            // 
-            this.splitPrincipal.Panel2.Controls.Add(this.panelErrores);
-            this.splitPrincipal.Size = new System.Drawing.Size(1120, 564);
-            this.splitPrincipal.SplitterDistance = 444;
-            this.splitPrincipal.TabIndex = 15;
-            // 
-            // panelErrores
-            // 
-            this.panelErrores.AutoSize = true;
-            this.panelErrores.Controls.Add(this.panelLabelErrores);
-            this.panelErrores.Controls.Add(this.paneldataErrores);
-            this.panelErrores.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panelErrores.Location = new System.Drawing.Point(0, 0);
-            this.panelErrores.Name = "panelErrores";
-            this.panelErrores.Size = new System.Drawing.Size(1120, 116);
-            this.panelErrores.TabIndex = 16;
-            // 
-            // panelLabelErrores
-            // 
-            this.panelLabelErrores.Controls.Add(this.label10);
-            this.panelLabelErrores.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panelLabelErrores.Location = new System.Drawing.Point(0, 0);
-            this.panelLabelErrores.Name = "panelLabelErrores";
-            this.panelLabelErrores.Size = new System.Drawing.Size(1120, 27);
-            this.panelLabelErrores.TabIndex = 2;
-            // 
-            // label10
-            // 
-            this.label10.BackColor = System.Drawing.Color.SteelBlue;
-            this.label10.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label10.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.label10.Font = new System.Drawing.Font("Montserrat", 9.749999F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label10.ForeColor = System.Drawing.Color.White;
-            this.label10.Location = new System.Drawing.Point(0, 0);
-            this.label10.Margin = new System.Windows.Forms.Padding(0);
-            this.label10.Name = "label10";
-            this.label10.Padding = new System.Windows.Forms.Padding(0, 5, 0, 5);
-            this.label10.Size = new System.Drawing.Size(1120, 27);
-            this.label10.TabIndex = 0;
-            this.label10.Text = "ERRORES";
-            this.label10.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // paneldataErrores
-            // 
-            this.paneldataErrores.AutoSize = true;
-            this.paneldataErrores.Controls.Add(this.dataErrores);
-            this.paneldataErrores.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.paneldataErrores.Location = new System.Drawing.Point(0, 0);
-            this.paneldataErrores.Name = "paneldataErrores";
-            this.paneldataErrores.Size = new System.Drawing.Size(1120, 116);
-            this.paneldataErrores.TabIndex = 1;
-            // 
-            // dataErrores
-            // 
-            this.dataErrores.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dataErrores.Font = new System.Drawing.Font("Montserrat", 9.749999F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.dataErrores.Location = new System.Drawing.Point(0, 0);
-            this.dataErrores.Multiline = true;
-            this.dataErrores.Name = "dataErrores";
-            this.dataErrores.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.dataErrores.Size = new System.Drawing.Size(1120, 116);
-            this.dataErrores.TabIndex = 0;
             // 
             // openFileDialog1
             // 
@@ -604,13 +219,218 @@
             this.openFileDialog1.RestoreDirectory = true;
             this.openFileDialog1.Title = "\"Abrir Programa Fuente\"";
             // 
+            // panel4
+            // 
+            this.panel4.Controls.Add(this.groupBox3);
+            this.panel4.Controls.Add(this.splitter2);
+            this.panel4.Controls.Add(this.groupBox2);
+            this.panel4.Controls.Add(this.splitter1);
+            this.panel4.Controls.Add(this.panel1);
+            this.panel4.Dock = System.Windows.Forms.DockStyle.Top;
+            this.panel4.Location = new System.Drawing.Point(0, 24);
+            this.panel4.Name = "panel4";
+            this.panel4.Size = new System.Drawing.Size(1120, 240);
+            this.panel4.TabIndex = 23;
+            // 
+            // splitter2
+            // 
+            this.splitter2.Location = new System.Drawing.Point(737, 0);
+            this.splitter2.Name = "splitter2";
+            this.splitter2.Size = new System.Drawing.Size(3, 240);
+            this.splitter2.TabIndex = 25;
+            this.splitter2.TabStop = false;
+            // 
+            // splitter1
+            // 
+            this.splitter1.Location = new System.Drawing.Point(365, 0);
+            this.splitter1.Name = "splitter1";
+            this.splitter1.Size = new System.Drawing.Size(3, 240);
+            this.splitter1.TabIndex = 23;
+            this.splitter1.TabStop = false;
+            // 
+            // splitter3
+            // 
+            this.splitter3.Dock = System.Windows.Forms.DockStyle.Top;
+            this.splitter3.Location = new System.Drawing.Point(0, 264);
+            this.splitter3.Name = "splitter3";
+            this.splitter3.Size = new System.Drawing.Size(1120, 3);
+            this.splitter3.TabIndex = 26;
+            this.splitter3.TabStop = false;
+            // 
+            // panel1
+            // 
+            this.panel1.Controls.Add(this.groupBox1);
+            this.panel1.Dock = System.Windows.Forms.DockStyle.Left;
+            this.panel1.Location = new System.Drawing.Point(0, 0);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(365, 240);
+            this.panel1.TabIndex = 22;
+            // 
+            // dataSourceProgram
+            // 
+            this.dataSourceProgram.AcceptsReturn = true;
+            this.dataSourceProgram.AcceptsTab = true;
+            this.dataSourceProgram.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dataSourceProgram.Font = new System.Drawing.Font("Montserrat", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.dataSourceProgram.Location = new System.Drawing.Point(3, 19);
+            this.dataSourceProgram.Multiline = true;
+            this.dataSourceProgram.Name = "dataSourceProgram";
+            this.dataSourceProgram.ScrollBars = System.Windows.Forms.ScrollBars.Both;
+            this.dataSourceProgram.Size = new System.Drawing.Size(359, 218);
+            this.dataSourceProgram.TabIndex = 2;
+            // 
+            // groupBox1
+            // 
+            this.groupBox1.BackColor = System.Drawing.Color.SteelBlue;
+            this.groupBox1.Controls.Add(this.dataSourceProgram);
+            this.groupBox1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.groupBox1.Font = new System.Drawing.Font("Montserrat SemiBold", 9.749999F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.groupBox1.ForeColor = System.Drawing.Color.White;
+            this.groupBox1.Location = new System.Drawing.Point(0, 0);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(365, 240);
+            this.groupBox1.TabIndex = 25;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "PROGRAMA FUENTE";
+            // 
+            // dataTabSim
+            // 
+            this.dataTabSim.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dataTabSim.Font = new System.Drawing.Font("Montserrat", 9.749999F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.dataTabSim.Location = new System.Drawing.Point(3, 19);
+            this.dataTabSim.Multiline = true;
+            this.dataTabSim.Name = "dataTabSim";
+            this.dataTabSim.ScrollBars = System.Windows.Forms.ScrollBars.Both;
+            this.dataTabSim.Size = new System.Drawing.Size(363, 218);
+            this.dataTabSim.TabIndex = 2;
+            // 
+            // groupBox2
+            // 
+            this.groupBox2.BackColor = System.Drawing.Color.SteelBlue;
+            this.groupBox2.Controls.Add(this.dataTabSim);
+            this.groupBox2.Dock = System.Windows.Forms.DockStyle.Left;
+            this.groupBox2.Font = new System.Drawing.Font("Montserrat SemiBold", 9.749999F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.groupBox2.ForeColor = System.Drawing.Color.White;
+            this.groupBox2.Location = new System.Drawing.Point(368, 0);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Size = new System.Drawing.Size(369, 240);
+            this.groupBox2.TabIndex = 24;
+            this.groupBox2.TabStop = false;
+            this.groupBox2.Text = "TABSIM";
+            // 
+            // dataObjProg
+            // 
+            this.dataObjProg.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dataObjProg.Font = new System.Drawing.Font("Montserrat", 9.749999F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.dataObjProg.Location = new System.Drawing.Point(3, 19);
+            this.dataObjProg.Multiline = true;
+            this.dataObjProg.Name = "dataObjProg";
+            this.dataObjProg.ScrollBars = System.Windows.Forms.ScrollBars.Both;
+            this.dataObjProg.Size = new System.Drawing.Size(374, 218);
+            this.dataObjProg.TabIndex = 3;
+            // 
+            // groupBox3
+            // 
+            this.groupBox3.BackColor = System.Drawing.Color.SteelBlue;
+            this.groupBox3.Controls.Add(this.dataObjProg);
+            this.groupBox3.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.groupBox3.Font = new System.Drawing.Font("Montserrat SemiBold", 9.749999F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.groupBox3.ForeColor = System.Drawing.Color.White;
+            this.groupBox3.Location = new System.Drawing.Point(740, 0);
+            this.groupBox3.Name = "groupBox3";
+            this.groupBox3.Size = new System.Drawing.Size(380, 240);
+            this.groupBox3.TabIndex = 26;
+            this.groupBox3.TabStop = false;
+            this.groupBox3.Text = "PROGRAMA OBJETO";
+            // 
+            // panel2
+            // 
+            this.panel2.Controls.Add(this.groupBox4);
+            this.panel2.Dock = System.Windows.Forms.DockStyle.Top;
+            this.panel2.Location = new System.Drawing.Point(0, 267);
+            this.panel2.Name = "panel2";
+            this.panel2.Size = new System.Drawing.Size(1120, 232);
+            this.panel2.TabIndex = 27;
+            // 
+            // groupBox4
+            // 
+            this.groupBox4.BackColor = System.Drawing.Color.SteelBlue;
+            this.groupBox4.Controls.Add(this.dataArchInt);
+            this.groupBox4.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.groupBox4.Font = new System.Drawing.Font("Montserrat SemiBold", 9.749999F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.groupBox4.ForeColor = System.Drawing.Color.White;
+            this.groupBox4.Location = new System.Drawing.Point(0, 0);
+            this.groupBox4.Name = "groupBox4";
+            this.groupBox4.Size = new System.Drawing.Size(1120, 232);
+            this.groupBox4.TabIndex = 25;
+            this.groupBox4.TabStop = false;
+            this.groupBox4.Text = "ARCHIVO INTERMEDIO";
+            // 
+            // dataArchInt
+            // 
+            this.dataArchInt.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dataArchInt.Font = new System.Drawing.Font("Montserrat Medium", 9.749999F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.dataArchInt.Location = new System.Drawing.Point(3, 19);
+            this.dataArchInt.Multiline = true;
+            this.dataArchInt.Name = "dataArchInt";
+            this.dataArchInt.ScrollBars = System.Windows.Forms.ScrollBars.Both;
+            this.dataArchInt.Size = new System.Drawing.Size(1114, 210);
+            this.dataArchInt.TabIndex = 3;
+            // 
+            // splitter4
+            // 
+            this.splitter4.Dock = System.Windows.Forms.DockStyle.Top;
+            this.splitter4.Location = new System.Drawing.Point(0, 499);
+            this.splitter4.Name = "splitter4";
+            this.splitter4.Size = new System.Drawing.Size(1120, 3);
+            this.splitter4.TabIndex = 28;
+            this.splitter4.TabStop = false;
+            // 
+            // panel3
+            // 
+            this.panel3.Controls.Add(this.groupBox5);
+            this.panel3.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel3.Location = new System.Drawing.Point(0, 502);
+            this.panel3.Name = "panel3";
+            this.panel3.Size = new System.Drawing.Size(1120, 86);
+            this.panel3.TabIndex = 29;
+            // 
+            // groupBox5
+            // 
+            this.groupBox5.BackColor = System.Drawing.Color.SteelBlue;
+            this.groupBox5.Controls.Add(this.dataErrores);
+            this.groupBox5.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.groupBox5.Font = new System.Drawing.Font("Montserrat SemiBold", 9.749999F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.groupBox5.ForeColor = System.Drawing.Color.White;
+            this.groupBox5.Location = new System.Drawing.Point(0, 0);
+            this.groupBox5.Name = "groupBox5";
+            this.groupBox5.Size = new System.Drawing.Size(1120, 86);
+            this.groupBox5.TabIndex = 26;
+            this.groupBox5.TabStop = false;
+            this.groupBox5.Text = "ERRORES";
+            // 
+            // dataErrores
+            // 
+            this.dataErrores.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dataErrores.Font = new System.Drawing.Font("Montserrat", 9.749999F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.dataErrores.Location = new System.Drawing.Point(3, 19);
+            this.dataErrores.Multiline = true;
+            this.dataErrores.Name = "dataErrores";
+            this.dataErrores.ScrollBars = System.Windows.Forms.ScrollBars.Both;
+            this.dataErrores.Size = new System.Drawing.Size(1114, 64);
+            this.dataErrores.TabIndex = 1;
+            // 
             // Interfaz_Grafica
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
             this.ClientSize = new System.Drawing.Size(1120, 588);
-            this.Controls.Add(this.splitPrincipal);
+            this.Controls.Add(this.panel3);
+            this.Controls.Add(this.splitter4);
+            this.Controls.Add(this.panel2);
+            this.Controls.Add(this.splitter3);
+            this.Controls.Add(this.panel4);
             this.Controls.Add(this.menu);
             this.MainMenuStrip = this.menu;
             this.Name = "Interfaz_Grafica";
@@ -618,52 +438,20 @@
             this.Load += new System.EventHandler(this.Interfaz_Grafica_Load);
             this.menu.ResumeLayout(false);
             this.menu.PerformLayout();
-            this.splitProgArch.Panel1.ResumeLayout(false);
-            this.splitProgArch.Panel1.PerformLayout();
-            this.splitProgArch.Panel2.ResumeLayout(false);
-            this.splitProgArch.Panel2.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.splitProgArch)).EndInit();
-            this.splitProgArch.ResumeLayout(false);
-            this.panelProgramaFuente.ResumeLayout(false);
-            this.panelProgramaFuente.PerformLayout();
-            this.panelLabelProgFuente.ResumeLayout(false);
-            this.paneldataProgFuente.ResumeLayout(false);
-            this.paneldataProgFuente.PerformLayout();
-            this.panelArchInter.ResumeLayout(false);
-            this.panelArchInter.PerformLayout();
-            this.panelLabelArchInt.ResumeLayout(false);
-            this.panelDataArchInt.ResumeLayout(false);
-            this.panelDataArchInt.PerformLayout();
-            this.splitTabProg.Panel1.ResumeLayout(false);
-            this.splitTabProg.Panel1.PerformLayout();
-            this.splitTabProg.Panel2.ResumeLayout(false);
-            this.splitTabProg.Panel2.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.splitTabProg)).EndInit();
-            this.splitTabProg.ResumeLayout(false);
-            this.panelTabSim.ResumeLayout(false);
-            this.panelTabSim.PerformLayout();
-            this.panelLabelTabSim.ResumeLayout(false);
-            this.paneldataTabSim.ResumeLayout(false);
-            this.paneldataTabSim.PerformLayout();
-            this.panelProgObj.ResumeLayout(false);
-            this.panelProgObj.PerformLayout();
-            this.panelLabelProgObj.ResumeLayout(false);
-            this.paneldataProgObj.ResumeLayout(false);
-            this.paneldataProgObj.PerformLayout();
-            this.splitPTAP.Panel1.ResumeLayout(false);
-            this.splitPTAP.Panel2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.splitPTAP)).EndInit();
-            this.splitPTAP.ResumeLayout(false);
-            this.splitPrincipal.Panel1.ResumeLayout(false);
-            this.splitPrincipal.Panel2.ResumeLayout(false);
-            this.splitPrincipal.Panel2.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.splitPrincipal)).EndInit();
-            this.splitPrincipal.ResumeLayout(false);
-            this.panelErrores.ResumeLayout(false);
-            this.panelErrores.PerformLayout();
-            this.panelLabelErrores.ResumeLayout(false);
-            this.paneldataErrores.ResumeLayout(false);
-            this.paneldataErrores.PerformLayout();
+            this.panel4.ResumeLayout(false);
+            this.panel1.ResumeLayout(false);
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
+            this.groupBox2.ResumeLayout(false);
+            this.groupBox2.PerformLayout();
+            this.groupBox3.ResumeLayout(false);
+            this.groupBox3.PerformLayout();
+            this.panel2.ResumeLayout(false);
+            this.groupBox4.ResumeLayout(false);
+            this.groupBox4.PerformLayout();
+            this.panel3.ResumeLayout(false);
+            this.groupBox5.ResumeLayout(false);
+            this.groupBox5.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -685,36 +473,26 @@
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
         private System.Windows.Forms.ToolStripMenuItem paso2ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem toolsToolStripMenuItem;
-        private System.Windows.Forms.SplitContainer splitProgArch;
-        private System.Windows.Forms.Panel panelProgramaFuente;
-        private System.Windows.Forms.Panel panelLabelProgFuente;
-        private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.Panel paneldataProgFuente;
-        private System.Windows.Forms.Panel panelArchInter;
-        private System.Windows.Forms.Panel panelLabelArchInt;
-        private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.Panel panelDataArchInt;
-        private System.Windows.Forms.SplitContainer splitTabProg;
-        private System.Windows.Forms.Panel panelTabSim;
-        private System.Windows.Forms.Panel panelLabelTabSim;
-        private System.Windows.Forms.Label label8;
-        private System.Windows.Forms.Panel paneldataTabSim;
-        private System.Windows.Forms.Panel panelProgObj;
-        private System.Windows.Forms.Panel panelLabelProgObj;
-        private System.Windows.Forms.Label label9;
-        private System.Windows.Forms.Panel paneldataProgObj;
-        private System.Windows.Forms.SplitContainer splitPTAP;
-        private System.Windows.Forms.SplitContainer splitPrincipal;
-        private System.Windows.Forms.Panel panelErrores;
-        private System.Windows.Forms.Panel panelLabelErrores;
-        private System.Windows.Forms.Label label10;
-        private System.Windows.Forms.Panel paneldataErrores;
         private System.Windows.Forms.OpenFileDialog openFileDialog1;
-        private System.Windows.Forms.TextBox dataSourceProgram;
-        private System.Windows.Forms.TextBox dataArchInt;
-        private System.Windows.Forms.TextBox dataTabSim;
-        private System.Windows.Forms.TextBox dataObjProg;
-        private System.Windows.Forms.TextBox dataErrores;
         private System.Windows.Forms.ToolStripMenuItem ensamblarToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem cargadorToolStripMenuItem;
+        private System.Windows.Forms.Panel panel4;
+        private System.Windows.Forms.Splitter splitter2;
+        private System.Windows.Forms.Splitter splitter1;
+        private System.Windows.Forms.GroupBox groupBox3;
+        private System.Windows.Forms.TextBox dataObjProg;
+        private System.Windows.Forms.GroupBox groupBox2;
+        private System.Windows.Forms.TextBox dataTabSim;
+        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.TextBox dataSourceProgram;
+        private System.Windows.Forms.Splitter splitter3;
+        private System.Windows.Forms.Panel panel2;
+        private System.Windows.Forms.GroupBox groupBox4;
+        private System.Windows.Forms.TextBox dataArchInt;
+        private System.Windows.Forms.Splitter splitter4;
+        private System.Windows.Forms.Panel panel3;
+        private System.Windows.Forms.GroupBox groupBox5;
+        private System.Windows.Forms.TextBox dataErrores;
     }
 }

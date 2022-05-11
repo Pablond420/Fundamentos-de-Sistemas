@@ -69,6 +69,12 @@
     <Compile Include="Interfaz Grafica.Designer.cs">
       <DependentUpon>Interfaz Grafica.cs</DependentUpon>
     </Compile>
+    <Compile Include="MapaMemoria.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MapaMemoria.Designer.cs">
+      <DependentUpon>MapaMemoria.cs</DependentUpon>
+    </Compile>
     <Compile Include="MathParser.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Programa Objeto.cs" />
@@ -91,6 +97,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Interfaz Grafica.resx">
       <DependentUpon>Interfaz Grafica.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MapaMemoria.resx">
+      <DependentUpon>MapaMemoria.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
