@@ -274,7 +274,7 @@ namespace Calculadora
                 ins = context.tipodirectiva().GetText();
                 if (context.tipodirectiva().GetText() == "WORD ")
                 {
-                    opIns = context.opdirectiva().NUM().GetText();
+                    opIns = context.opdirectiva().expresion().GetText();
                     if (label != "")
                         WriteFileTabSim(label, tool.StrToIntToHex(CP.ToString()), tipo);
                     if (repeatedSymbol)
@@ -285,14 +285,14 @@ namespace Calculadora
                 }
                 else if (context.tipodirectiva().GetText() == "RESB ")
                 {
-                    opIns = context.opdirectiva().NUM().GetText();
+                    opIns = context.opdirectiva().expresion().GetText();
                     if (label != "")
                         WriteFileTabSim(label, tool.StrToIntToHex(CP.ToString()), tipo);
                     if (repeatedSymbol)
                         WriteFile(tool.StrToIntToHex(CP.ToString()) + "*", label, ins, opIns);
                     else
                         WriteFile(tool.StrToIntToHex(CP.ToString()), label, ins, opIns);
-                    CP += tool.HexToInt(context.opdirectiva().NUM().GetText());
+                    CP += tool.HexToInt(context.opdirectiva().expresion().GetText());
                 }
                 else if (context.tipodirectiva().GetText() == "BYTE ")
                 {
@@ -327,66 +327,100 @@ namespace Calculadora
                 }
                 else if (context.tipodirectiva().GetText() == "RESW ")
                 {
-                    opIns = context.opdirectiva().NUM().GetText();
+                    opIns = context.opdirectiva().expresion().GetText();
                     if (label != "")
                         WriteFileTabSim(label, tool.StrToIntToHex(CP.ToString()), tipo);
                     if (repeatedSymbol)
                         WriteFile(tool.StrToIntToHex(CP.ToString()) + "*", label, ins, opIns);
                     else
                         WriteFile(tool.StrToIntToHex(CP.ToString()), label, ins, opIns);
-                    CP += (tool.HexToInt(context.opdirectiva().NUM().GetText()) * 3);
+                    CP += (tool.HexToInt(context.opdirectiva().expresion().NUM().GetText()) * 3);
                 }
                 else if (context.tipodirectiva().GetText() == "BASE ")
                 {
-                    opIns = context.opdirectiva().MEM_DIR().GetText();
+                    opIns = context.opdirectiva().expresion().GetText();
                     if (label != "")
                         WriteFileTabSim(label, tool.StrToIntToHex(CP.ToString()), tipo);
                     if (repeatedSymbol)
                         WriteFile(tool.StrToIntToHex(CP.ToString()) + "*", label, ins, opIns);
                     else
                         WriteFile(tool.StrToIntToHex(CP.ToString()), label, ins, opIns);
+                }
+                else if(context.tipodirectiva().GetText() == "ORG ")
+                {
+                    opIns = context.opdirectiva().expresion().GetText();
+                    if (label != "")
+                        WriteFileTabSim(label, tool.StrToIntToHex(CP.ToString()), tipo);
+                    if (repeatedSymbol)
+                        WriteFile(tool.StrToIntToHex(CP.ToString()) + "*", label, ins, opIns);
+                    else
+                        WriteFile(tool.StrToIntToHex(CP.ToString()), label, ins, opIns);
+                    string aux = tool.HexToInt(opIns).ToString();
+                    CP = Int32.Parse(aux);
                 }
                 var opDir = context.opdirectiva();
             }else
             {
-                ins = "EQU ";
-                if (context.direqu().expresion() != null)
-                    opIns = context.direqu().expresion().GetText();
-                else
-                    opIns = "*";
-                if (label != "" && opIns == "*")
+                if(context.direqu() != null)
                 {
-                    WriteFileTabSim(label, tool.StrToIntToHex(CP.ToString()), tipo);
-                    if (repeatedSymbol)
-                        WriteFile(tool.StrToIntToHex(CP.ToString()) + "*", label, ins, opIns);
+                    ins = "EQU ";
+                    if (context.direqu().expresion() != null)
+                        opIns = context.direqu().expresion().GetText();
                     else
-                        WriteFile(tool.StrToIntToHex(CP.ToString()), label, ins, opIns);
-                }
-                else if(label != "")
-                {
-                    switch(tool.Calculate_expression(opIns, 1))
+                        opIns = "*";
+                    if (label != "" && opIns == "*")
                     {
-                        case -1: // expresion no es valida
-                            tipo = "A";
-                            WriteFileTabSim(label, "FFFFFF", tipo);
+                        WriteFileTabSim(label, tool.StrToIntToHex(CP.ToString()), tipo);
+                        if (repeatedSymbol)
                             WriteFile(tool.StrToIntToHex(CP.ToString()) + "*", label, ins, opIns);
-                            tipo = "R";
-                            //error
-                            break;
-                        case 0: // es valida absoluta sin expresion
-                            tipo = "A";
-                            String str= tool.StrToIntToHex(tool.HexToInt(opIns).ToString());
-                            WriteFileTabSim(label, str, tipo);
-                            if (repeatedSymbol)
+                        else
+                            WriteFile(tool.StrToIntToHex(CP.ToString()), label, ins, opIns);
+                    }
+                    else if (label != "")
+                    {
+                        double res_exp = 0;
+                        String str = "";
+                        switch (tool.Calculate_expression(opIns, 1))
+                        {
+                            case -1: // expresion no es valida
+                                tipo = "A";
+                                WriteFileTabSim(label, "FFFF", tipo);
                                 WriteFile(tool.StrToIntToHex(CP.ToString()) + "*", label, ins, opIns);
-                            else
-                                WriteFile(tool.StrToIntToHex(CP.ToString()), label, ins, opIns);
-                            tipo = "R";
-                            break;
-                        case 1: // es valida absoluta
-                            break;
-                        case 2: // es valida relativa
-                            break;
+                                tipo = "R";
+                                //error
+                                break;
+                            case 0: // es valida absoluta sin expresion
+                                tipo = "A";
+                                str = tool.StrToIntToHex(tool.HexToInt(opIns).ToString());
+                                WriteFileTabSim(label, str, tipo);
+                                if (repeatedSymbol)
+                                    WriteFile(tool.StrToIntToHex(CP.ToString()) + "*", label, ins, opIns);
+                                else
+                                    WriteFile(tool.StrToIntToHex(CP.ToString()), label, ins, opIns);
+                                tipo = "R";
+                                break;
+                            case 1: // es valida absoluta
+                                res_exp = tool.value_expr;
+                                tipo = "A";
+                                str = tool.StrToIntToHex(tool.HexToInt(res_exp.ToString()).ToString());
+                                WriteFileTabSim(label, str, tipo);
+                                if (repeatedSymbol)
+                                    WriteFile(tool.StrToIntToHex(CP.ToString()) + "*", label, ins, opIns);
+                                else
+                                    WriteFile(tool.StrToIntToHex(CP.ToString()), label, ins, opIns);
+                                tipo = "R";
+
+                                break;
+                            case 2: // es valida relativa
+                                res_exp = tool.value_expr;
+                                str = tool.StrToIntToHex(tool.HexToInt(res_exp.ToString()).ToString());
+                                WriteFileTabSim(label, str, tipo);
+                                if (repeatedSymbol)
+                                    WriteFile(tool.StrToIntToHex(CP.ToString()) + "*", label, ins, opIns);
+                                else
+                                    WriteFile(tool.StrToIntToHex(CP.ToString()), label, ins, opIns);
+                                break;
+                        }
                     }
                 }
                     
@@ -532,26 +566,18 @@ namespace Calculadora
             else if (formato.f3().indirecto3() != null)
             {
                 ins = formato.f3().indirecto3().COD_OP_F3().GetText();
-                if (formato.f3().indirecto3().expresion().MEM_DIR() != null)
+                if (formato.f3().indirecto3().expresion() != null)
                 {
-                    opIns += "@" + formato.f3().indirecto3().expresion().MEM_DIR().GetText();
-                }
-                else
-                {
-                    opIns += "@" + formato.f3().indirecto3().expresion().NUM().GetText();
+                    opIns += "@" + formato.f3().indirecto3().expresion().GetText();
                 }
             }
             else if (formato.f3().inmediato3() != null)
             {
                 
                 ins = formato.f3().inmediato3().COD_OP_F3().GetText();
-                if (formato.f3().inmediato3().expresion().MEM_DIR() != null)
+                if (formato.f3().inmediato3().expresion() != null)
                 {
-                    opIns += "#" + formato.f3().inmediato3().expresion().MEM_DIR().GetText();
-                }
-                else
-                {
-                    opIns += "#" + formato.f3().inmediato3().expresion().NUM().GetText();
+                    opIns += "#" + formato.f3().inmediato3().expresion().GetText();
                 }
             }else
             {

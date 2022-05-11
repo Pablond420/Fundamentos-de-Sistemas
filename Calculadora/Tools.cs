@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Antlr4.Runtime.Misc;
 using Antlr4.Runtime.Tree;
 using System.IO;
+using MathParserTK;
 
 namespace Calculadora
 {
@@ -19,8 +20,10 @@ namespace Calculadora
         public bool is_newFile = false;
         public bool is_symbol = false;
         public bool expresion_type = false;
-        public int value_expr = 0;
+        public double value_expr = 0;
         public int ret = -1;
+        public MathParser parser = new MathParser();    
+        public string namep = "";
 
         public string text = "";
         public string directory = Directory.GetCurrentDirectory();
@@ -69,6 +72,7 @@ namespace Calculadora
             }
             return r;
         }
+
         public int HexToIntWithOutH(String source)
         {
             int r = 0;
@@ -86,6 +90,7 @@ namespace Calculadora
             expression.Clear();
             types.Clear();
             ret = -1;
+            value_expr = 0;
             for (int i = 0; i < context.Length; i++)
             {
                 
@@ -98,34 +103,35 @@ namespace Calculadora
                 {
                     if (txtaux == "")
                         expresion.Add(context.Substring(i, 1));
-                    expresion.Add(txtaux);
-                    expresion.Add(context.Substring(i, 1));
-                    txtaux = "";
+                    else
+                    {
+                        expresion.Add(txtaux);
+                        expresion.Add(context.Substring(i, 1));
+                        txtaux = "";
+                    }
+                    
                 }
                 if (i == context.Length - 1)
                 {
-                    expresion.Add(txtaux);
+                    if(txtaux != "")
+                        expresion.Add(txtaux);
                 }
             }
            if (valid_expresion(expresion))
             {
-                if (step == 1)
+                if(types.Count == 1)
                 {
-                    if(types.Count == 1)
+                    if(types.ElementAt(0) == "A")
                     {
-                        if(types.ElementAt(0) == "A")
-                        {
-                            ret = 0; // el simbolo que registra equ es absoluto
-                        }
+                        ret = 0; // el simbolo que registra equ es absoluto
                     }
-                    else
-                    {
-                        string calc_expr = "";
-                        for(int i=0; i<expression.Count();i++)
-                            calc_expr += expression.ElementAt(i);
-
-                        
-                    }
+                }
+                else
+                {
+                    string calc_expr = "";
+                    for(int i=0; i<expression.Count();i++)
+                        calc_expr += expression.ElementAt(i);
+                    value_expr = parser.Parse(calc_expr, false);
                 }
             }else
             {
@@ -215,8 +221,13 @@ namespace Calculadora
                             }
                             if (types.ElementAt(i) == "(")
                             {
-                                index_aux = i;
-                                break;
+                                
+                                if(opadd || i==0)
+                                {
+                                    index_aux = i;
+                                    break;
+                                }
+                                
                             }
                             else if (types.ElementAt(i) == "R" || types.ElementAt(i) == "A")
                             {
@@ -226,15 +237,13 @@ namespace Calculadora
                         }
 
                         if (index_aux != -1)
-                            if (opadd)
-                                delete_parent(index_aux, is_negative);
+                            delete_parent(index_aux, is_negative);
 
                     } while (final != true);
                     
                     for (int i = 0; i < types.Count; i++)
                         expre += types.ElementAt(i);
-                    if (expre.Contains("*R") || expre.Contains("R*") || expre.Contains("/R") || expre.Contains("R/") ||
-                        expre.Contains("*(R") || expre.Contains("R)*") || expre.Contains("/(R") || expre.Contains("R)/"))
+                    if (expre.Contains("*R") || expre.Contains("R*") || expre.Contains("/R") || expre.Contains("R/"))
                             flag_error = true;
                 }
             }
@@ -245,8 +254,16 @@ namespace Calculadora
                 negativeR.Clear();
                 positiveR.Clear();
                 is_valid = true;
+                expresion_type = false;
                 if (!expre.Contains("R"))
+                {
                     expresion_type = true; // Absoluto
+                    if (expre.Count() > 1)
+                    {
+                        ret = 1;
+                    }
+                }
+                
                 if(!expresion_type)
                 {
                     is_negative = false;
@@ -293,6 +310,7 @@ namespace Calculadora
             int left_parent = it;
             int count_aux = 0;
             bool flag1 = false;
+            bool signn = false;
             List<string> aux = new List<string>();
             for(int i=0 ; i < types.Count; i++)
             {
@@ -312,6 +330,7 @@ namespace Calculadora
                     {
                         count_aux++;
                         aux.Add(types.ElementAt(i));
+                        continue;
                     }
                     if (types.ElementAt(i) == ")")
                     {
@@ -328,15 +347,21 @@ namespace Calculadora
                     if (sign)
                     {
                         if (types.ElementAt(i) == "+")
-                            aux.Add("-");
-                        else if (types.ElementAt(i) == "A" || types.ElementAt(i) == "R")
                         {
                             aux.Add("-");
+                            signn = true;
+                        }
+                        else if (types.ElementAt(i) == "A" || types.ElementAt(i) == "R")
+                        {
+                            if (!signn)
+                                aux.Add("-");
                             aux.Add(types.ElementAt(i));
+                            signn = false;
                         }
                         else if(types.ElementAt(i) == "-")
                         {
                             aux.Add("+");
+                            signn = true;
                         }
                         else
                         {

@@ -21,6 +21,7 @@ namespace Calculadora
         string directory = Directory.GetCurrentDirectory();
         string entrada = "";
         bool clearAll = true;
+        public string namep = "";
 
         Tools t = new Tools();
 
@@ -142,6 +143,7 @@ namespace Calculadora
             if (dataSourceProgram.Text != "")
             {
                 Ensamblador_Paso_2.INSTANCE.CodigoObjeto();
+                // Ensamblador_Paso_2.INSTANCE.namep = Ensamblador_Paso_1.INSTANCE.namep;
 
                 string[] _tabsim = File.ReadAllLines(directory + "TABSIM.txt");
                 t.tabsim = "\r\n\r\n";

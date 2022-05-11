@@ -18,6 +18,7 @@ namespace Calculadora
         int ta_calculate = -10000;
         int dir_num_constant = 0;
         int base_value = -2;
+        double value_expression = 0;
         bool is_error = false;
         bool is_error_step2 = false;
         bool n, i, x, b, p, e = false;
@@ -25,10 +26,13 @@ namespace Calculadora
         bool is_dir_mem = false;
         bool is_out_range = false;
         bool diferent_previous_cp = false;
+        bool is_absolute = false;
+        bool is_calculate = false;
         string[] text;
         string codop = "";// object code values in binary
         string ins_alone = "";
         string reg_alone = "";
+        string name_program = "";
         string flags = "";
         string object_code = "";
         string opIns_aux = "";
@@ -42,7 +46,7 @@ namespace Calculadora
         String reg_T = "";
         String reg_M = "";
         String reg_E = "";
-        Programa_Objeto obj;
+        Programa_Objeto obj;    
 
 
         public static Ensamblador_Paso_2 INSTANCE = new Ensamblador_Paso_2();
@@ -64,6 +68,7 @@ namespace Calculadora
             dir_num_constant = 0;
             base_value = -2;
             is_error = false;
+            value_expression = 0;
             is_error_step2 = false;
             n = false;
             i = false;
@@ -119,7 +124,7 @@ namespace Calculadora
                 {
                     if(ins == "START" || ins == "START ")
                     {
-                        obj = new Programa_Objeto(name_programa, opIns);
+                        obj = new Programa_Objeto(label, opIns);
                     }
                     if (ins == "END" || ins == "END ")
                     {
@@ -131,11 +136,48 @@ namespace Calculadora
                             obj.setEndRegister(t.StrToIntToHex(dir_num_constant.ToString()), t.StrToIntToHex(cp.ToString()));
                         obj.WriteFileObjProg();
                     }
+                    if(is_error)
+                    {
+                        error += "Expresion no valida";
+                    }
                     WriteFileObj(linea, t.StrToIntToHex(cp.ToString()), label, ins, opIns, "----", error);
                 }
                 else if (ins == "WORD" || ins == "WORD ")
                 {
                     string codObj = "";
+                    if (opIns.Contains("+") || opIns.Contains("-") || opIns.Contains("*") || opIns.Contains("/"))
+                    {
+                        switch (t.Calculate_expression(opIns, 1))
+                        {
+                            case -1: // expresion no es valida
+                                error += "Expresion no valida";
+                                //error
+                                break;
+                            case 0: // es valida absoluta sin expresion
+                                codObj = t.StrToIntToHex(t.HexToInt(opIns).ToString());
+                                break;
+                            case 1: // es valida absoluta
+                                
+                                codObj = t.StrToIntToHex(t.HexToInt(t.value_expr.ToString()).ToString());
+                                break;
+                            case 2: // es valida relativa
+                                codObj = t.StrToIntToHex(t.HexToInt(t.value_expr.ToString()).ToString())+"*";
+                                break;
+                        }
+
+                        int res = 0;
+                        int charac = 6;
+                        if (codObj.Contains("*"))
+                            charac = 7; 
+                        if (codObj.Length < charac)
+                            res = charac - codObj.Length;
+                        string aux = "";
+                        for (int i =0; i<res; i++)
+                            aux += "0";
+                        if (aux != "")
+                            codObj = aux + codObj;
+                    
+                    }else
                     if (opIns.Contains("H") || opIns.Contains("h"))
                     {
                         string saveOpIn = opIns;
@@ -244,6 +286,7 @@ namespace Calculadora
                 index++;
                 is_constant = false;
                 diferent_previous_cp = false;
+                is_absolute = false;
                 is_error = false;
                 base_value = -2;
                 is_dir_mem = false;
@@ -348,7 +391,32 @@ namespace Calculadora
                 opIns2 = opIns2.Remove(0, 1);
                 Console.WriteLine(opIns2);
             }
+            if(opIns.Contains("+") || opIns.Contains("-") || opIns.Contains("*") || opIns.Contains("/"))
+            {
+                is_calculate = true;
+                switch (t.Calculate_expression(opIns2, 1))
+                {
+                    case -1: // expresion no es valida
+                        error += "Expresion no valida";
+                        //error
+                        break;
+                    case 0: // es valida absoluta sin expresion
+                        is_absolute = true;
+                        // value_expression = opIns;
+                        break;
+                    case 1: // es valida absoluta
+                        is_absolute = true;
+                        opIns2 = t.HexToInt(t.value_expr.ToString()).ToString();
+                        break;
+                    case 2: // es valida relativa
+                        is_absolute = false;
+                        opIns2 = t.HexToInt(t.value_expr.ToString()).ToString();
+                        break;
+                }
+            }
             set_num_constant();
+            
+            
             Console.WriteLine(is_constant ? "True" : "False");
             Console.WriteLine(is_dir_mem ? "True" : "False");
             Console.WriteLine(num_constant.ToString());
@@ -469,6 +537,12 @@ namespace Calculadora
                         is_dir_mem = true;
                     else if (num_is_constant(-1) == 0)
                         is_out_range = true;
+                    if (!is_absolute)
+                    {
+                        is_constant = false;
+                        is_dir_mem = true;
+                    }
+                        
                 }
             }
         }
@@ -1236,7 +1310,7 @@ namespace Calculadora
             
             
             linea++;
-            if ((ins == "RESB" || ins == "RESB " || ins == "RESW" || ins == "RESW ") && obj.countTextReg() > 0)
+            if ((ins == "RESB" || ins == "RESB " || ins == "RESW" || ins == "RESW " || ins == "ORG") && obj.countTextReg() > 0)
                 obj.setLastToClosed();
             if (codObj != "----")
                 obj.addCodObj(cp, codObj, false, null);

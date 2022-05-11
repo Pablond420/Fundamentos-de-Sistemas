@@ -37,7 +37,7 @@ directiva:
 direqu	:EQU expresion | EQU POR ;
 
 tipodirectiva:
-	BASE | BYTE | WORD | RESB | RESW
+	BASE | BYTE | WORD | RESB | RESW | ORG
 	;
 etiqueta:
 	MEM_DIR?
@@ -70,7 +70,7 @@ inmediato3:
 	COD_OP_F3 HASHTAG expresion
 	;
 opdirectiva:
-	NUM | CONSTHEX| CONSTCAD | MEM_DIR
+	 CONSTHEX| CONSTCAD | expresion
 	;
 expresion	:	
 	PARENI expresion PAREND expresion2 | MENOS expresion expresion2 |MEM_DIR expresion2|NUM expresion2
@@ -101,6 +101,7 @@ COD_OP_F3
 REG
 	:('A '|'X '|'L '|'B '|'S '|'T '|'F '|'CP '|'PC '|'SW ' |'A'|'X'|'L'|'B'|'S'|'T'|'F'|'CP'|'PC'|'SW')
 	;
+ORG	:	'ORG '|'ORG';
 WORD	:	'WORD '|'WORD';
 RESB	:	'RESB '|'RESB';
 START	:	'START '|'START';
@@ -140,5 +141,3 @@ FINL
 WS
 	: (' '|'\r'|'\n'|'\t')+ {Skip();}
 	;
-//EXPRESION
-//	:	('a'..'z'|'A'..'Z'|'0'..'9'|'+'|'-'|'*'|'/'|'('|')')+|('a'..'z'|'A'..'Z'|'0'..'9'|'+'|'-'|'*'|'/'|'('|')')+' ';
