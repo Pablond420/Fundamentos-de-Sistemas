@@ -61,7 +61,7 @@ namespace Calculadora
             else
             {
                 string cod = codObj.Remove(codObj.Length - 1);
-                modification.Add(new Reg_M(size_modification, "+"));
+                modification.Add(new Reg_M(init_dir, "+"));
                 Reg_M last = this.modification.Last();
                 last.setExternalSymb(name);
                 last.setSize(size_modification);
@@ -196,13 +196,13 @@ namespace Calculadora
 
         public Reg_M(string init_dir, string flag)
         {
-            this.init_dir = t.adjustStringToNBytes(init_dir, 6); ;
+            this.init_dir = t.adjustStringToNBytes(init_dir, 6);
             this.flag = flag;
         }
 
         public void setSize(string size)
         {
-            this.size = t.StrToIntToHex(size.Length.ToString()).PadLeft(2, '0');
+            this.size = t.StrToIntToHex(size.ToString()).PadLeft(2, '0');
         }
 
         public void setExternalSymb(string name)
@@ -225,7 +225,7 @@ namespace Calculadora
 
         public Reg_E( string first_exec_dir)
         {
-            this.first_exec_dir = t.adjustStringToNBytes(first_exec_dir, 6); ;
+            this.first_exec_dir = t.adjustStringToNBytes(first_exec_dir, 6);
         }
 
         public string endConcat()

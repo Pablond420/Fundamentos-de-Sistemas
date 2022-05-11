@@ -28,6 +28,7 @@ namespace Calculadora
         bool diferent_previous_cp = false;
         bool is_absolute = false;
         bool is_calculate = false;
+        bool aaaa = false;
         string[] text;
         string codop = "";// object code values in binary
         string ins_alone = "";
@@ -124,10 +125,11 @@ namespace Calculadora
                 {
                     if(ins == "START" || ins == "START ")
                     {
-                        obj = new Programa_Objeto(label, opIns);
+                        obj = new Programa_Objeto(label, t.HexToInt(opIns).ToString());
                     }
                     if (ins == "END" || ins == "END ")
                     {
+                        aaaa = true;
                         if (opIns == "")
                             obj.setEndRegister(first_exec_dir_inst, t.StrToIntToHex(cp.ToString()));
                         else if (extract_number() == -1)
@@ -549,15 +551,20 @@ namespace Calculadora
 
         int extract_number()
         {
+            if (aaaa)
+                Console.WriteLine("test");
+            
             opIns_aux += opIns_aux == "" ? opIns2 : "";
+            if (opIns_aux == "")
+                opIns_aux = opIns;
             string directory = Directory.GetCurrentDirectory();
             string text_tab_sim = File.ReadAllText(directory + "TABSIM.txt");
-            if (text_tab_sim.Contains(opIns_aux.ToString()))
+            if (text_tab_sim.Contains(opIns_aux.ToString() + " "))
             {
                 string[] lines_tab_sim = File.ReadAllLines(directory + "TABSIM.txt");
                 foreach (string line in lines_tab_sim)
                 {
-                    if (line.Contains(opIns_aux.ToString()))
+                    if (line.Contains(opIns_aux.ToString()+ " "))
                     {
                         dir_num_constant = getDirNumConstant(line);
                         break;
@@ -608,6 +615,8 @@ namespace Calculadora
 
         int getDirNumConstant(string line)
         {
+            if (aaaa)
+                Console.WriteLine("aay");
             string res = "";
             int indextabsim = 0;
             while (indextabsim < line.Length)
@@ -1315,9 +1324,9 @@ namespace Calculadora
             if (codObj != "----")
                 obj.addCodObj(cp, codObj, false, null);
             if (codObj.Contains("*") && e)
-                obj.addCodObj(cp, codObj, true, t.StrToIntToHex((t.HexToIntWithOutH(cp) + 1).ToString()));
+                obj.addCodObj( t.StrToIntToHex((t.HexToIntWithOutH(cp) + 1).ToString()) , codObj, true, "5");
             else if (codObj.Contains("*") && !e)
-                obj.addCodObj(cp, codObj, true, codObj.Length.ToString());
+                obj.addCodObj(cp, codObj, true, "6");
         }
     }
 }

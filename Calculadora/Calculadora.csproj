@@ -69,6 +69,7 @@
     <Compile Include="Interfaz Grafica.Designer.cs">
       <DependentUpon>Interfaz Grafica.cs</DependentUpon>
     </Compile>
+    <Compile Include="MathParser.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Programa Objeto.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
