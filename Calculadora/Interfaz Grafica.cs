@@ -20,10 +20,12 @@ namespace Calculadora
         string name_program = "";
         string directory = Directory.GetCurrentDirectory();
         string entrada = "";
+        public string size_program = "";
         bool clearAll = true;
         public string namep = "";
 
         Tools t = new Tools();
+        
 
         public Interfaz_Grafica()
         {
@@ -46,6 +48,7 @@ namespace Calculadora
                 name_program = Path.GetFileName(saveFileDialog1.FileName);
                 Ensamblador_Paso_1.setName(name_program);
                 Ensamblador_Paso_2.setName(name_program);
+                
             }
         }
 
@@ -56,6 +59,10 @@ namespace Calculadora
             dataArchInt.Text = "";
             dataObjProg.Text = "";
             dataSourceProgram.Text = "";
+            t.tabsim = "";
+            t.errors = "";
+            t.arch_intermed = "";
+            t.object_program = "";
 
             this.openFileDialog1 = new OpenFileDialog();
             this.openFileDialog1.ShowDialog();
@@ -68,7 +75,6 @@ namespace Calculadora
             if(line != "")
             {
                 string[] dataFuente = File.ReadAllLines(line);
-                texto = "\r\n";
                 foreach (string str in dataFuente)
                 {
                     texto += str + "\r\n";
@@ -85,7 +91,6 @@ namespace Calculadora
             lexyacc();
 
             string[] _errors = File.ReadAllLines(directory + "Errores.err");
-            t.errors = "\r\n\r\n";
             foreach (string str in _errors)
                 t.errors += str + "\r\n";
 
@@ -94,18 +99,23 @@ namespace Calculadora
 
         private void paso1ToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            dataErrores.Text = "";
+            dataTabSim.Text = "";
+            dataArchInt.Text = "";
+            dataObjProg.Text = "";
+            t.tabsim = "";
+            t.errors = "";
+            t.arch_intermed = "";
+            t.object_program = "";
             string[] _tabsim = File.ReadAllLines(directory + "TABSIM.txt");
-            t.tabsim = "\r\n\r\n";
             foreach (string str in _tabsim)
                 t.tabsim += str + "\r\n";
 
             string[] _errors = File.ReadAllLines(directory + "Errores.err");
-            t.errors = "\r\n\r\n";
             foreach (string str in _errors)
                 t.errors += str + "\r\n";
 
             string[] _archInterm = File.ReadAllLines(directory + "ArchivoIntermedio.txt");
-            t.arch_intermed= "\r\n\r\n";
             foreach (string str in _archInterm)
                 t.arch_intermed += str + "\r\n";
 
@@ -117,18 +127,23 @@ namespace Calculadora
 
         void paso1()
         {
+            dataErrores.Text = "";
+            dataTabSim.Text = "";
+            dataArchInt.Text = "";
+            dataObjProg.Text = "";
+            t.tabsim = "";
+            t.errors = "";
+            t.arch_intermed = "";
+            t.object_program = "";
             string[] _tabsim = File.ReadAllLines(directory + "TABSIM.txt");
-            t.tabsim = "\r\n\r\n";
             foreach (string str in _tabsim)
                 t.tabsim += str + "\r\n";
 
             string[] _errors = File.ReadAllLines(directory + "Errores.err");
-            t.errors = "\r\n\r\n";
             foreach (string str in _errors)
                 t.errors += str + "\r\n";
 
             string[] _archInterm = File.ReadAllLines(directory + "ArchivoIntermedio.txt");
-            t.arch_intermed = "\r\n\r\n";
             foreach (string str in _archInterm)
                 t.arch_intermed += str + "\r\n";
 
@@ -140,28 +155,32 @@ namespace Calculadora
 
         void paso2()
         {
+            dataErrores.Text = "";
+            dataTabSim.Text = "";
+            dataArchInt.Text = "";
+            dataObjProg.Text = "";
+            t.tabsim = "";
+            t.errors = "";
+            t.arch_intermed = "";
+            t.object_program = "";
             if (dataSourceProgram.Text != "")
             {
                 Ensamblador_Paso_2.INSTANCE.CodigoObjeto();
                 // Ensamblador_Paso_2.INSTANCE.namep = Ensamblador_Paso_1.INSTANCE.namep;
 
                 string[] _tabsim = File.ReadAllLines(directory + "TABSIM.txt");
-                t.tabsim = "\r\n\r\n";
                 foreach (string str in _tabsim)
                     t.tabsim += str + "\r\n";
 
                 string[] _errors = File.ReadAllLines(directory + "Errores.err");
-                t.errors = "\r\n\r\n";
                 foreach (string str in _errors)
                     t.errors += str + "\r\n";
 
                 string[] _archInterm = File.ReadAllLines(directory + "ArchivoIntermedioCodObj.txt");
-                t.arch_intermed = "\r\n\r\n";
                 foreach (string str in _archInterm)
                     t.arch_intermed += str + "\r\n";
 
                 string[] _progObj = File.ReadAllLines(directory + "ProgramaObjeto.txt");
-                t.object_program = "\r\n\r\n";
                 foreach (string str in _progObj)
                     t.object_program += str + "\r\n";
 
@@ -174,27 +193,31 @@ namespace Calculadora
 
         private void paso2ToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if(dataSourceProgram.Text != "")
+            dataErrores.Text = "";
+            dataTabSim.Text = "";
+            dataArchInt.Text = "";
+            dataObjProg.Text = "";
+            t.tabsim = "";
+            t.errors = "";
+            t.arch_intermed = "";
+            t.object_program = "";
+            if (dataSourceProgram.Text != "")
             {
                 Ensamblador_Paso_2.INSTANCE.CodigoObjeto();
 
                 string[] _tabsim = File.ReadAllLines(directory + "TABSIM.txt");
-                t.tabsim = "\r\n\r\n";
                 foreach (string str in _tabsim)
                     t.tabsim += str + "\r\n";
 
                 string[] _errors = File.ReadAllLines(directory + "Errores.err");
-                t.errors = "\r\n\r\n";
                 foreach (string str in _errors)
                     t.errors += str + "\r\n";
 
                 string[] _archInterm = File.ReadAllLines(directory + "ArchivoIntermedioCodObj.txt");
-                t.arch_intermed = "\r\n\r\n";
                 foreach (string str in _archInterm)
                     t.arch_intermed += str + "\r\n";
 
                 string[] _progObj = File.ReadAllLines(directory + "ProgramaObjeto.txt");
-                t.object_program = "\r\n\r\n";
                 foreach (string str in _progObj)
                     t.object_program += str + "\r\n";
 
@@ -226,6 +249,7 @@ namespace Calculadora
             dataTabSim.Text = "";
             dataArchInt.Text = "";
             dataObjProg.Text = "";
+            size_program = "";
         }
 
         void lexyacc()
@@ -240,7 +264,7 @@ namespace Calculadora
             Gramatica_CalculadoraParser parser = new Gramatica_CalculadoraParser(tokens);
             //Agregar el Listener del Parser para control del contador de programa, archivo intermedio y TABSIM
             parser.AddParseListener(Ensamblador_Paso_1.INSTANCE);
-
+            size_program = Ensamblador_Paso_1.getSize();
             parser.RemoveErrorListeners();
             parser.AddErrorListener(DescriptiveErrorListenerTk.INSTANCE);
 
@@ -334,7 +358,41 @@ namespace Calculadora
         private void cargadorToolStripMenuItem_Click(object sender, EventArgs e)
         {
             MapaMemoria mapa = new MapaMemoria();
-            mapa.ShowDialog();
+            if (dataObjProg.Text != "")
+                mapa.cargar(dataObjProg.Text, searchSizeTabsim());
+            mapa.Show();
+        }
+
+
+        int searchSizeTabsim()
+        {
+            string res = "";
+            string directory = Directory.GetCurrentDirectory();
+            string text_tab_sim = File.ReadAllText(directory + "TABSIM.txt");
+            string[] lines_tab_sim = File.ReadAllLines(directory + "TABSIM.txt");
+            foreach (string line in lines_tab_sim)
+            {
+                if (line.Contains("Tamaño del programa"))
+                {
+                    bool flag = false;
+                    for(int i = 0; i<line.Length; i++)
+                    {
+                        if (line.Substring(i, 1) == ":")
+                        {
+                            flag = true;
+                            continue;
+                        }
+                        if (flag)
+                            res += line.Substring(i, 1);
+
+                    }
+                    break;
+                }
+            }
+            res = res.Replace(" ", "");
+            int numres = t.HexToInt(res);
+            return numres;
+            
         }
     }
 }

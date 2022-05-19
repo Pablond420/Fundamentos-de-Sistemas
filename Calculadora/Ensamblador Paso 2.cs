@@ -551,8 +551,6 @@ namespace Calculadora
 
         int extract_number()
         {
-            if (aaaa)
-                Console.WriteLine("test");
             
             opIns_aux += opIns_aux == "" ? opIns2 : "";
             if (opIns_aux == "")
@@ -1299,8 +1297,8 @@ namespace Calculadora
                     file.WriteLine(line);
                 }
                 string correct_format_err = (codObj.Length >= 8) ? ("\t" + "Error: " + error) : ("\t\t" + "Error: " + error);
-                string correct_format_op = (op.Length >= 8) ? ("\t" + op + "\t" + codObj + correct_format_err) : ("\t" + op + "\t\t" + codObj + correct_format_err);
-                line = linea.ToString() + "\t" + (cp.Contains("*") ? cp.PadLeft(5, '0') : cp.PadLeft(4, '0')) + "\t" + label + "\t" + instruc + correct_format_op;
+                string correct_format_op = (op.Length >= 8) ? ("\t\t" + op + "\t\t" + codObj + correct_format_err) : ("\t\t" + op + "\t\t" + codObj + correct_format_err);
+                line = linea.ToString() + "\t" + (cp.Contains("*") ? cp.PadLeft(5, '0') : cp.PadLeft(4, '0')) + "\t" + label + "\t\t" + instruc + correct_format_op;
                 //String line2 = new String(format, linea.ToString(), (cp.Contains("*") ? cp.PadLeft(5, '0') : cp.PadLeft(4, '0')), label, instruc, op, codObj, error);
                 using (StreamWriter file = new StreamWriter(directory + "ArchivoIntermedioCodObj.txt", true))
                 {
@@ -1309,8 +1307,8 @@ namespace Calculadora
             }
             else
             {
-                string correct_format_op = (op.Length >= 8) ? ("\t" + op + "\t" + codObj + "\t\t") : ("\t" + op + "\t\t" + codObj);
-                line = linea.ToString() + "\t" + (cp.Contains("*") ? cp.PadLeft(5, '0') : cp.PadLeft(4, '0')) + "\t" + label + "\t" + instruc + correct_format_op;
+                string correct_format_op = (op.Length >= 8) ? ("\t\t" + op + "\t\t" + codObj + "\t\t") : ("\t\t" + op + "\t\t" + codObj);
+                line = linea.ToString() + "\t" + (cp.Contains("*") ? cp.PadLeft(5, '0') : cp.PadLeft(4, '0')) + "\t" + label + "\t\t" + instruc + correct_format_op;
                 using (StreamWriter file = new StreamWriter(directory + "ArchivoIntermedioCodObj.txt", true))
                 {
                     file.WriteLine(line);

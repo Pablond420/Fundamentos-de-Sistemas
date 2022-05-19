@@ -29,23 +29,6 @@
         private void InitializeComponent()
         {
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            this.Direccion = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Cero = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Uno = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Dos = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Tres = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Cuatro = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Cinco = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Seis = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Siete = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Ocho = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Nueve = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.A = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.B = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.C = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.D = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.E = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.F = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.archivoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.abrirToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -72,6 +55,23 @@
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.Direccion = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Cero = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Uno = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Dos = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Tres = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Cuatro = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Cinco = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Seis = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Siete = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Ocho = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Nueve = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.A = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.B = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.C = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.D = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.E = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.F = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).BeginInit();
@@ -85,6 +85,7 @@
             // 
             // dataGridView1
             // 
+            this.dataGridView1.AllowUserToAddRows = false;
             this.dataGridView1.BackgroundColor = System.Drawing.Color.White;
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
@@ -109,125 +110,6 @@
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.Size = new System.Drawing.Size(529, 387);
             this.dataGridView1.TabIndex = 0;
-            // 
-            // Direccion
-            // 
-            this.Direccion.HeaderText = "";
-            this.Direccion.Name = "Direccion";
-            this.Direccion.ReadOnly = true;
-            this.Direccion.Width = 60;
-            // 
-            // Cero
-            // 
-            this.Cero.HeaderText = "0";
-            this.Cero.Name = "Cero";
-            this.Cero.ReadOnly = true;
-            this.Cero.Width = 25;
-            // 
-            // Uno
-            // 
-            this.Uno.HeaderText = "1";
-            this.Uno.Name = "Uno";
-            this.Uno.ReadOnly = true;
-            this.Uno.Width = 25;
-            // 
-            // Dos
-            // 
-            this.Dos.HeaderText = "2";
-            this.Dos.Name = "Dos";
-            this.Dos.ReadOnly = true;
-            this.Dos.Width = 25;
-            // 
-            // Tres
-            // 
-            this.Tres.HeaderText = "3";
-            this.Tres.Name = "Tres";
-            this.Tres.ReadOnly = true;
-            this.Tres.Width = 25;
-            // 
-            // Cuatro
-            // 
-            this.Cuatro.HeaderText = "4";
-            this.Cuatro.Name = "Cuatro";
-            this.Cuatro.ReadOnly = true;
-            this.Cuatro.Width = 25;
-            // 
-            // Cinco
-            // 
-            this.Cinco.HeaderText = "5";
-            this.Cinco.Name = "Cinco";
-            this.Cinco.ReadOnly = true;
-            this.Cinco.Width = 25;
-            // 
-            // Seis
-            // 
-            this.Seis.HeaderText = "6";
-            this.Seis.Name = "Seis";
-            this.Seis.ReadOnly = true;
-            this.Seis.Width = 25;
-            // 
-            // Siete
-            // 
-            this.Siete.HeaderText = "7";
-            this.Siete.Name = "Siete";
-            this.Siete.ReadOnly = true;
-            this.Siete.Width = 25;
-            // 
-            // Ocho
-            // 
-            this.Ocho.HeaderText = "8";
-            this.Ocho.Name = "Ocho";
-            this.Ocho.ReadOnly = true;
-            this.Ocho.Width = 25;
-            // 
-            // Nueve
-            // 
-            this.Nueve.HeaderText = "9";
-            this.Nueve.Name = "Nueve";
-            this.Nueve.ReadOnly = true;
-            this.Nueve.Width = 25;
-            // 
-            // A
-            // 
-            this.A.HeaderText = "A";
-            this.A.Name = "A";
-            this.A.ReadOnly = true;
-            this.A.Width = 25;
-            // 
-            // B
-            // 
-            this.B.HeaderText = "B";
-            this.B.Name = "B";
-            this.B.ReadOnly = true;
-            this.B.Width = 25;
-            // 
-            // C
-            // 
-            this.C.HeaderText = "C";
-            this.C.Name = "C";
-            this.C.ReadOnly = true;
-            this.C.Width = 25;
-            // 
-            // D
-            // 
-            this.D.HeaderText = "D";
-            this.D.Name = "D";
-            this.D.ReadOnly = true;
-            this.D.Width = 25;
-            // 
-            // E
-            // 
-            this.E.HeaderText = "E";
-            this.E.Name = "E";
-            this.E.ReadOnly = true;
-            this.E.Width = 25;
-            // 
-            // F
-            // 
-            this.F.HeaderText = "F";
-            this.F.Name = "F";
-            this.F.ReadOnly = true;
-            this.F.Width = 25;
             // 
             // menuStrip1
             // 
@@ -341,8 +223,8 @@
             // 
             this.groupBox1.BackColor = System.Drawing.Color.SteelBlue;
             this.groupBox1.Controls.Add(this.dataGridView1);
-            this.groupBox1.Font = new System.Drawing.Font("Montserrat SemiBold", 9.749999F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.groupBox1.ForeColor = System.Drawing.Color.White;
+            this.groupBox1.Font = new System.Drawing.Font("Montserrat SemiBold", 8.249999F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.groupBox1.ForeColor = System.Drawing.Color.Black;
             this.groupBox1.Location = new System.Drawing.Point(12, 27);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(541, 413);
@@ -355,7 +237,7 @@
             this.groupBox2.BackColor = System.Drawing.Color.SteelBlue;
             this.groupBox2.Controls.Add(this.dataGridView2);
             this.groupBox2.Font = new System.Drawing.Font("Montserrat SemiBold", 9.749999F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.groupBox2.ForeColor = System.Drawing.Color.White;
+            this.groupBox2.ForeColor = System.Drawing.Color.Black;
             this.groupBox2.Location = new System.Drawing.Point(559, 27);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(311, 183);
@@ -480,13 +362,133 @@
             this.groupBox4.BackColor = System.Drawing.Color.SteelBlue;
             this.groupBox4.Controls.Add(this.dataGridView3);
             this.groupBox4.Font = new System.Drawing.Font("Montserrat SemiBold", 9.749999F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.groupBox4.ForeColor = System.Drawing.Color.White;
+            this.groupBox4.ForeColor = System.Drawing.Color.Black;
             this.groupBox4.Location = new System.Drawing.Point(12, 446);
             this.groupBox4.Name = "groupBox4";
             this.groupBox4.Size = new System.Drawing.Size(858, 219);
             this.groupBox4.TabIndex = 7;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "EJECUCIÓN";
+            // 
+            // Direccion
+            // 
+            this.Direccion.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.Direccion.HeaderText = "";
+            this.Direccion.Name = "Direccion";
+            this.Direccion.ReadOnly = true;
+            this.Direccion.Width = 19;
+            // 
+            // Cero
+            // 
+            this.Cero.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.Cero.HeaderText = "0";
+            this.Cero.Name = "Cero";
+            this.Cero.ReadOnly = true;
+            // 
+            // Uno
+            // 
+            this.Uno.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.Uno.HeaderText = "1";
+            this.Uno.Name = "Uno";
+            this.Uno.ReadOnly = true;
+            // 
+            // Dos
+            // 
+            this.Dos.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.Dos.HeaderText = "2";
+            this.Dos.Name = "Dos";
+            this.Dos.ReadOnly = true;
+            // 
+            // Tres
+            // 
+            this.Tres.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.Tres.HeaderText = "3";
+            this.Tres.Name = "Tres";
+            this.Tres.ReadOnly = true;
+            // 
+            // Cuatro
+            // 
+            this.Cuatro.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.Cuatro.HeaderText = "4";
+            this.Cuatro.Name = "Cuatro";
+            this.Cuatro.ReadOnly = true;
+            // 
+            // Cinco
+            // 
+            this.Cinco.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.Cinco.HeaderText = "5";
+            this.Cinco.Name = "Cinco";
+            this.Cinco.ReadOnly = true;
+            // 
+            // Seis
+            // 
+            this.Seis.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.Seis.HeaderText = "6";
+            this.Seis.Name = "Seis";
+            this.Seis.ReadOnly = true;
+            // 
+            // Siete
+            // 
+            this.Siete.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.Siete.HeaderText = "7";
+            this.Siete.Name = "Siete";
+            this.Siete.ReadOnly = true;
+            // 
+            // Ocho
+            // 
+            this.Ocho.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.Ocho.HeaderText = "8";
+            this.Ocho.Name = "Ocho";
+            this.Ocho.ReadOnly = true;
+            // 
+            // Nueve
+            // 
+            this.Nueve.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.Nueve.HeaderText = "9";
+            this.Nueve.Name = "Nueve";
+            this.Nueve.ReadOnly = true;
+            // 
+            // A
+            // 
+            this.A.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.A.HeaderText = "A";
+            this.A.Name = "A";
+            this.A.ReadOnly = true;
+            // 
+            // B
+            // 
+            this.B.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.B.HeaderText = "B";
+            this.B.Name = "B";
+            this.B.ReadOnly = true;
+            // 
+            // C
+            // 
+            this.C.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.C.HeaderText = "C";
+            this.C.Name = "C";
+            this.C.ReadOnly = true;
+            // 
+            // D
+            // 
+            this.D.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.D.HeaderText = "D";
+            this.D.Name = "D";
+            this.D.ReadOnly = true;
+            // 
+            // E
+            // 
+            this.E.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.E.HeaderText = "E";
+            this.E.Name = "E";
+            this.E.ReadOnly = true;
+            // 
+            // F
+            // 
+            this.F.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.F.HeaderText = "F";
+            this.F.Name = "F";
+            this.F.ReadOnly = true;
             // 
             // MapaMemoria
             // 
@@ -523,23 +525,6 @@
         #endregion
 
         private System.Windows.Forms.DataGridView dataGridView1;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Direccion;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Cero;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Uno;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Dos;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Tres;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Cuatro;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Cinco;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Seis;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Siete;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Ocho;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Nueve;
-        private System.Windows.Forms.DataGridViewTextBoxColumn A;
-        private System.Windows.Forms.DataGridViewTextBoxColumn B;
-        private System.Windows.Forms.DataGridViewTextBoxColumn C;
-        private System.Windows.Forms.DataGridViewTextBoxColumn D;
-        private System.Windows.Forms.DataGridViewTextBoxColumn E;
-        private System.Windows.Forms.DataGridViewTextBoxColumn F;
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem archivoToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem abrirToolStripMenuItem;
@@ -566,5 +551,22 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn ModoDir;
         private System.Windows.Forms.DataGridViewTextBoxColumn Operando;
         private System.Windows.Forms.DataGridViewTextBoxColumn Efecto;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Direccion;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Cero;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Uno;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Dos;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Tres;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Cuatro;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Cinco;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Seis;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Siete;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Ocho;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Nueve;
+        private System.Windows.Forms.DataGridViewTextBoxColumn A;
+        private System.Windows.Forms.DataGridViewTextBoxColumn B;
+        private System.Windows.Forms.DataGridViewTextBoxColumn C;
+        private System.Windows.Forms.DataGridViewTextBoxColumn D;
+        private System.Windows.Forms.DataGridViewTextBoxColumn E;
+        private System.Windows.Forms.DataGridViewTextBoxColumn F;
     }
 }

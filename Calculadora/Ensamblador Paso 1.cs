@@ -23,6 +23,7 @@ namespace Calculadora
         String tipo = "R";
         string byte_error = "";
         static string name_programa = "";
+        static string size_program = "";
         String label = "";
         String error = "";
         String ins = "";
@@ -31,6 +32,12 @@ namespace Calculadora
         public static void setName(string name)
         {
             name_programa = name;
+        }
+
+        public static string getSize()
+        {
+
+            return size_program;
         }
 
         public void clearAll()
@@ -439,7 +446,8 @@ namespace Calculadora
             ins = "END";
             opIns = context.entrada().GetText();
             WriteFile(tool.StrToIntToHex(CP.ToString()), label, ins, opIns);
-            String line =  "*Tamaño del programa: " + tool.StrToIntToHex(CP.ToString()) + "H";
+            size_program = tool.StrToIntToHex(CP.ToString());
+            String line =  "*Tamaño del programa: " + size_program + "H";
             string directory = Directory.GetCurrentDirectory();
             using (StreamWriter file = new StreamWriter(directory + "TABSIM.txt", true))
             {

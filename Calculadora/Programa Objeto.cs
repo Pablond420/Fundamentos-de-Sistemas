@@ -65,6 +65,8 @@ namespace Calculadora
                 Reg_M last = this.modification.Last();
                 last.setExternalSymb(name);
                 last.setSize(size_modification);
+                Reg_T last_text = this.text.Last();
+                last_text.setSize();
             }
         }
 

@@ -17,10 +17,13 @@ namespace Calculadora
         string dirCargaHex;
         bool stop = false;
         string programaObj;
+        Tools t = new Tools();
 
         public MapaMemoria()
         {
             InitializeComponent();
+            dataGridView1.Rows.Clear();
+            dataGridView1.Refresh();
         }
 
         public void cargar(string progObj, int tamArch)
@@ -33,11 +36,13 @@ namespace Calculadora
             tam = tamArch;
             tamHex = tamArch.ToString("X");
 
-            initDirecciones(dirCarga);
-
+            initDirecciones(registros,dirCarga);
+            int c = 0;
             for (int i = 1; i < registros.Length - 1; i++)
             {
                 dirCarga = registros[i].Substring(1, 6);
+                string actual_reg = registros[i].Substring(0, 1);
+                c = 0;
                 for (int j = 0; j < dataGridView1.Rows.Count; j++)
                 {
                     string dirT = dataGridView1.Rows[j].Cells[0].Value.ToString().PadLeft(6, '0').Substring(0, 5);
@@ -48,14 +53,63 @@ namespace Calculadora
                         {
                             if (ultimo < 16)
                             {
-                                dataGridView1.Rows[j].Cells[ultimo + 1].Value = registros[i].Substring(k, 2);
+                                if(actual_reg == "M")
+                                {
+                                    if(registros[i].Substring(7, 2) == "05")
+                                    {
+                                        string local_dir_carga = dataGridView1.Rows[j].Cells[ultimo + 1].Value.ToString().Substring(0, 1) + dirCargaHex.Substring(1,5);
+                                        dataGridView1.Rows[j].Cells[ultimo + 1].Value = local_dir_carga.Substring(c, 2);
+                                        dataGridView1.Rows[j].Cells[ultimo + 1].Style.ForeColor = Color.Red;
+                                        c += 2;
+                                        if (c == 6)
+                                            k = registros[i].Length;
+                                    }
+                                    if (registros[i].Substring(7, 2) == "06")
+                                    {
+                                        dataGridView1.Rows[j].Cells[ultimo + 1].Value = dirCargaHex.Substring(c, 2);
+                                        dataGridView1.Rows[j].Cells[ultimo + 1].Style.ForeColor = Color.Red;
+                                        c += 2;
+                                        if (c == 6)
+                                            k = registros[i].Length;
+                                    }
+                                }
+                                else
+                                {
+                                    dataGridView1.Rows[j].Cells[ultimo + 1].Value = registros[i].Substring(k, 2);
+                                    dataGridView1.Rows[j].Cells[ultimo + 1].Style.ForeColor = Color.Red;
+                                    c = 0;
+                                }
                                 ultimo++;
                             }
                             else
                             {
                                 ultimo = 0;
                                 j++;
-                                dataGridView1.Rows[j].Cells[ultimo + 1].Value = registros[i].Substring(k, 2);
+                                if (actual_reg == "M")
+                                {
+                                    if (registros[i].Substring(7, 2) == "05")
+                                    {
+                                        string local_dir_carga = dataGridView1.Rows[j].Cells[ultimo + 1].Value.ToString().Substring(0, 1) + dirCargaHex.Substring(1, 5);
+                                        dataGridView1.Rows[j].Cells[ultimo + 1].Value = local_dir_carga.Substring(c, 2);
+                                        dataGridView1.Rows[j].Cells[ultimo + 1].Style.ForeColor = Color.Red;
+                                        c += 2;
+                                        if (c == 6)
+                                            k = registros[i].Length;
+                                    }
+                                    if (registros[i].Substring(7, 2) == "06")
+                                    {
+                                        dataGridView1.Rows[j].Cells[ultimo + 1].Value = dirCargaHex.Substring(c, 2);
+                                        dataGridView1.Rows[j].Cells[ultimo + 1].Style.ForeColor = Color.Red;
+                                        c += 2;
+                                        if (c == 6)
+                                            k = registros[i].Length;
+                                    }
+                                }
+                                else
+                                {
+                                    dataGridView1.Rows[j].Cells[ultimo + 1].Value = registros[i].Substring(k, 2);
+                                    dataGridView1.Rows[j].Cells[ultimo + 1].Style.ForeColor = Color.Red;
+                                }
                                 ultimo++;
                             }
                         }
@@ -63,22 +117,30 @@ namespace Calculadora
                         break;
                     }
                 }
-
             }
 
             initRegistros();
             initgeneral();
         }
 
-        public void initDirecciones(string dirCarga)
+        public void initDirecciones(string[] registros, string dirCarga)
         {
-            dirCarga = dirCarga.Substring(0, 5) + "0";
-            int dir = Convert.ToInt32(dirCarga, 16);
-            int ultimaDir = tam + dir + 10;
-            for (int i = dir; i < ultimaDir; i += 16)
+            string lastDirCarga = dirCarga;
+            List<int> dirs = new List<int>();
+            List<string> dirsS = new List<string>();
+            for (int i = 1; i < registros.Length - 1; i++)
+                dirs.Add(Convert.ToInt32(registros[i].Substring(1, 6), 16));
+            dirs.Sort();
+            for (int i = 0; i < dirs.Count; i++)
             {
+                dirsS.Add(t.StrToIntToHex(dirs.ElementAt(i).ToString()).PadLeft(6, '0').Substring(0, 5) + "0");
+            }
+            dirsS = dirsS.Distinct().ToList();
+            
+            for (int i = 0; i < dirsS.Count; i++)
+            {
+                dirCarga = dirsS.ElementAt(i);
                 dataGridView1.Rows.Add(dirCarga.PadLeft(6, '0'), "FF ", "FF ", "FF ", "FF ", "FF ", "FF ", "FF ", "FF ", "FF ", "FF ", "FF ", "FF ", "FF ", "FF ", "FF ", "FF ");
-                dirCarga = (Convert.ToInt32(dirCarga, 16) + 16).ToString("X");
             }
         }
 
