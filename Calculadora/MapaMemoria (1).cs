@@ -14,12 +14,10 @@ namespace Calculadora
     {
         int tam;
         string tamHex;
-        string dirCargaHex = "";
+        string dirCargaHex;
         bool stop = false;
         string programaObj;
         Tools t = new Tools();
-        List<Cve_Val> TabSe = new List<Cve_Val>();
-        List<Mod> modifs = new List<Mod>();
 
         public MapaMemoria()
         {
@@ -28,13 +26,13 @@ namespace Calculadora
             dataGridView1.Refresh();
         }
 
-        public void cargar(string progObj, int tamArch, string dir_carga)
+        public void cargar(string progObj, int tamArch)
         {
             string[] registros = progObj.Split('\n');
-            string dirCarga = dir_carga; //2012h
-            int dirProg = 8210;
+            string dirCarga = registros[0].Substring(7, 6);
+
             programaObj = progObj;
-            dirCargaHex = dir_carga;
+            dirCargaHex = dirCarga;
             tam = tamArch;
             tamHex = tamArch.ToString("X");
 
@@ -42,181 +40,87 @@ namespace Calculadora
             int c = 0;
             for (int i = 1; i < registros.Length - 1; i++)
             {
-
-                
-                
+                dirCarga = registros[i].Substring(1, 6);
                 string actual_reg = registros[i].Substring(0, 1);
-                if(actual_reg != "E" && actual_reg != "D" && actual_reg != "R")
+                c = 0;
+                for (int j = 0; j < dataGridView1.Rows.Count; j++)
                 {
-                    dirCarga = (Convert.ToInt32(dirCargaHex, 16) + Convert.ToInt32(registros[i].Substring(1, 6), 16)).ToString("X").PadLeft(6,'0');
-                    c = 0;
-                    for (int j = 0; j < dataGridView1.Rows.Count; j++)
+                    string dirT = dataGridView1.Rows[j].Cells[0].Value.ToString().PadLeft(6, '0').Substring(0, 5);
+                    if (dirT == dirCarga.Substring(0, 5))
                     {
-                        string dirT = dataGridView1.Rows[j].Cells[0].Value.ToString().PadLeft(6, '0').Substring(0, 5);
-                        if (dirT == dirCarga.Substring(0, 5))
+                        int ultimo = Convert.ToInt32(dirCarga.Last().ToString(), 16);
+                        for (int k = 9; k < registros[i].Length - 1; k += 2)
                         {
-                            int ultimo = Convert.ToInt32(dirCarga.Last().ToString(), 16);
-                            for (int k = 9; k < registros[i].Length - 1; k += 2)
+                            if (ultimo < 16)
                             {
-                                if (ultimo < 16)
+                                if(actual_reg == "M")
                                 {
-                                    if (actual_reg == "M")
+                                    if(registros[i].Substring(7, 2) == "05")
                                     {
-                                        string sim = registros[i].Substring(10, 6);
-                                        if (registros[i].Substring(7, 2) == "05")
-                                        {
-                                            int dirLocalidad = 0;
-                                            foreach (Cve_Val entry in TabSe)
-                                            {
-                                                if (entry.simb == sim)
-                                                {
-                                                    dirLocalidad = Convert.ToInt32(dirCargaHex, 16) + Convert.ToInt32(dirCarga.ToString(), 16);
-                                                    modifs.Add(new Mod(dirLocalidad.ToString("X"), entry.value, entry.simb));
-                                                    break;
-                                                }
-                                                else
-                                                {
-                                                    dirLocalidad = Convert.ToInt32(dirCargaHex, 16) + Convert.ToInt32(dirCarga.ToString(), 16);
-                                                    bool no_exist = true;
-                                                    foreach(Mod en in modifs)
-                                                    {
-                                                        no_exist = !en.localidad.Equals(dirLocalidad.ToString("X")) && no_exist;
-                                                        if (!no_exist)
-                                                            break;
-                                                    }
-                                                    if(no_exist)
-                                                        modifs.Add(new Mod(dirLocalidad.ToString("X").PadLeft(6, '0'), entry.value, sim));
-                                                    break;
-                                                }
-                                            }
-                                        }
-                                        if (registros[i].Substring(7, 2) == "06")
-                                        {
-                                            int dirLocalidad = 0;
-                                            foreach (Cve_Val entry in TabSe)
-                                            {
-                                                if (entry.simb == sim)
-                                                {
-                                                    dirLocalidad = Convert.ToInt32(dirCargaHex, 16) + Convert.ToInt32(registros[i].Substring(1, 6), 16);
-                                                    bool no_exist = true;
-                                                    foreach (Mod en in modifs)
-                                                    {
-                                                        no_exist = !en.localidad.Equals(dirLocalidad.ToString("X")) && !en.simb.Equals(sim) && no_exist;
-                                                        if (!no_exist)
-                                                            break;
-                                                    }
-                                                    if (!no_exist)
-                                                        modifs.Add(new Mod(dirLocalidad.ToString("X").PadLeft(6, '0'), entry.value, sim));
-                                                    break;
-                                                }
-                                            }
-                                        }
-                                    }
-                                    else
-                                    {
-                                        dataGridView1.Rows[j].Cells[ultimo + 1].Value = registros[i].Substring(k, 2);
+                                        string local_dir_carga = dataGridView1.Rows[j].Cells[ultimo + 1].Value.ToString().Substring(0, 1) + dirCargaHex.Substring(1,5);
+                                        dataGridView1.Rows[j].Cells[ultimo + 1].Value = local_dir_carga.Substring(c, 2);
                                         dataGridView1.Rows[j].Cells[ultimo + 1].Style.ForeColor = Color.Red;
-                                        c = 0;
+                                        c += 2;
+                                        if (c == 6)
+                                            k = registros[i].Length;
                                     }
-                                    ultimo++;
+                                    if (registros[i].Substring(7, 2) == "06")
+                                    {
+                                        dataGridView1.Rows[j].Cells[ultimo + 1].Value = dirCargaHex.Substring(c, 2);
+                                        dataGridView1.Rows[j].Cells[ultimo + 1].Style.ForeColor = Color.Red;
+                                        c += 2;
+                                        if (c == 6)
+                                            k = registros[i].Length;
+                                    }
                                 }
                                 else
                                 {
-                                    ultimo = 0;
-                                    j++;
-                                    if (actual_reg == "M")
-                                    {
-                                        string sim = registros[i].Substring(10, 6);
-                                        if (registros[i].Substring(7, 2) == "05")
-                                        {
-                                            int dirLocalidad = 0;
-                                            foreach (Cve_Val entry in TabSe)
-                                            {
-                                                if (entry.simb == sim)
-                                                {
-                                                    dirLocalidad = Convert.ToInt32(dirCargaHex, 16) + Convert.ToInt32(dirCarga.ToString(), 16);
-                                                    modifs.Add(new Mod(dirLocalidad.ToString("X"), entry.value, entry.simb));
-                                                }
-                                            }
-                                        }
-                                        if (registros[i].Substring(7, 2) == "06")
-                                        {
-                                            int dirLocalidad = 0;
-                                            foreach (Cve_Val entry in TabSe)
-                                            {
-                                                if (entry.simb == sim)
-                                                {
-                                                    dirLocalidad = Convert.ToInt32(dirCargaHex, 16) + Convert.ToInt32(dirCarga.ToString(), 16);
-                                                    modifs.Add(new Mod(dirLocalidad.ToString("X"), entry.value, entry.simb));
-                                                }
-                                            }
-                                        }
-                                    }
-                                    else
-                                    {
-                                        dataGridView1.Rows[j].Cells[ultimo + 1].Value = registros[i].Substring(k, 2);
-                                        dataGridView1.Rows[j].Cells[ultimo + 1].Style.ForeColor = Color.Red;
-                                    }
-                                    ultimo++;
+                                    dataGridView1.Rows[j].Cells[ultimo + 1].Value = registros[i].Substring(k, 2);
+                                    dataGridView1.Rows[j].Cells[ultimo + 1].Style.ForeColor = Color.Red;
+                                    c = 0;
                                 }
+                                ultimo++;
                             }
-
-                            break;
+                            else
+                            {
+                                ultimo = 0;
+                                j++;
+                                if (actual_reg == "M")
+                                {
+                                    if (registros[i].Substring(7, 2) == "05")
+                                    {
+                                        string local_dir_carga = dataGridView1.Rows[j].Cells[ultimo + 1].Value.ToString().Substring(0, 1) + dirCargaHex.Substring(1, 5);
+                                        dataGridView1.Rows[j].Cells[ultimo + 1].Value = local_dir_carga.Substring(c, 2);
+                                        dataGridView1.Rows[j].Cells[ultimo + 1].Style.ForeColor = Color.Red;
+                                        c += 2;
+                                        if (c == 6)
+                                            k = registros[i].Length;
+                                    }
+                                    if (registros[i].Substring(7, 2) == "06")
+                                    {
+                                        dataGridView1.Rows[j].Cells[ultimo + 1].Value = dirCargaHex.Substring(c, 2);
+                                        dataGridView1.Rows[j].Cells[ultimo + 1].Style.ForeColor = Color.Red;
+                                        c += 2;
+                                        if (c == 6)
+                                            k = registros[i].Length;
+                                    }
+                                }
+                                else
+                                {
+                                    dataGridView1.Rows[j].Cells[ultimo + 1].Value = registros[i].Substring(k, 2);
+                                    dataGridView1.Rows[j].Cells[ultimo + 1].Style.ForeColor = Color.Red;
+                                }
+                                ultimo++;
+                            }
                         }
+
+                        break;
                     }
                 }
             }
-            modificacion();
-            dirCargaHex = (Convert.ToInt32(dirCargaHex, 16) + Convert.ToInt32(tamHex, 16)).ToString("X").PadLeft(6, '0');
+
             initRegistros();
             initgeneral();
-        }
-
-        public void modificacion()
-        {
-            modifs.Distinct();
-            foreach (Mod modif in modifs)
-            {
-                foreach(Cve_Val entry in TabSe)
-                {
-                    if (modif.simb == entry.simb && entry.value != -1)
-                    {
-                        modif.content = entry.value;
-                    }
-                }
-            }
-
-            foreach (Mod modif in modifs)
-            {
-                if(modif.content != -1)
-                {
-                    for (int j = 0; j < dataGridView1.Rows.Count; j++)
-                    {
-                        string dirT = dataGridView1.Rows[j].Cells[0].Value.ToString().PadLeft(6, '0').Substring(0, 6);
-                        string dirAux = modif.localidad.PadLeft(6, '0').Substring(0, 6);
-                        if (dirT == modif.localidad.Substring(0, 5).PadLeft(6, '0'))
-                        {
-                            int ultimo = 0;
-                            int newDirT = 0;
-                            while (dirAux != dirT)
-                            {
-                                ultimo++;
-                                newDirT = Convert.ToInt32(dirT, 16) + ultimo;
-                            }
-                            if (newDirT.ToString("X") == dirT)
-                            {
-                                string dir_ant = dataGridView1.Rows[j].Cells[ultimo].Value.ToString() + dataGridView1.Rows[j].Cells[ultimo + 1].Value.ToString() + dataGridView1.Rows[j].Cells[ultimo + 2].Value.ToString();
-                                int final = Convert.ToInt32(dir_ant, 16) + modif.content;
-                                string str_final = final.ToString("X").PadLeft(6, '0');
-                                dataGridView1.Rows[j].Cells[ultimo].Value = str_final.Substring(0, 2);
-                                dataGridView1.Rows[j].Cells[ultimo + 1].Value = str_final.Substring(2, 4);
-                                dataGridView1.Rows[j].Cells[ultimo + 2].Value = str_final.Substring(4, 6);
-                            }
-                        }
-                        
-                    }
-                }
-            }
         }
 
         public void initDirecciones(string[] registros, string dirCarga)
@@ -224,68 +128,8 @@ namespace Calculadora
             string lastDirCarga = dirCarga;
             List<int> dirs = new List<int>();
             List<string> dirsS = new List<string>();
-            dirs.Add(Convert.ToInt32(dirCarga, 16));
             for (int i = 1; i < registros.Length - 1; i++)
-            {
-                string typeReg = registros[i].Substring(0, 1);
-
-                switch(typeReg)
-                {
-                    case "R":
-                        for (int w = 1; w < registros[i].Length; w += 6)
-                        {
-                            string sim = registros[i].Substring(w, 6);
-                            Cve_Val val = new Cve_Val(sim, -1);
-                            bool no_exist = true;
-                            foreach(Cve_Val en in TabSe)
-                            {
-                                no_exist = !val.Equals(en) && no_exist;
-                            }
-                            if(no_exist)
-                                TabSe.Add(val);
-                        }
-                        break;
-                    case "D":
-                        for (int w = 1; w < registros[i].Length; w+=6)
-                        {
-                            string sim = registros[i].Substring(w, 6);
-                            w += 6;
-                            int value = Convert.ToInt32(registros[i].Substring(w, 6), 16);
-                            Cve_Val val = new Cve_Val(sim, value);
-                            bool no_exist = true;
-                            int index = -1;
-                            foreach (Cve_Val en in TabSe)
-                            {
-                                no_exist = !val.simb.Equals(en.simb) && no_exist;
-                                if (!no_exist)
-                                {
-                                    index = TabSe.IndexOf(en);
-                                    break;
-                                }
-                            }
-                            if (no_exist)
-                                TabSe.Add(val);
-                            else
-                                TabSe.ElementAt(index).value = val.value;
-                        }
-                        break;
-                    case "T":
-                        dirs.Add(Convert.ToInt32(registros[i].Substring(1, 6), 16)+Convert.ToInt32(dirCargaHex, 16));
-                        int sizeT = Convert.ToInt32(registros[i].Substring(7, 2), 16);
-                        if(sizeT > 15)
-                        {
-                            int carga = Convert.ToInt32(dirCarga, 16)+16;
-                            dirs.Add(carga);
-                        }
-                        break;
-                    case "M":
-                        dirs.Add(Convert.ToInt32(registros[i].Substring(1, 6), 16) + Convert.ToInt32(dirCargaHex, 16));
-                        break;
-                }
-            }
-            //dirs tiene todas las direcciones de los registros T y M
-            //cuando el tamano de T supera los F caracteres, debe generar un nuevo espacio en memoria
-            
+                dirs.Add(Convert.ToInt32(registros[i].Substring(1, 6), 16));
             dirs.Sort();
             for (int i = 0; i < dirs.Count; i++)
             {
@@ -300,58 +144,38 @@ namespace Calculadora
             }
         }
 
-        public class Cve_Val
-        {
-            public string simb;
-            public int value;
-
-            public Cve_Val(string simb, int val)
-            {
-                this.simb = simb;
-                value= val;
-            }
-        }
-
-        public class Mod
-        {
-            public string localidad;
-            public int content;
-            public string simb;
-
-            public Mod(string loc, int cont, string sim)
-            {
-                localidad = loc;
-                content = cont;
-                simb = sim;
-            }
-        }
-
         private void abrirToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (dirCargaHex == "")
-                dirCargaHex = "002012";
+            dataGridView1.Rows.Clear();
             System.IO.StreamReader file = null;
             string filePath = "";
             string linea = "";
             string progObj = "";
-            using (OpenFileDialog openFileDialog = new OpenFileDialog())
+            try
             {
-                openFileDialog.Filter = "Programa Objeto (*.obj)|*.obj";
-                openFileDialog.FilterIndex = 2;
-                openFileDialog.RestoreDirectory = true;
-                if (openFileDialog.ShowDialog() == DialogResult.OK)
+                using (OpenFileDialog openFileDialog = new OpenFileDialog())
                 {
-                    filePath = openFileDialog.FileName;
+                    openFileDialog.Filter = "Programa Objeto (*.obj)|*.obj";
+                    openFileDialog.FilterIndex = 2;
+                    openFileDialog.RestoreDirectory = true;
+                    if (openFileDialog.ShowDialog() == DialogResult.OK)
+                    {
+                        filePath = openFileDialog.FileName;
+                    }
                 }
+                file = new System.IO.StreamReader(filePath);
+                while ((linea = file.ReadLine()) != null)
+                {
+                    progObj += linea + '\n';
+                }
+                file.Close();
+
+                cargar(progObj, Convert.ToInt32(progObj.Substring(13, 6).ToString(), 16));
             }
-            file = new System.IO.StreamReader(filePath);
-            while ((linea = file.ReadLine()) != null)
+            catch (Exception ex)
             {
-                progObj += linea + '\n';
+                System.Console.WriteLine("Archivo inexistente");
             }
-            file.Close();
-            int size = Convert.ToInt32(progObj.Substring(13, 6).ToString(), 16);
-            cargar(progObj, size, dirCargaHex);
         }
 
         private void initRegistros()

@@ -107,3 +107,7 @@ C:\Users\USUARIO\Documents\Repositorios\SICXe\Calculadora\obj\Debug\Calculadora.
 C:\Users\USUARIO\Documents\Repositorios\SICXe\Calculadora\obj\Debug\Calculadora.exe
 C:\Users\USUARIO\Documents\Repositorios\SICXe\Calculadora\obj\Debug\Calculadora.pdb
 C:\Users\Usuario\Google Drive\UASLP\Semestre X\Fundamentos de Software de Sistemas\Laboratorio\Fundamentos-de-Sistemas\Calculadora\obj\Debug\Calculadora.MapaMemoria.resources
+C:\Users\Usuario\Google Drive\UASLP\Semestre X\Fundamentos de Software de Sistemas\Laboratorio\Fundamentos-de-Sistemas\Calculadora\bin\Debug\Calculadora.exe.manifest
+C:\Users\Usuario\Google Drive\UASLP\Semestre X\Fundamentos de Software de Sistemas\Laboratorio\Fundamentos-de-Sistemas\Calculadora\bin\Debug\Calculadora.application
+C:\Users\Usuario\Google Drive\UASLP\Semestre X\Fundamentos de Software de Sistemas\Laboratorio\Fundamentos-de-Sistemas\Calculadora\obj\Debug\Calculadora.exe.manifest
+C:\Users\Usuario\Google Drive\UASLP\Semestre X\Fundamentos de Software de Sistemas\Laboratorio\Fundamentos-de-Sistemas\Calculadora\obj\Debug\Calculadora.application

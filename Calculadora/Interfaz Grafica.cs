@@ -351,7 +351,7 @@ namespace Calculadora
         private void ensamblarToolStripMenuItem_Click(object sender, EventArgs e)
         {
             lexyacc();
-            paso1();
+            paso1(); ;
             paso2();
         }
 
@@ -359,7 +359,7 @@ namespace Calculadora
         {
             MapaMemoria mapa = new MapaMemoria();
             if (dataObjProg.Text != "")
-                mapa.cargar(dataObjProg.Text, searchSizeTabsim());
+                mapa.cargar(dataObjProg.Text, searchSizeTabsim(), "000000");
             mapa.Show();
         }
 
